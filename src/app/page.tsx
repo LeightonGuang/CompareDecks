@@ -1,5 +1,11 @@
-import Image from "next/image";
+import Hero from "@/components/Hero";
 
 export default function Home() {
-  return <main className="">Home Page</main>;
+  return (
+    <main className="min-h-[100dvh]">
+      <div className="mx-[1rem] mt-mobile-spacing">
+        <Hero />
+      </div>
+    </main>
+  );
 }
