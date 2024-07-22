@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -10,8 +11,8 @@ const Header = () => {
           alt="logo"
         />
         <nav className="flex gap-mobile-spacing bg-red">
-          <div>Home</div>
-          <div>Setting</div>
+          <Link href={"/"}>Home</Link>
+          <Link href={"/setting"}>Setting</Link>
         </nav>
       </div>
     </div>
