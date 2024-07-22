@@ -21,6 +21,11 @@ const config: Config = {
         before: "before",
         after: "after",
       },
+      spacing: {
+        "mobile-spacing": "1rem",
+        "desktop-spacing": "1.5rem",
+      },
+      fontSize: {},
     },
   },
   plugins: [],
