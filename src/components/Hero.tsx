@@ -16,13 +16,13 @@ const Hero = () => {
         <div className="flex flex-col gap-[1rem] md:flex-row mt-[1rem]">
           <Link
             className="flex justify-center rounded-[0.5rem] h-[2.5rem] md:w-[min-content] md:px-[2rem] text-[0.875rem] py-[0.5rem]  bg-[#2563eb] text-white whitespace-nowrap"
-            href={"/create-compare"}
+            href={"/create-deck"}
           >
             Start Comparing
           </Link>
           <Link
             className="flex justify-center rounded-[0.5rem] h-[2.5rem] md:w-[min-content] md:px-[2rem] text-[0.875rem] py-[0.5rem] bg-white border-[1px] border-[#E2E8F0] whitespace-nowrap"
-            href={"/compare"}
+            href={"/example"}
           >
             Learn More
           </Link>
