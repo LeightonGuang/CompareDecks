@@ -24,7 +24,9 @@ const config: Config = {
       spacing: {
         "mobile-spacing": "1rem",
         "desktop-spacing": "1.5rem",
+        "dynamic-vh": "calc(100dvh - 3.5rem)",
       },
+      colors: {},
       fontSize: {},
     },
   },
