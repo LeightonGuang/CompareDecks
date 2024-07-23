@@ -2,8 +2,8 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section className="flex flex-col gap-[1.5rem] my-[3rem] xl:flex-row xl:gap-[3rem] xl:justify-between xl:items-center max-w-[84.5rem]">
-      <div className="max-w-[37.5rem]" id="description">
+    <section className="flex flex-col gap-[1.5rem] xl:flex-row xl:gap-[3rem] xl:justify-between xl:items-center max-w-[84.5rem]">
+      <div className="md:w-[37.5rem] xl:max-w-[704px]" id="description">
         <div>
           <h1 className=" font-bold text-[1.875rem] md:text-[3rem] xl:text-[3.75rem] leading-[1.875rem] md:leading-[3rem] xl:leading-[3.75rem]">
             Compare Anything, Anytime
