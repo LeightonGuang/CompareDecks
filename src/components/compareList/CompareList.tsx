@@ -2,24 +2,31 @@
 
 import { useState } from "react";
 import CompareCard from "./CompareCard";
-import editIcon from "../../_assets/images/editIcon.svg";
+import editIcon from "../../_assets/icons/editIcon.svg";
+import Image from "next/image";
 
 const CompareList = ({ name, deckData }: { name: string; deckData: any[] }) => {
   const [deckName, setDeckName] = useState(name);
-  const [deck, setDeck] = useState(deckData);
+  const [deckDataList, setDeckDataList] = useState(deckData);
 
   return (
-    <div className="bg-red-100" id="compare-list">
-      <div className="flex gap-[0.5rem]">
+    <div
+      className="pl-mobile-spacing pt-mobile-spacing pr-mobile-spacing"
+      id="compare-list"
+    >
+      <div className="flex gap-[0.5rem] items-center">
         <h2 className="font-bold text-[1.5rem] leading-[2rem]">{deckName}</h2>
-        <button className="h-[1.25rem] w-[1.25rem]">
-          <img src={editIcon} alt="edit icon" />
+        <button className="mx-[0.625rem]">
+          <Image src={editIcon} alt="edit icon" height={20} width={20} />
         </button>
       </div>
-      <ul className="flex flex-row w-full list-none pb-mobile-spacing overflow-x-auto scroll-smooth snap-x snap-mandatory">
-        {deck.map((card, cardIndex) => (
-          <li className="w-1/2 flex-shrink-0 snap-start" key={cardIndex}>
-            <CompareCard imgUrl={card.imgUrl} name={card.name} />
+      <ul className="flex flex-row w-full list-none overflow-x-auto scroll-smooth snap-x snap-mandatory">
+        {deckDataList.map((cardObj, cardIndex) => (
+          <li
+            className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5"
+            key={cardIndex}
+          >
+            <CompareCard cardObj={cardObj} />
           </li>
         ))}
       </ul>
