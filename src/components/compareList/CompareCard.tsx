@@ -3,20 +3,50 @@ import Image from "next/image";
 import unpinIcon from "../../_assets/icons/unpinIcon.svg";
 import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
 
-const CompareCard = ({ cardObj }: { cardObj: CardType }) => {
+const CompareCard = ({
+  cardObj,
+  handlePinButton,
+  handleUnpinButton,
+  cardIndex,
+  isPinned,
+}: {
+  cardObj: CardType;
+  handlePinButton: (objIndex: number) => void;
+  handleUnpinButton: (objIndex: number) => void;
+  cardIndex: number;
+  isPinned: boolean;
+}) => {
   const { imgUrl, name, brand, year, price, description } = cardObj;
   return (
     <div id="compare-card">
       <div className="w-full flex justify-end mb-mobile-spacing">
-        <button className="bg-white rounded-[0.375rem]">
-          <Image
-            className="m-[0.625rem]"
-            src={unpinIcon}
-            alt="unpin icon"
-            height={20}
-            width={20}
-          />
-        </button>
+        {isPinned ? (
+          <button
+            className="bg-white rounded-[0.375rem]"
+            onClick={() => handleUnpinButton(cardIndex)}
+          >
+            <Image
+              className="m-[0.625rem]"
+              src={pinnedIcon}
+              alt="unpin icon"
+              height={20}
+              width={20}
+            />
+          </button>
+        ) : (
+          <button
+            className="bg-white rounded-[0.375rem]"
+            onClick={() => handlePinButton(cardIndex)}
+          >
+            <Image
+              className="m-[0.625rem]"
+              src={unpinIcon}
+              alt="unpin icon"
+              height={20}
+              width={20}
+            />
+          </button>
+        )}
       </div>
       <div className="border border-1 border-[ #E2E8F0] rounded-[0.5rem]">
         <img
