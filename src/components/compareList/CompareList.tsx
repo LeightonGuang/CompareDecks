@@ -6,9 +6,14 @@ import editIcon from "../../_assets/icons/editIcon.svg";
 import Image from "next/image";
 import { CardType } from "@/_types/CardType";
 
-const CompareList = ({ name, deckData }: { name: string; deckData: any[] }) => {
-  const [deckName, setDeckName] = useState(name);
-  const [orderedList, setOrderedList] = useState<CardType[]>(deckData);
+const CompareList = ({
+  deckName,
+  deckData,
+}: {
+  deckName: string;
+  deckData: any[];
+}) => {
+  const orderedList: CardType[] = deckData;
   const [pinnedList, setPinnedList] = useState<CardType[]>([]);
   const [unpinnedList, setUnpinnedList] = useState<CardType[]>(deckData);
 
