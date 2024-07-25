@@ -12,7 +12,7 @@ const Example = () => {
       const { data, error } = await supabaseAdmin
         .from("cards")
         .select("*")
-        .eq("deck_id", "example");
+        .eq("deck_uuid", "example");
 
       if (data) {
         setDeckData(data);
@@ -34,7 +34,7 @@ const Example = () => {
       <div className="mx-mobile-spacing mt-mobile-spacing">
         <h1 className="">Example Deck</h1>
         {deckData.length > 0 ? (
-          <CompareList name="Cars" deckData={deckData} />
+          <CompareList deckName="Cars" deckData={deckData} />
         ) : (
           <p>Loading...</p>
         )}
