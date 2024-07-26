@@ -4,26 +4,58 @@ import { useEffect, useState } from "react";
 import { supabaseAdmin } from "@/config/supabase";
 import CompareList from "@/components/compareList/CompareList";
 
-import { CardType } from "@/_types/CardType";
+import { DeckType } from "@/_types/DeckType";
 
 const Example = () => {
   const getExampleDeck = async () => {
     try {
-      const { data, error } = await supabaseAdmin
-        .from("cards")
-        .select("*")
-        .eq("deck_uuid", "example");
+      const exampleDeckQuery = await supabaseAdmin
+        .from("decks")
+        .select(
+          `
+        id, 
+        user_id, 
+        uuid, 
+        name, 
+        created_at, 
+        edited_at,
+        cards:cards (
+          id, 
+          deck_uuid, 
+          imgUrl, 
+          brand, 
+          name, 
+          year, 
+          price, 
+          description, 
+          created_at, 
+          edited_at
+        )
+      `
+        )
+        .eq("uuid", "9722a717-8ce5-46a0-894d-e1f39cc50d30");
+
+      const { data, error } = await exampleDeckQuery;
 
       if (data) {
         setDeckData(data);
         console.log(data);
+      } else {
+        console.log(error);
+      }
+
+      if (error) {
+        console.error(error);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const [deckData, setDeckData] = useState<CardType[]>([]);
+  const [deckData, setDeckData] = useState<DeckType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getExampleDeck();
@@ -33,11 +65,7 @@ const Example = () => {
     <main className="h-dynamic-vh" id="create-deck-page">
       <div className="mx-mobile-spacing mt-mobile-spacing">
         <h1 className="">Example Deck</h1>
-        {deckData.length > 0 ? (
-          <CompareList deckName="Cars" deckData={deckData} />
-        ) : (
-          <p>Loading...</p>
-        )}
+        {loading ? <p>Loading...</p> : <CompareList deckData={deckData[0]} />}
       </div>
     </main>
   );
