@@ -63,8 +63,8 @@ const Example = () => {
 
   return (
     <main className="h-dynamic-vh" id="create-deck-page">
-      <div className="mx-mobile-spacing mt-mobile-spacing">
-        <h1 className="">Example Deck</h1>
+      <div className="mx-mobile-spacing">
+        <h1 className="pt-mobile-spacing">Example Deck</h1>
         {loading ? <p>Loading...</p> : <CompareList deckData={deckData[0]} />}
       </div>
     </main>

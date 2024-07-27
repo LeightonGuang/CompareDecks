@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 
 export default function Home() {
   return (
-    <main id="home-page">
+    <main id="home-page overflow-y-auto">
       <div
         className="flex justify-center items-center h-dynamic-vh w-[100dvw]"
         id="hero-section"

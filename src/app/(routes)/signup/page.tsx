@@ -37,7 +37,7 @@ const Signup = () => {
               className="bg-blue text-[#f8f8fc] py-[0.5rem] px-[1rem] rounded-[0.375rem]"
               type="submit"
             >
-              Sign in
+              Sign Up
             </button>
           </form>
         </div>
