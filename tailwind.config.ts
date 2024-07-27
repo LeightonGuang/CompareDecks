@@ -26,7 +26,9 @@ const config: Config = {
         "desktop-spacing": "1.5rem",
         "dynamic-vh": "calc(100dvh - 3.5rem)",
       },
-      colors: {},
+      colors: {
+        blue: "#2563eb",
+      },
       fontSize: {},
     },
   },
