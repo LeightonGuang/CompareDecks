@@ -7,11 +7,24 @@ import { headers } from "next/headers";
 import { supabase } from "@/config/supabase";
 
 const Login = () => {
+  const handleGoogleLogin = async () => {
+    "use server";
+    const origin = headers().get("origin");
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${origin}` },
+    });
+
+    if (error) {
+      console.error(error);
+    } else {
+      return redirect(data.url);
+    }
+  };
+
   const handleGithubLogin = async () => {
     "use server";
-
     const origin = headers().get("origin");
-
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: { redirectTo: `${origin}` },
@@ -41,15 +54,17 @@ const Login = () => {
             className="flex flex-col gap-[1rem] text-[#020817] text-[0.875rem] mt-[1.5rem]"
             id="sign-in-with-container"
           >
-            <button className="flex justify-center items-center gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
-              <Image
-                src={googleIcon}
-                alt="google icon"
-                height={16}
-                width={16}
-              />
-              Sign in with Google
-            </button>
+            <form className="w-full" action={handleGoogleLogin}>
+              <button className="flex justify-center items-center w-full gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
+                <Image
+                  src={googleIcon}
+                  alt="google icon"
+                  height={16}
+                  width={16}
+                />
+                Sign in with Google
+              </button>
+            </form>
 
             <form className="w-full" action={handleGithubLogin}>
               <button className="flex justify-center items-center w-full gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
