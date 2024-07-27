@@ -1,11 +1,32 @@
 import Image from "next/image";
 import googleIcon from "../../../_assets/icons/googleIcon.svg";
 import githubIcon from "../../../_assets/icons/githubIcon.svg";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { supabase } from "@/config/supabase";
 
 const Login = () => {
+  const handleGithubLogin = async () => {
+    "use server";
+
+    const origin = headers().get("origin");
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: { redirectTo: `${origin}` },
+    });
+
+    if (error) {
+      console.error(error);
+    } else {
+      return redirect(data.url);
+    }
+  };
+
   return (
     <main
-      className="flex justify-center items-center h-dynamic-vh"
+      className="flex justify-center items-center h-dynamic-vh overflow-y-auto"
       id="login-page"
     >
       <div className="p-[2rem]" id="login-container">
@@ -30,15 +51,17 @@ const Login = () => {
               Sign in with Google
             </button>
 
-            <button className="flex justify-center items-center gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
-              <Image
-                src={githubIcon}
-                alt="github icon"
-                height={16}
-                width={16}
-              />
-              Sign in with GitHub
-            </button>
+            <form className="w-full" action={handleGithubLogin}>
+              <button className="flex justify-center items-center w-full gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
+                <Image
+                  src={githubIcon}
+                  alt="github icon"
+                  height={16}
+                  width={16}
+                />
+                Sign in with GitHub
+              </button>
+            </form>
           </div>
 
           <div className="border-b border-[#E2E8F0] my-[1rem]" />
@@ -63,7 +86,7 @@ const Login = () => {
               className="bg-blue text-[#f8f8fc] py-[0.5rem] px-[1rem] rounded-[0.375rem]"
               type="submit"
             >
-              Sign in
+              Log in
             </button>
           </form>
           <button className="text-[#020817] text-[0.875rem] mt-[1rem] underline">
@@ -72,7 +95,9 @@ const Login = () => {
 
           <p className="text-[0.875rem] mt-[1rem] text-[#5e6d82]">
             {`Don't have an account?`}{" "}
-            <button className="underline">Sign up</button>
+            <Link className="underline" href={"/signup"}>
+              Sign up
+            </Link>
           </p>
         </div>
       </div>
