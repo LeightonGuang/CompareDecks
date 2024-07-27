@@ -1,10 +1,14 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
-    <div className=" bg-red-600">
-      <div className="flex mx-mobile-spacing xl:mx-[1.5rem] py-mobile-spacing justify-between items-center">
+    <div className="bg-white">
+      <div className="flex mx-mobile-spacing xl:mx-[1.5rem] py-mobile-spacing justify-between items-center leading-[1.25rem]">
         <Link href={"/"}>
           <img
             className="h-mobile-spacing"
@@ -12,9 +16,17 @@ const Header = () => {
             alt="logo"
           />
         </Link>
-        <nav className="flex gap-[1.5rem] bg-red font-[.875rem] font-medium">
+        <nav className="flex gap-[1.5rem] font-[.875rem] font-medium">
           <Link href={"/"}>Home</Link>
-          <Link href={"/setting"}>Setting</Link>
+          <Link href={"/create-deck"}>Create Deck</Link>
+          {isLoggedIn ? (
+            <>
+              <Link href={"/setting"}>Setting</Link>
+              <Link href={"/account"}>Account</Link>
+            </>
+          ) : (
+            <Link href={"/login"}>Log in</Link>
+          )}
         </nav>
       </div>
     </div>
