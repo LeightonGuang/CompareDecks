@@ -19,6 +19,7 @@ const Header = () => {
         <nav className="flex gap-[1.5rem] font-[.875rem] font-medium">
           <Link href={"/"}>Home</Link>
           <Link href={"/create-deck"}>Create Deck</Link>
+          <Link href={"/decks"}>Browse</Link>
           {isLoggedIn ? (
             <>
               <Link href={"/setting"}>Setting</Link>
