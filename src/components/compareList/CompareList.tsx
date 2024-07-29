@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
 import CompareCard from "./CompareCard";
 import editIcon from "../../_assets/icons/editIcon.svg";
 import Image from "next/image";
@@ -12,6 +13,8 @@ const CompareList = ({ deckData }: { deckData: DeckType }) => {
   const orderedList: CardType[] = deckData.cards;
   const [pinnedList, setPinnedList] = useState<CardType[]>([]);
   const [unpinnedList, setUnpinnedList] = useState<CardType[]>(deckData.cards);
+  const [deckName, setDeckName] = useState<string>(deckData.name);
+  const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
 
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
@@ -37,18 +40,47 @@ const CompareList = ({ deckData }: { deckData: DeckType }) => {
     });
   };
 
+  const handleEditDeckName = () => {
+    setIsEditDeckName(true);
+  };
+
+  const onChangeDeckName = (e: any) => {
+    setDeckName(e.target.value);
+  };
+
+  const onSubmitDeckName = (e: any) => {
+    e.preventDefault();
+    setIsEditDeckName(false);
+  };
+
   return (
     <div
       className="pl-mobile-spacing pt-mobile-spacing pr-mobile-spacing"
       id="compare-list"
     >
       <div className="flex gap-[0.5rem] items-center">
-        <h2 className="font-bold text-[1.5rem] leading-[2rem]">
-          {deckData.name}
-        </h2>
-        <button className="mx-[0.625rem]">
-          <Image src={editIcon} alt="edit icon" height={20} width={20} />
-        </button>
+        {isEditDeckName ? (
+          <>
+            <form className="flex gap-[0.5rem]" onSubmit={onSubmitDeckName}>
+              <input
+                className="border rounded-[0.375rem]"
+                type="text"
+                value={deckName}
+                onChange={onChangeDeckName}
+              />
+              <button type="submit">Save</button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h2 className="font-bold text-[1.5rem] leading-[2rem]">
+              {deckName}
+            </h2>
+            <button className="mx-[0.625rem]" onClick={handleEditDeckName}>
+              <Image src={editIcon} alt="edit icon" height={20} width={20} />
+            </button>
+          </>
+        )}
       </div>
       <ul
         className="flex flex-row w-full list-none overflow-x-auto scroll-smooth snap-x snap-mandatory"
