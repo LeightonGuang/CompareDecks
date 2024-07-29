@@ -9,8 +9,11 @@ import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 import AddCardModal from "./AddCardModal";
 
-const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
-  const orderedList: CardType[] = deckData?.cards || [];
+const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
+  // const orderedList: CardType[] = deckData?.cards || [];
+  const [orderedList, setOrderedList] = useState<CardType[]>(
+    deckData?.cards || []
+  );
   const [pinnedList, setPinnedList] = useState<CardType[]>([]);
   const [unpinnedList, setUnpinnedList] = useState<CardType[]>(
     deckData?.cards || []
@@ -149,7 +152,13 @@ const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
       </ul>
 
       {isAddCardModal ? (
-        <AddCardModal setIsAddCardModal={setIsAddCardModal} />
+        <AddCardModal
+          setIsAddCardModal={setIsAddCardModal}
+          orderedList={orderedList}
+          unpinnedList={unpinnedList}
+          setOrderedList={setOrderedList}
+          setUnpinnedList={setUnpinnedList}
+        />
       ) : (
         ``
       )}
