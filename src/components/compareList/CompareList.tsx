@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
+import AddCardModal from "./AddCardModal";
 
 const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
   const orderedList: CardType[] = deckData?.cards || [];
@@ -58,6 +59,8 @@ const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
   const handleAddCardButton = () => {
     setIsAddCardModal(true);
   };
+
+  const onSubmitEditDeck = () => {};
 
   const handleEditCardButton = () => {};
 
@@ -146,19 +149,7 @@ const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
       </ul>
 
       {isAddCardModal ? (
-        <div
-          className="flex items-center justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
-          id="add-card-modal"
-        >
-          <div id="add-card">
-            <button
-              className="bg-white"
-              onClick={() => setIsAddCardModal(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        <AddCardModal setIsAddCardModal={setIsAddCardModal} />
       ) : (
         ``
       )}
