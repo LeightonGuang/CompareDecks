@@ -124,7 +124,7 @@ const CompareList = ({ deckData }: { deckData?: DeckType | null }) => {
             key={cardIndex}
           >
             <CompareCard
-              isPinned={true}
+              isPinned={false}
               cardObj={cardObj}
               cardIndex={cardIndex}
               handlePinButton={handlePinButton}
