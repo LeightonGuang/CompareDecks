@@ -40,8 +40,6 @@ const Example = () => {
       if (data) {
         setDeckData(data);
         console.log(data);
-      } else {
-        console.log(error);
       }
 
       if (error) {
