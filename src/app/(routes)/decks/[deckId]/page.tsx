@@ -61,7 +61,6 @@ const Deck = ({ params }: { params: { deckId: string } }) => {
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
       <div className="mx-mobile-spacing">
-        <h1 className="pt-mobile-spacing">Example Deck</h1>
         {loading ? <p>Loading...</p> : <CompareList deckData={deckData[0]} />}
       </div>
     </main>
