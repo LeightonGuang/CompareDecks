@@ -8,6 +8,7 @@ import { CardType } from "@/_types/CardType";
 
 interface Props {
   isPinned: boolean;
+  isAuth: boolean;
   cardObj: CardType;
   cardIndex: number;
   handlePinButton: (objIndex: number) => void;
@@ -18,6 +19,7 @@ interface Props {
 
 const CompareCard = ({
   isPinned,
+  isAuth,
   cardObj,
   cardIndex,
   handlePinButton,
@@ -26,6 +28,7 @@ const CompareCard = ({
   handleDeleteCardButton,
 }: Props) => {
   const { imgUrl, name, brand, year, price, description } = cardObj;
+
   return (
     <div id="compare-card">
       <div className="w-full flex justify-end mb-mobile-spacing">
@@ -72,15 +75,19 @@ const CompareCard = ({
           <li>{year}</li>
           <li>{description}</li>
           <li>
-            <div className="flex justify-end">
-              <button className="flex items-center justify-center w-[2.5rem] h-[2.5rem]">
-                <Image src={editIcon} alt="edit" width={20} height={20} />
-              </button>
+            {isAuth ? (
+              <div className="flex justify-end">
+                <button className="flex items-center justify-center w-[2.5rem] h-[2.5rem]">
+                  <Image src={editIcon} alt="edit" width={20} height={20} />
+                </button>
 
-              <button className="flex items-center justify-center w-[2.5rem] h-[2.5rem]">
-                <Image src={binIcon} alt="delete" width={20} height={20} />
-              </button>
-            </div>
+                <button className="flex items-center justify-center w-[2.5rem] h-[2.5rem]">
+                  <Image src={binIcon} alt="delete" width={20} height={20} />
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
           </li>
         </ul>
       </div>
