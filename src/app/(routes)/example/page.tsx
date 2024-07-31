@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabaseAdmin } from "@/config/supabase";
+import { supabase } from "@/config/supabase";
 import CompareList from "@/components/compareList/CompareList";
 
 import { DeckType } from "@/_types/DeckType";
@@ -9,12 +9,12 @@ import { DeckType } from "@/_types/DeckType";
 const ExamplePage = () => {
   const getExampleDeck = async () => {
     try {
-      const exampleDeckQuery = await supabaseAdmin
+      const exampleDeckQuery = await supabase
         .from("decks")
         .select(
           `
         id, 
-        user_id, 
+        user_uid, 
         uuid, 
         name, 
         created_at, 

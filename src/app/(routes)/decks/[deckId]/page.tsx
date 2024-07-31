@@ -16,7 +16,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
         .select(
           `
         id, 
-        user_id, 
+        user_uid, 
         uuid, 
         name, 
         created_at, 

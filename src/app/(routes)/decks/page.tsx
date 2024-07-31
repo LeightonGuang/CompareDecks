@@ -93,7 +93,7 @@ const DecksPage = () => {
                       </Link>
                     </td>
                     <td className="py-[0.75rem] px-[1rem] h-max-[2.75rem] whitespace-nowrap">
-                      {deck.user_id}
+                      {deck.user_uid}
                     </td>
                     <td className="py-[0.75rem] px-[1rem]  h-max-[2.75rem] whitespace-nowrap">
                       {new Date(deck.created_at).toLocaleDateString("en-US", {
