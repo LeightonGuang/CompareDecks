@@ -1,10 +1,27 @@
 "use client";
 
+import { logout } from "@/app/logout/actions";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<any>(undefined);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const superbase = createClient();
+      const { data, error } = await superbase.auth.getUser();
+
+      if (error || !data?.user) {
+        setUser(null);
+      } else {
+        setUser(data.user);
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <div className="bg-white">
@@ -20,13 +37,18 @@ const Header = () => {
           <Link href={"/"}>Home</Link>
           <Link href={"/create-deck"}>Create Deck</Link>
           <Link href={"/decks"}>Browse</Link>
-          {isLoggedIn ? (
+          {user && user.aud === "authenticated" ? (
             <>
               <Link href={"/setting"}>Setting</Link>
               <Link href={"/account"}>Account</Link>
+              <form action={logout}>
+                <button type="submit">Logout</button>
+              </form>
             </>
           ) : (
-            <Link href={"/login"}>Log in</Link>
+            <>
+              <Link href={"/login"}>Log in</Link>
+            </>
           )}
         </nav>
       </div>
