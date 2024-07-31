@@ -5,7 +5,7 @@ import CompareList from "@/components/compareList/CompareList";
 
 import { DeckType } from "@/_types/DeckType";
 
-const CreateDeck = () => {
+const CreateDeckPage = () => {
   const [deckData, setDeckData] = useState<DeckType | null>(null);
 
   return (
@@ -16,4 +16,4 @@ const CreateDeck = () => {
   );
 };
 
-export default CreateDeck;
+export default CreateDeckPage;

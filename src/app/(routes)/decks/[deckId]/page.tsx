@@ -5,7 +5,7 @@ import CompareList from "@/components/compareList/CompareList";
 import { supabaseAdmin } from "@/config/supabase";
 import { useEffect, useState } from "react";
 
-const Deck = ({ params }: { params: { deckId: string } }) => {
+const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [deckData, setDeckData] = useState<DeckType[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -67,4 +67,4 @@ const Deck = ({ params }: { params: { deckId: string } }) => {
   );
 };
 
-export default Deck;
+export default DeckPage;

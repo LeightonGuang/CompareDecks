@@ -8,7 +8,7 @@ import placeholder from "../../../_assets/images/placeholder.svg";
 
 import { DeckType } from "@/_types/DeckType";
 
-const Decks = () => {
+const DecksPage = () => {
   const [deckList, setDeckList] = useState<DeckType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -113,4 +113,4 @@ const Decks = () => {
   );
 };
 
-export default Decks;
+export default DecksPage;

@@ -6,7 +6,7 @@ import CompareList from "@/components/compareList/CompareList";
 
 import { DeckType } from "@/_types/DeckType";
 
-const Example = () => {
+const ExamplePage = () => {
   const getExampleDeck = async () => {
     try {
       const exampleDeckQuery = await supabaseAdmin
@@ -68,4 +68,4 @@ const Example = () => {
     </main>
   );
 };
-export default Example;
+export default ExamplePage;

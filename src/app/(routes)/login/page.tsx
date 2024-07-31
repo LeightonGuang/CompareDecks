@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 import { supabase } from "@/config/supabase";
 import { login } from "@/app/login/actions";
 
-const Login = () => {
+const LoginPage = () => {
   // const handleGoogleLogin = async (e: any) => {
   //   "use server";
   //   e.preventDefault();
@@ -129,4 +129,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

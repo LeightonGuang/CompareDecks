@@ -1,6 +1,6 @@
 import { signup } from "@/app/signup/actions";
 
-const Signup = async () => {
+const SignupPage = async () => {
   return (
     <main className="flex justify-center items-center h-dynamic-vh overflow-y-auto">
       <div className="p-[2rem]" id="sign-up-container">
@@ -60,4 +60,4 @@ const Signup = async () => {
     </main>
   );
 };
-export default Signup;
+export default SignupPage;
