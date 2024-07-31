@@ -93,7 +93,7 @@ const LoginPage = () => {
                 className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
                 placeholder="m@example.com"
                 name="email"
-                type="text"
+                type="email"
               />
             </label>
             <label className="flex flex-col text-[0.875rem] font-[500]">
