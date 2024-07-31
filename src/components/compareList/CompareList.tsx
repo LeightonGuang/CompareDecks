@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CompareCard from "./CompareCard";
 import editIcon from "../../_assets/icons/editIcon.svg";
 import Image from "next/image";
@@ -8,9 +8,10 @@ import Image from "next/image";
 import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 import AddCardModal from "./AddCardModal";
+import getUser from "@/utils/getUser";
 
 const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
-  // const orderedList: CardType[] = deckData?.cards || [];
+  const [user, setUser] = useState<any>(null);
   const [orderedList, setOrderedList] = useState<CardType[]>(
     deckData?.cards || []
   );
@@ -69,6 +70,17 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
 
   const handleDeleteCardButton = () => {};
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getUser();
+      setUser(user);
+      console.log(user);
+    };
+    fetchUser();
+  }, []);
+
+  const isAuth: boolean = user?.id === deckData?.user_uid;
+
   return (
     <div
       className="pl-mobile-spacing pt-mobile-spacing pr-mobile-spacing"
@@ -98,9 +110,13 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             <h2 className="font-bold text-[1.5rem] leading-[2rem]">
               {deckName}
             </h2>
-            <button className="mx-[0.625rem]" onClick={handleEditDeckName}>
-              <Image src={editIcon} alt="edit icon" height={20} width={20} />
-            </button>
+            {user && user?.id === deckData?.user_uid ? (
+              <button className="mx-[0.625rem]" onClick={handleEditDeckName}>
+                <Image src={editIcon} alt="edit icon" height={20} width={20} />
+              </button>
+            ) : (
+              ""
+            )}
           </>
         )}
       </div>
@@ -115,6 +131,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           >
             <CompareCard
               isPinned={true}
+              isAuth={isAuth}
               cardObj={cardObj}
               cardIndex={cardIndex}
               handlePinButton={handlePinButton}
@@ -131,6 +148,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           >
             <CompareCard
               isPinned={false}
+              isAuth={isAuth}
               cardObj={cardObj}
               cardIndex={cardIndex}
               handlePinButton={handlePinButton}
@@ -140,15 +158,19 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             />
           </li>
         ))}
-        <li className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5">
-          <div className="h-[2.5rem] mb-[1rem]" />
-          <button
-            className="flex items-center justify-center h-max w-full border border-1 border-[#e2e8f0] bg-[#f8fafc] text-[3rem] font-[700] rounded-[0.5rem]"
-            onClick={handleAddCardButton}
-          >
-            <p className="text-[#64748b]">+</p>
-          </button>
-        </li>
+        {isAuth ? (
+          <li className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5">
+            <div className="h-[2.5rem] mb-[1rem]" />
+            <button
+              className="flex items-center justify-center h-max w-full border border-1 border-[#e2e8f0] bg-[#f8fafc] text-[3rem] font-[700] rounded-[0.5rem]"
+              onClick={handleAddCardButton}
+            >
+              <p className="text-[#64748b]">+</p>
+            </button>
+          </li>
+        ) : (
+          ""
+        )}
       </ul>
 
       {isAddCardModal ? (
