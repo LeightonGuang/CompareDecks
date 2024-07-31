@@ -5,37 +5,43 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { supabase } from "@/config/supabase";
+import { login } from "@/app/login/actions";
 
 const Login = () => {
-  const handleGoogleLogin = async () => {
-    "use server";
-    const origin = headers().get("origin");
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${origin}` },
-    });
+  // const handleGoogleLogin = async (e: any) => {
+  //   "use server";
+  //   e.preventDefault();
+  //   const origin = headers().get("origin");
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: { redirectTo: `${origin}` },
+  //   });
 
-    if (error) {
-      console.error(error);
-    } else {
-      return redirect(data.url);
-    }
-  };
+  //   if (data) {
+  //     console.log(data);
+  //   }
 
-  const handleGithubLogin = async () => {
-    "use server";
-    const origin = headers().get("origin");
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: { redirectTo: `${origin}` },
-    });
+  //   if (error) {
+  //     console.error(error);
+  //   } else {
+  //     return redirect(data.url);
+  //   }
+  // };
 
-    if (error) {
-      console.error(error);
-    } else {
-      return redirect(data.url);
-    }
-  };
+  // const handleGithubLogin = async () => {
+  //   "use server";
+  //   const origin = headers().get("origin");
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "github",
+  //     options: { redirectTo: `${origin}` },
+  //   });
+
+  //   if (error) {
+  //     console.error(error);
+  //   } else {
+  //     return redirect(data.url);
+  //   }
+  // };
 
   return (
     <main
@@ -54,7 +60,7 @@ const Login = () => {
             className="flex flex-col gap-[1rem] text-[#020817] text-[0.875rem] mt-[1.5rem]"
             id="sign-in-with-container"
           >
-            <form className="w-full" action={handleGoogleLogin}>
+            <form className="w-full">
               <button className="flex justify-center items-center w-full gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
                 <Image
                   src={googleIcon}
@@ -66,7 +72,7 @@ const Login = () => {
               </button>
             </form>
 
-            <form className="w-full" action={handleGithubLogin}>
+            <form className="w-full">
               <button className="flex justify-center items-center w-full gap-[0.5rem] py-[0.5rem] px-[1rem] border border-[#E2E8F0] rounded-[0.375rem]">
                 <Image
                   src={githubIcon}
@@ -86,6 +92,7 @@ const Login = () => {
               <input
                 className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
                 placeholder="m@example.com"
+                name="email"
                 type="text"
               />
             </label>
@@ -93,12 +100,14 @@ const Login = () => {
               Password
               <input
                 className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
+                name="password"
                 type="password"
               />
             </label>
 
             <button
               className="bg-blue text-[#f8f8fc] py-[0.5rem] px-[1rem] rounded-[0.375rem]"
+              formAction={login}
               type="submit"
             >
               Log in
