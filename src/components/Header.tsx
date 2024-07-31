@@ -1,39 +1,33 @@
 "use client";
 
 import { logout } from "@/app/logout/actions";
+import getUser from "@/utils/getUser";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Header = () => {
-  const [user, setUser] = useState<any>(undefined);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const getUser = async () => {
-      const superbase = createClient();
-      const { data, error } = await superbase.auth.getUser();
-
-      if (error || !data?.user) {
-        setUser(null);
-      } else {
-        setUser(data.user);
-      }
+    const fetchUser = async () => {
+      const user = await getUser();
+      setUser(user);
     };
-
-    getUser();
+    fetchUser();
   }, []);
 
   return (
     <div className="bg-white">
-      <div className="flex mx-mobile-spacing xl:mx-[1.5rem] py-mobile-spacing justify-between items-center leading-[1.25rem]">
+      <div className="flex mx-mobile-spacing xl:mx-[1.5rem] justify-between items-center leading-[1.25rem]">
         <Link href={"/"}>
           <img
-            className="h-mobile-spacing"
+            className="h-[2.5rem]"
             src="https://thumbs.dreamstime.com/b/temporary-rubber-stamp-over-white-background-86664158.jpg"
             alt="logo"
           />
         </Link>
-        <nav className="flex gap-[1.5rem] font-[.875rem] font-medium">
+        <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
           <Link href={"/"}>Home</Link>
           <Link href={"/create-deck"}>Create Deck</Link>
           <Link href={"/decks"}>Browse</Link>
