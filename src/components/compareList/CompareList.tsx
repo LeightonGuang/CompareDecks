@@ -212,24 +212,25 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           )}
         </div>
       ) : (
-        <div className="p-[1rem]" id="table-container">
+        <div className="p-[1rem] w-full overflow-x-auto" id="table-container">
           <table className="w-full">
             <thead className="text-center">
               <tr>
-                <td></td>
-                <td></td>
-                <td>Image</td>
-                <td>Name</td>
-                <td>Brand</td>
-                <td>Year</td>
-                <td>Price</td>
-                <td>Description</td>
+                <th></th>
+                <th></th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>action</th>
               </tr>
             </thead>
-            <tbody className="text-center">
+            <tbody className="">
               {pinnedList.map((cardObj, cardIndex) => (
                 <tr
-                  className={(cardIndex + 1) % 2 === 0 ? `bg-gray-200` : ``}
+                  className={(cardIndex + 1) % 2 === 1 ? `bg-gray-200` : ``}
                   key={cardIndex}
                 >
                   <td>{cardIndex + 1}</td>
@@ -254,34 +255,50 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               ))}
               {unpinnedList.map((cardObj, cardIndex) => (
                 <tr
-                  className={
-                    (pinnedList.length + cardIndex + 1) % 2 === 0
+                  className={`max-h-[3rem] ${
+                    (pinnedList.length + cardIndex + 1) % 2 === 1
                       ? `bg-gray-200`
                       : ``
-                  }
+                  }`}
                   key={cardIndex}
                 >
-                  <td>{pinnedList.length + cardIndex + 1}</td>
-                  <td>
+                  <td className="px-[1rem]">
+                    {pinnedList.length + cardIndex + 1}
+                  </td>
+                  <td className="px-[1rem]">
                     <button onClick={() => handlePinButton(cardIndex)}>
                       Pin
                     </button>
                   </td>
-                  <td>
+                  <td className="px-[1rem]">
                     <img
-                      className="w-[3rem] object-cover"
+                      className="min-w-[5rem] min-h-[3rem] aspect-16/9 object-contain"
                       src={cardObj.imgUrl}
                       alt={cardObj.brand + " " + cardObj.name}
                     />
                   </td>
-                  <td>{cardObj.name}</td>
-                  <td>{cardObj.brand}</td>
-                  <td>{cardObj.year}</td>
-                  <td>{cardObj.price}</td>
-                  <td>{cardObj.description}</td>
+                  <td className="px-[1rem] whitespace-nowrap">
+                    {cardObj.name}
+                  </td>
+                  <td className="px-[1rem] whitespace-nowrap">
+                    {cardObj.brand}
+                  </td>
+                  <td className="px-[1rem] whitespace-nowrap">
+                    {cardObj.year}
+                  </td>
+                  <td className="px-[1rem] whitespace-nowrap">
+                    {cardObj.price}
+                  </td>
+                  <td className="px-[1rem] whitespace-nowrap">
+                    <p className="px-[1rem] whitespace-nowrap">
+                      {cardObj.description}
+                    </p>
+                  </td>
                   <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    <div className="flex gap-mobile-spacing px-[1rem]">
+                      <button>Edit</button>
+                      <button>Delete</button>
+                    </div>
                   </td>
                 </tr>
               ))}
