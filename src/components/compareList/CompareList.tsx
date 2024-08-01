@@ -88,48 +88,58 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
 
   return (
     <>
-      <div
-        className="flex gap-[0.5rem] items-center justify-between"
-        id="compare-list-header"
-      >
-        {isEditDeckName ? (
-          <form
-            className="flex gap-[1rem] h-[2rem]"
-            onSubmit={onSubmitDeckName}
-          >
-            <input
-              className="border w-[12rem] rounded-[0.375rem]"
-              type="text"
-              value={deckName}
-              onChange={onChangeDeckName}
-            />
-            <button
-              className="bg-[#2563eb] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-white rounded-[0.375rem]"
-              type="submit"
+      <div className="flex justify-between" id="compare-list-header">
+        <div className="flex gap-[0.5rem] items-center ">
+          {isEditDeckName ? (
+            <form
+              className="flex gap-[1rem] h-[2rem]"
+              onSubmit={onSubmitDeckName}
             >
-              Save
-            </button>
-          </form>
-        ) : (
-          <>
-            <h2 className="font-bold text-[1.5rem] leading-[2rem]">
-              {deckName}
-            </h2>
-            {user && user?.id === deckData?.user_uid ? (
-              <button className="mx-[0.625rem]" onClick={handleEditDeckName}>
-                <Image src={editIcon} alt="edit icon" height={20} width={20} />
+              <input
+                className="border w-[12rem] rounded-[0.375rem]"
+                type="text"
+                value={deckName}
+                onChange={onChangeDeckName}
+              />
+              <button
+                className="bg-[#2563eb] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-white rounded-[0.375rem]"
+                type="submit"
+              >
+                Save
               </button>
-            ) : (
-              ""
-            )}
-          </>
-        )}
-        <input
-          className=""
-          type="checkbox"
-          checked={isListView}
-          onChange={handleTableViewToggle}
-        />
+            </form>
+          ) : (
+            <>
+              <h2 className="font-bold text-[1.5rem] leading-[2rem]">
+                {deckName}
+              </h2>
+              {user && user?.id === deckData?.user_uid ? (
+                <button className="mx-[0.625rem]" onClick={handleEditDeckName}>
+                  <Image
+                    src={editIcon}
+                    alt="edit icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+              ) : (
+                ""
+              )}
+            </>
+          )}
+        </div>
+        <div
+          className="flex justify-center bg-[#edf2f6] rounded-full w-[5.4rem] h-[1.9rem]"
+          id="button-container"
+        >
+          <input
+            className="relative w-full h-full appearance-none cursor-pointer"
+            type="checkbox"
+            checked={isListView}
+            onChange={handleTableViewToggle}
+            id="view-checkbox"
+          />
+        </div>
       </div>
       {!isListView ? (
         <div
