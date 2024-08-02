@@ -2,17 +2,29 @@ import Hero from "@/components/Hero";
 
 export default function Home() {
   return (
-    <main id="home-page overflow-y-auto">
-      <div
-        className="flex justify-center items-center h-dynamic-vh w-[100dvw]"
+    <main
+      className="h-dynamic-vh w-full snap-y snap-mandatory flex-col overflow-y-auto scroll-smooth"
+      id="home-page"
+    >
+      <section
+        className="flex h-dynamic-vh w-full snap-start items-center justify-center"
         id="hero-section"
       >
-        <div className="flex justify-center items-center mx-[1rem] xl:mx-desktop-spacing max-w[84.5rem]">
+        <div
+          className="max-w[84.5rem] mx-[1rem] flex items-center justify-center xl:mx-desktop-spacing"
+          id="hero-container"
+        >
           <Hero />
         </div>
-
-        <div></div>
-      </div>
+      </section>
+      <section
+        className="flex h-dynamic-vh w-full snap-start items-center justify-center"
+        id="feature-section"
+      >
+        <div id="feature-container">
+          <h1>Features</h1>
+        </div>
+      </section>
     </main>
   );
 }
