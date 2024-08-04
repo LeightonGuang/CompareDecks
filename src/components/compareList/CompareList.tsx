@@ -2,22 +2,27 @@
 
 import { useEffect, useState } from "react";
 import CompareCard from "./CompareCard";
-import editIcon from "../../_assets/icons/editIcon.svg";
 import Image from "next/image";
+import AddCardModal from "./AddCardModal";
+import getUser from "@/utils/getUser";
+
+import ListViewButton from "./ListViewButton";
+import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
+import unpinIcon from "../../_assets/icons/unpinIcon.svg";
+import editIcon from "../../_assets/icons/editIcon.svg";
+import binIcon from "../../_assets/icons/binIcon.svg";
 
 import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
-import AddCardModal from "./AddCardModal";
-import getUser from "@/utils/getUser";
 
 const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
   const [user, setUser] = useState<any>(null);
   const [orderedList, setOrderedList] = useState<CardType[]>(
-    deckData?.cards || []
+    deckData?.cards || [],
   );
   const [pinnedList, setPinnedList] = useState<CardType[]>([]);
   const [unpinnedList, setUnpinnedList] = useState<CardType[]>(
-    deckData?.cards || []
+    deckData?.cards || [],
   );
   const [deckName, setDeckName] = useState<string>(deckData?.name || "");
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
@@ -27,18 +32,18 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
     setUnpinnedList((prevList) =>
-      prevList.filter((_obj, index) => index !== objIndex)
+      prevList.filter((_obj, index) => index !== objIndex),
     );
   };
 
   const handleUnpinButton = (objIndex: number) => {
     const itemToUnpin = pinnedList[objIndex];
     setPinnedList((prevList) =>
-      prevList.filter((_obj, index) => index !== objIndex)
+      prevList.filter((_obj, index) => index !== objIndex),
     );
 
     const originalIndex = orderedList.findIndex(
-      (item) => item.id === itemToUnpin.id
+      (item) => item.id === itemToUnpin.id,
     );
 
     setUnpinnedList((prevList) => {
@@ -87,22 +92,22 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
   const isAuth: boolean = user?.id === deckData?.user_uid;
 
   return (
-    <>
-      <div className="flex justify-between" id="compare-list-header">
-        <div className="flex gap-[0.5rem] items-center ">
+    <div>
+      <div className="mt-[1rem] flex justify-between" id="compare-list-header">
+        <div className="flex items-center gap-[0.5rem]">
           {isEditDeckName ? (
             <form
-              className="flex gap-[1rem] h-[2rem]"
+              className="flex h-[2rem] gap-[1rem]"
               onSubmit={onSubmitDeckName}
             >
               <input
-                className="border w-[12rem] rounded-[0.375rem]"
+                className="w-[12rem] rounded-[0.375rem] border"
                 type="text"
                 value={deckName}
                 onChange={onChangeDeckName}
               />
               <button
-                className="bg-[#2563eb] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-white rounded-[0.375rem]"
+                className="rounded-[0.375rem] bg-[#2563eb] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-white"
                 type="submit"
               >
                 Save
@@ -110,7 +115,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             </form>
           ) : (
             <>
-              <h2 className="font-bold text-[1.5rem] leading-[2rem]">
+              <h2 className="text-[1.5rem] font-bold leading-[2rem]">
                 {deckName}
               </h2>
               {user && user?.id === deckData?.user_uid ? (
@@ -128,91 +133,202 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             </>
           )}
         </div>
-        <div
-          className="flex justify-center bg-[#edf2f6] rounded-full w-[5.4rem] h-[1.9rem]"
-          id="button-container"
-        >
-          <input
-            className="relative w-full h-full appearance-none cursor-pointer"
-            type="checkbox"
-            checked={isListView}
-            onChange={handleTableViewToggle}
-            id="view-checkbox"
-          />
-        </div>
+        <ListViewButton
+          isListView={isListView}
+          handleTableViewToggle={handleTableViewToggle}
+        />
       </div>
       {!isListView ? (
         <div
-          className="px-mobile-spacing pt-mobile-spacing"
-          id="compare-list-columnv-view"
+          className="mt-[1rem] flex rounded-[4px] bg-[#e0e0e0] p-[24px]"
+          id="column-view-container"
         >
+          <ul className="mb-[1rem] hidden md:flex" id="category-names">
+            <li>
+              <div className="h-[2.5rem]" />
+              <div className="xl:max-h[10rem] h-[6rem] border border-b-[#d1d1d1] md:h-[10rem]" />
+              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+                Name
+              </li>
+              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+                Brand
+              </li>
+              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+                Year
+              </li>
+              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+                Price
+              </li>
+              <li className="p-[1rem] text-[0.875rem]">Description</li>
+            </li>
+          </ul>
           <ul
-            className="flex flex-row w-full list-none overflow-x-auto scroll-smooth snap-x snap-mandatory"
-            id="compare-card-list"
+            className="scrollbar-top flex w-full snap-x snap-mandatory list-none flex-row overflow-x-auto scroll-smooth pb-[1rem]"
+            id="scroll-list"
           >
             {pinnedList.map((cardObj, cardIndex) => (
               <li
-                className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5"
+                className="w-1/2 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5"
                 key={cardIndex}
+                id="pinned-cards"
               >
-                <CompareCard
-                  isPinned={true}
-                  isAuth={isAuth}
-                  cardObj={cardObj}
-                  cardIndex={cardIndex}
-                  handlePinButton={handlePinButton}
-                  handleUnpinButton={handleUnpinButton}
-                  handleEditCardButton={handleEditCardButton}
-                  handleDeleteCardButton={handleDeleteCardButton}
-                />
+                <button
+                  className="flex w-full justify-center"
+                  onClick={() => handleUnpinButton(cardIndex)}
+                  id="unpin-button"
+                >
+                  <Image
+                    className="m-[0.625rem]"
+                    src={pinnedIcon}
+                    alt="pinned icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+                <div
+                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#d1d1d1] md:h-[10rem]"
+                  id="image-container"
+                >
+                  <img
+                    className="h-full w-full object-contain p-[0.5rem]"
+                    src={cardObj.imgUrl}
+                    alt=""
+                  />
+                </div>
+
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.name}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.brand}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.price}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.year}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.description}
+                </div>
+                <div className="flex justify-between border border-b-[#d1d1d1] p-[1rem]">
+                  <button onClick={() => handleEditCardButton()}>
+                    <Image
+                      src={editIcon}
+                      alt="edit icon"
+                      height={20}
+                      width={20}
+                    />
+                  </button>
+                  <button onClick={() => handleDeleteCardButton()}>
+                    <Image
+                      src={binIcon}
+                      alt="delete icon"
+                      height={20}
+                      width={20}
+                    />
+                  </button>
+                </div>
               </li>
             ))}
             {unpinnedList.map((cardObj, cardIndex) => (
               <li
-                className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5"
+                className="w-1/2 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5"
                 key={cardIndex}
+                id="compare-card"
               >
-                <CompareCard
-                  isPinned={false}
-                  isAuth={isAuth}
-                  cardObj={cardObj}
-                  cardIndex={cardIndex}
-                  handlePinButton={handlePinButton}
-                  handleUnpinButton={handleUnpinButton}
-                  handleEditCardButton={handleEditCardButton}
-                  handleDeleteCardButton={handleDeleteCardButton}
-                />
+                <button
+                  className="flex w-full justify-center"
+                  onClick={() => handlePinButton(cardIndex)}
+                >
+                  <Image
+                    className="m-[0.625rem]"
+                    src={unpinIcon}
+                    alt="pinned icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+                <div
+                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#d1d1d1] md:h-[10rem]"
+                  id="image-container"
+                >
+                  <img
+                    className="h-full w-full object-contain p-[0.5rem]"
+                    src={cardObj.imgUrl}
+                    alt=""
+                  />
+                </div>
+
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.name}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.brand}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.price}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.year}
+                </div>
+                <div
+                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  id="row"
+                >
+                  {cardObj.description}
+                </div>
+                <div className="flex justify-between p-[1rem]">
+                  <button onClick={() => handleEditCardButton()}>
+                    <Image
+                      src={editIcon}
+                      alt="edit icon"
+                      height={20}
+                      width={20}
+                    />
+                  </button>
+                  <button onClick={() => handleDeleteCardButton()}>
+                    <Image
+                      src={binIcon}
+                      alt="delete icon"
+                      height={20}
+                      width={20}
+                    />
+                  </button>
+                </div>
               </li>
             ))}
-            {isAuth ? (
-              <li className="w-1/2 px-[0.25rem] flex-shrink-0 mb-mobile-spacing snap-start md:w-1/4 xl:w-1/5">
-                <div className="h-[2.5rem] mb-[1rem]" />
-                <button
-                  className="flex items-center justify-center h-max w-full border border-1 border-[#e2e8f0] bg-[#f8fafc] text-[3rem] font-[700] rounded-[0.5rem]"
-                  onClick={handleAddCardButton}
-                >
-                  <p className="text-[#64748b]">+</p>
-                </button>
-              </li>
-            ) : (
-              ""
-            )}
           </ul>
-
-          {isAddCardModal ? (
-            <AddCardModal
-              setIsAddCardModal={setIsAddCardModal}
-              orderedList={orderedList}
-              unpinnedList={unpinnedList}
-              setOrderedList={setOrderedList}
-              setUnpinnedList={setUnpinnedList}
-            />
-          ) : (
-            ``
-          )}
         </div>
       ) : (
-        <div className="p-[1rem] w-full overflow-x-auto" id="table-container">
+        <div className="w-full overflow-x-auto p-[1rem]" id="table-container">
           <table className="w-full">
             <thead className="text-center">
               <tr>
@@ -245,25 +361,25 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   </td>
                   <td className="px-[1rem]">
                     <img
-                      className="min-w-[5rem] min-h-[3rem] aspect-16/9 object-contain"
+                      className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
                       src={cardObj.imgUrl}
                       alt={cardObj.brand + " " + cardObj.name}
                     />
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.name}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.brand}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.year}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.price}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
-                    <p className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
+                    <p className="whitespace-nowrap px-[1rem]">
                       {cardObj.description}
                     </p>
                   </td>
@@ -294,25 +410,25 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   </td>
                   <td className="px-[1rem]">
                     <img
-                      className="min-w-[5rem] min-h-[3rem] aspect-16/9 object-contain"
+                      className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
                       src={cardObj.imgUrl}
                       alt={cardObj.brand + " " + cardObj.name}
                     />
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.name}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.brand}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.year}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.price}
                   </td>
-                  <td className="px-[1rem] whitespace-nowrap">
-                    <p className="px-[1rem] whitespace-nowrap">
+                  <td className="whitespace-nowrap px-[1rem]">
+                    <p className="whitespace-nowrap px-[1rem]">
                       {cardObj.description}
                     </p>
                   </td>
@@ -328,7 +444,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           </table>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
