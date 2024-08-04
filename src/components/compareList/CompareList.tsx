@@ -146,17 +146,17 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           <ul className="mb-[1rem] hidden md:flex" id="category-names">
             <li>
               <div className="h-[2.5rem]" />
-              <div className="xl:max-h[10rem] h-[6rem] border border-b-[#d1d1d1] md:h-[10rem]" />
-              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+              <div className="xl:max-h[10rem] h-[6rem] border border-b-[#c5c5c5] md:h-[10rem]" />
+              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Name
               </li>
-              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Brand
               </li>
-              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Year
               </li>
-              <li className="border border-b-[#d1d1d1] p-[1rem] text-[0.875rem]">
+              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Price
               </li>
               <li className="p-[1rem] text-[0.875rem]">Description</li>
@@ -178,7 +178,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   id="unpin-button"
                 >
                   <Image
-                    className="m-[0.625rem]"
+                    className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]"
                     src={pinnedIcon}
                     alt="pinned icon"
                     height={20}
@@ -186,7 +186,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </button>
                 <div
-                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#d1d1d1] md:h-[10rem]"
+                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#c5c5c5] md:h-[10rem]"
                   id="image-container"
                 >
                   <img
@@ -195,38 +195,37 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     alt=""
                   />
                 </div>
-
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
                 </div>
-                <div className="flex justify-between border border-b-[#d1d1d1] p-[1rem]">
+                <div className="flex justify-between border border-b-[#c5c5c5] p-[1rem]">
                   <button onClick={() => handleEditCardButton()}>
                     <Image
                       src={editIcon}
@@ -250,7 +249,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               <li
                 className="w-1/2 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5"
                 key={cardIndex}
-                id="compare-card"
+                id="unpinned-card"
               >
                 <button
                   className="flex w-full justify-center"
@@ -274,33 +273,32 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     alt=""
                   />
                 </div>
-
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="border border-b-[#d1d1d1] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
@@ -325,21 +323,34 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                 </div>
               </li>
             ))}
+            <li className="flex h-full w-1/2 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5">
+              <div className="">
+                <button
+                  className="text-[4rem] font-[400]"
+                  onClick={() => handleAddCardButton()}
+                >
+                  +
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
       ) : (
-        <div className="w-full overflow-x-auto p-[1rem]" id="table-container">
+        <div
+          className="w-full overflow-x-auto p-[1rem]"
+          id="table-view-container"
+        >
           <table className="w-full">
-            <thead className="text-center">
+            <thead className="">
               <tr>
                 <th></th>
                 <th></th>
                 <th>Image</th>
-                <th>Name</th>
-                <th>Brand</th>
-                <th>Year</th>
-                <th>Price</th>
-                <th>Description</th>
+                <th className="px-[1rem] text-left">Name</th>
+                <th className="px-[1rem] text-left">Brand</th>
+                <th className="px-[1rem] text-left">Year</th>
+                <th className="px-[1rem] text-left">Price</th>
+                <th className="px-[1rem] text-left">Description</th>
                 <th>action</th>
               </tr>
             </thead>
@@ -355,16 +366,25 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                 >
                   <td className="px-[1rem]">{cardIndex + 1}</td>
                   <td className="px-[1rem]">
-                    <button onClick={() => handleUnpinButton(cardIndex)}>
-                      Unpin
+                    <button
+                      className="h-[1.25rem] w-[1.25rem]"
+                      onClick={() => handleUnpinButton(cardIndex)}
+                    >
+                      <Image
+                        className="h-[1.25rem] w-[1.25rem]"
+                        src={pinnedIcon}
+                        alt="pinned icon"
+                      />
                     </button>
                   </td>
                   <td className="px-[1rem]">
-                    <img
-                      className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
-                      src={cardObj.imgUrl}
-                      alt={cardObj.brand + " " + cardObj.name}
-                    />
+                    <div className="flex justify-center">
+                      <img
+                        className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
+                        src={cardObj.imgUrl}
+                        alt={cardObj.brand + " " + cardObj.name}
+                      />
+                    </div>
                   </td>
                   <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.name}
@@ -379,14 +399,26 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     {cardObj.price}
                   </td>
                   <td className="whitespace-nowrap px-[1rem]">
-                    <p className="whitespace-nowrap px-[1rem]">
-                      {cardObj.description}
-                    </p>
+                    <p>{cardObj.description}</p>
                   </td>
                   <td>
-                    <div className="flex gap-mobile-spacing px-[1rem]">
-                      <button>Edit</button>
-                      <button>Delete</button>
+                    <div className="flex justify-center gap-mobile-spacing px-[1rem]">
+                      <button>
+                        <Image
+                          src={editIcon}
+                          alt="edit icon"
+                          height={20}
+                          width={20}
+                        />
+                      </button>
+                      <button>
+                        <Image
+                          src={binIcon}
+                          alt="bin icon"
+                          height={20}
+                          width={20}
+                        />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -394,9 +426,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               {unpinnedList.map((cardObj, cardIndex) => (
                 <tr
                   className={`max-h-[3rem] ${
-                    (pinnedList.length + cardIndex) % 2 === 0
-                      ? `bg-gray-200`
-                      : ``
+                    (pinnedList.length + cardIndex) % 2 === 0 && `bg-gray-200`
                   }`}
                   key={cardIndex}
                 >
@@ -405,15 +435,23 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   </td>
                   <td className="px-[1rem]">
                     <button onClick={() => handlePinButton(cardIndex)}>
-                      Pin
+                      <Image
+                        className="min-h-[1.25rem] min-w-[1.25rem]"
+                        src={unpinIcon}
+                        alt="unpin icon"
+                        width={20}
+                        height={20}
+                      />
                     </button>
                   </td>
                   <td className="px-[1rem]">
-                    <img
-                      className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
-                      src={cardObj.imgUrl}
-                      alt={cardObj.brand + " " + cardObj.name}
-                    />
+                    <div className="flex justify-center">
+                      <img
+                        className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
+                        src={cardObj.imgUrl}
+                        alt={cardObj.brand + " " + cardObj.name}
+                      />
+                    </div>
                   </td>
                   <td className="whitespace-nowrap px-[1rem]">
                     {cardObj.name}
@@ -428,14 +466,28 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     {cardObj.price}
                   </td>
                   <td className="whitespace-nowrap px-[1rem]">
-                    <p className="whitespace-nowrap px-[1rem]">
-                      {cardObj.description}
-                    </p>
+                    <p>{cardObj.description}</p>
                   </td>
                   <td>
-                    <div className="flex gap-mobile-spacing px-[1rem]">
-                      <button>Edit</button>
-                      <button>Delete</button>
+                    <div className="flex justify-center gap-mobile-spacing px-[1rem]">
+                      <button>
+                        <Image
+                          className="min-h-[1.25rem] min-w-[1.25rem]"
+                          src={editIcon}
+                          alt="edit icon"
+                          width={20}
+                          height={20}
+                        />
+                      </button>
+                      <button>
+                        <Image
+                          className="min-h-[1.25rem] min-w-[1.25rem]"
+                          src={binIcon}
+                          alt="bin icon"
+                          width={20}
+                          height={20}
+                        />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -443,6 +495,15 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             </tbody>
           </table>
         </div>
+      )}
+      {isAddCardModal && (
+        <AddCardModal
+          orderedList={pinnedList}
+          unpinnedList={unpinnedList}
+          setIsAddCardModal={setIsAddCardModal}
+          setOrderedList={setPinnedList}
+          setUnpinnedList={setUnpinnedList}
+        />
       )}
     </div>
   );
