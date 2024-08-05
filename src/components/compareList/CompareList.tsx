@@ -143,20 +143,20 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           className="mt-[1rem] flex rounded-[4px] bg-[#e0e0e0] p-[24px]"
           id="column-view-container"
         >
-          <ul className="mb-[1rem] hidden md:flex" id="category-names">
+          <ul className="mb-[1rem] hidden sm:flex" id="category-names">
             <li>
               <div className="h-[2.5rem]" />
-              <div className="xl:max-h[10rem] h-[6rem] border border-b-[#c5c5c5] md:h-[10rem]" />
-              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              <div className="xl:max-h[10rem] h-[6rem] border-b border-b-[#c5c5c5] md:h-[10rem]" />
+              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Name
               </li>
-              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Brand
               </li>
-              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Year
               </li>
-              <li className="border border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Price
               </li>
               <li className="p-[1rem] text-[0.875rem]">Description</li>
@@ -168,7 +168,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           >
             {pinnedList.map((cardObj, cardIndex) => (
               <li
-                className="w-1/2 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5"
+                className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
                 key={cardIndex}
                 id="pinned-cards"
               >
@@ -186,7 +186,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </button>
                 <div
-                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#c5c5c5] md:h-[10rem]"
+                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border-b border-b-[#c5c5c5] md:h-[10rem]"
                   id="image-container"
                 >
                   <img
@@ -196,36 +196,36 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
                 </div>
-                <div className="flex justify-between border border-b-[#c5c5c5] p-[1rem]">
+                <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
                   <button onClick={() => handleEditCardButton()}>
                     <Image
                       src={editIcon}
@@ -247,7 +247,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             ))}
             {unpinnedList.map((cardObj, cardIndex) => (
               <li
-                className="w-1/2 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5"
+                className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
                 key={cardIndex}
                 id="unpinned-card"
               >
@@ -264,7 +264,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </button>
                 <div
-                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border border-b-[#d1d1d1] md:h-[10rem]"
+                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border-b border-b-[#c5c5c5] md:h-[10rem]"
                   id="image-container"
                 >
                   <img
@@ -274,36 +274,36 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="border border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="overflow-y-auto border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
                 </div>
-                <div className="flex justify-between p-[1rem]">
+                <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
                   <button onClick={() => handleEditCardButton()}>
                     <Image
                       src={editIcon}
@@ -323,7 +323,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                 </div>
               </li>
             ))}
-            <li className="flex h-full w-1/2 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] hover:bg-gray-300 md:w-1/4 xl:w-1/5">
+            <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
               <div className="">
                 <button
                   className="text-[4rem] font-[400]"
