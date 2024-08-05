@@ -146,7 +146,10 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           <ul className="mb-[1rem] hidden sm:flex" id="category-names">
             <li>
               <div className="h-[2.5rem]" />
-              <div className="xl:max-h[10rem] h-[6rem] border-b border-b-[#c5c5c5] md:h-[10rem]" />
+              <div
+                className="h-[4rem] border-b border-b-[#c5c5c5] md:h-[6rem] xl:h-[8rem]"
+                id="image-category"
+              />
               <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
                 Name
               </li>
@@ -186,11 +189,11 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </button>
                 <div
-                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border-b border-b-[#c5c5c5] md:h-[10rem]"
+                  className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
                   id="image-container"
                 >
                   <img
-                    className="h-full w-full object-contain p-[0.5rem]"
+                    className="w-full object-contain"
                     src={cardObj.imgUrl}
                     alt=""
                   />
@@ -264,11 +267,11 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </button>
                 <div
-                  className="xl:max-h[10rem] flex h-[6rem] w-full justify-center border-b border-b-[#c5c5c5] md:h-[10rem]"
+                  className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
                   id="image-container"
                 >
                   <img
-                    className="h-full w-full object-contain p-[0.5rem]"
+                    className="h-min w-full object-contain"
                     src={cardObj.imgUrl}
                     alt=""
                   />
@@ -345,7 +348,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               <tr>
                 <th></th>
                 <th></th>
-                <th>Image</th>
+                <th className="px-[1rem] text-left">Image</th>
                 <th className="px-[1rem] text-left">Name</th>
                 <th className="px-[1rem] text-left">Brand</th>
                 <th className="px-[1rem] text-left">Year</th>
@@ -358,9 +361,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               {pinnedList.map((cardObj, cardIndex) => (
                 <tr
                   className={`max-h-[3rem] ${
-                    (pinnedList.length + cardIndex) % 2 === 0
-                      ? `bg-gray-200`
-                      : ``
+                    cardIndex % 2 === 0 && `bg-[#e0e0e0]`
                   }`}
                   key={cardIndex}
                 >
@@ -378,11 +379,12 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     </button>
                   </td>
                   <td className="px-[1rem]">
-                    <div className="flex justify-center">
+                    <div className="flex max-h-[4rem] w-[6rem] justify-center bg-black">
                       <img
-                        className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
+                        className="h-[4rem] object-contain"
                         src={cardObj.imgUrl}
                         alt={cardObj.brand + " " + cardObj.name}
+                        id="item-image"
                       />
                     </div>
                   </td>
@@ -426,7 +428,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               {unpinnedList.map((cardObj, cardIndex) => (
                 <tr
                   className={`max-h-[3rem] ${
-                    (pinnedList.length + cardIndex) % 2 === 0 && `bg-gray-200`
+                    (pinnedList.length + cardIndex) % 2 === 0 && `bg-[#e0e0e0]`
                   }`}
                   key={cardIndex}
                 >
@@ -445,11 +447,12 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                     </button>
                   </td>
                   <td className="px-[1rem]">
-                    <div className="flex justify-center">
+                    <div className="flex max-h-[4rem] w-[6rem] justify-center bg-black">
                       <img
-                        className="aspect-16/9 max-h-[3rem] max-w-[5rem] object-contain"
+                        className="h-[4rem] object-contain"
                         src={cardObj.imgUrl}
                         alt={cardObj.brand + " " + cardObj.name}
+                        id="item-image"
                       />
                     </div>
                   </td>
