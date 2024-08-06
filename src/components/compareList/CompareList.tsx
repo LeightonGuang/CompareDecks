@@ -78,7 +78,17 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
 
   const handleEditCardButton = () => {};
 
-  const handleDeleteCardButton = () => {};
+  const handleDeleteCardButton = (cardIndex: number, isPinned: boolean) => {
+    if (isPinned) {
+      setPinnedList((prevList) =>
+        prevList.filter((_obj, index) => index !== cardIndex),
+      );
+    } else if (!isPinned) {
+      setUnpinnedList((prevList) =>
+        prevList.filter((_obj, index) => index !== cardIndex),
+      );
+    }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -237,7 +247,9 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                       width={20}
                     />
                   </button>
-                  <button onClick={() => handleDeleteCardButton()}>
+                  <button
+                    onClick={() => handleDeleteCardButton(cardIndex, true)}
+                  >
                     <Image
                       src={binIcon}
                       alt="delete icon"
@@ -315,7 +327,9 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                       width={20}
                     />
                   </button>
-                  <button onClick={() => handleDeleteCardButton()}>
+                  <button
+                    onClick={() => handleDeleteCardButton(cardIndex, false)}
+                  >
                     <Image
                       src={binIcon}
                       alt="delete icon"
