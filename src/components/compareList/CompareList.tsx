@@ -199,31 +199,31 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
@@ -277,31 +277,31 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="overflow-y-auto border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] overflow-y-auto border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
@@ -327,14 +327,12 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
               </li>
             ))}
             <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
-              <div className="">
-                <button
-                  className="text-[4rem] font-[400]"
-                  onClick={() => handleAddCardButton()}
-                >
-                  +
-                </button>
-              </div>
+              <button
+                className="h-full w-full text-[4rem] font-[400]"
+                onClick={() => handleAddCardButton()}
+              >
+                <span>+</span>
+              </button>
             </li>
           </ul>
         </div>
