@@ -502,7 +502,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           orderedList={pinnedList}
           unpinnedList={unpinnedList}
           setIsAddCardModal={setIsAddCardModal}
-          setOrderedList={setPinnedList}
+          setOrderedList={setOrderedList}
           setUnpinnedList={setUnpinnedList}
         />
       )}
