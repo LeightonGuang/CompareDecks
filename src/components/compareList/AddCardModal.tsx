@@ -32,7 +32,7 @@ const AddCardModal = ({
   });
 
   const onFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -47,18 +47,21 @@ const AddCardModal = ({
 
   return (
     <div
-      className="flex items-center justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-50"
+      className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50"
       id="add-card-modal"
     >
-      <div className="bg-white max-w[28rem] rounded-[0.375rem]" id="add-card">
+      <div
+        className="w-[16rem] rounded-[0.375rem] bg-white md:w-[28rem]"
+        id="add-card"
+      >
         <div
-          className="flex flex-col gap-[1rem] m-[1rem]"
+          className="m-[1rem] flex flex-col justify-center gap-[1rem]"
           id="add-card-container"
         >
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <h1>Add Card</h1>
             <button
-              className="bg-white"
+              className="rounded-[0.25rem] bg-red-300 px-[0.5rem] py-[0.25rem] text-[0.75rem]"
               onClick={() => setIsAddCardModal(false)}
             >
               Close
@@ -66,7 +69,7 @@ const AddCardModal = ({
           </div>
 
           <img
-            className="w-full max-h-[5rem] rounded-[0.375rem]"
+            className="h-[6rem] rounded-[0.375rem] bg-black object-contain"
             src={formData.imgUrl}
             alt={formData.brand + " " + formData.name}
           />
@@ -75,7 +78,7 @@ const AddCardModal = ({
             onSubmit={handleSubmitAddCardForm}
           >
             <input
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="imgUrl"
               type="url"
               placeholder="Image URL"
@@ -83,7 +86,7 @@ const AddCardModal = ({
               onChange={onFormChange}
             />
             <input
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="name"
               type="text"
               placeholder="Name"
@@ -91,7 +94,7 @@ const AddCardModal = ({
               onChange={onFormChange}
             />
             <input
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="brand"
               type="text"
               placeholder="Brand"
@@ -99,7 +102,7 @@ const AddCardModal = ({
               onChange={onFormChange}
             />
             <input
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="price"
               type="number"
               placeholder="Price"
@@ -107,7 +110,7 @@ const AddCardModal = ({
               onChange={onFormChange}
             />
             <input
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="year"
               type="number"
               placeholder="Year"
@@ -115,14 +118,17 @@ const AddCardModal = ({
               onChange={onFormChange}
             />
             <textarea
-              className="p-[0.5rem] rounded-[0.375rem] leading-[1.375rem] border border-[#E4E4EB] w-full"
+              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="description"
               placeholder="Description"
               value={formData.description}
               onChange={onFormChange}
             />
 
-            <button className="" type="submit">
+            <button
+              className="rounded-[0.375rem] bg-blue px-[1rem] py-[0.5rem] text-white"
+              type="submit"
+            >
               Add
             </button>
           </form>
