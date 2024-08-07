@@ -209,31 +209,31 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
@@ -289,31 +289,31 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   />
                 </div>
                 <div
-                  className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.name}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.brand}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.price}
                 </div>
                 <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.year}
                 </div>
                 <div
-                  className="min-h-[3.375rem] overflow-y-auto border-b border-b-[#c5c5c5] py-[1rem] text-center text-[0.875rem] font-[400]"
+                  className="min-h-[3.375rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
                   id="row"
                 >
                   {cardObj.description}
