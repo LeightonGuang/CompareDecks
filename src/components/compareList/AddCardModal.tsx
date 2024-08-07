@@ -31,6 +31,10 @@ const AddCardModal = ({
     edited_at: "",
   });
 
+  const [isError, setIsError] = useState({
+    name: false,
+  });
+
   const onFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -40,6 +44,13 @@ const AddCardModal = ({
 
   const handleSubmitAddCardForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.name === "") {
+      console.log("Please enter a name");
+      setIsError({ ...isError, name: true });
+      return;
+    } else {
+      setIsError({ ...isError, name: false });
+    }
     setOrderedList([...orderedList, formData]);
     setUnpinnedList([...unpinnedList, formData]);
     setIsAddCardModal(false);
@@ -76,20 +87,27 @@ const AddCardModal = ({
             className="flex flex-col gap-[1rem]"
             onSubmit={handleSubmitAddCardForm}
           >
+            <div>
+              <input
+                className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
+                name="name"
+                type="text"
+                placeholder="Name"
+                value={formData.name}
+                onChange={onFormChange}
+              />
+              {isError.name && (
+                <div className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                  Please enter a name
+                </div>
+              )}
+            </div>
             <input
               className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="imgUrl"
               type="url"
               placeholder="Image URL"
               value={formData.imgUrl}
-              onChange={onFormChange}
-            />
-            <input
-              className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
-              name="name"
-              type="text"
-              placeholder="Name"
-              value={formData.name}
               onChange={onFormChange}
             />
             <input
@@ -103,7 +121,7 @@ const AddCardModal = ({
             <input
               className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="price"
-              type="number"
+              type="text"
               placeholder="Price"
               value={formData.price}
               onChange={onFormChange}
@@ -123,7 +141,6 @@ const AddCardModal = ({
               value={formData.description}
               onChange={onFormChange}
             />
-
             <button
               className="rounded-[0.375rem] bg-blue px-[1rem] py-[0.5rem] text-white"
               type="submit"
