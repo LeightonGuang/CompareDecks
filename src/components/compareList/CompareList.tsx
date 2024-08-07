@@ -167,10 +167,10 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                 Brand
               </li>
               <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Year
+                Price
               </li>
               <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Price
+                Year
               </li>
               <li className="p-[1rem] text-[0.875rem]">Description</li>
             </li>
