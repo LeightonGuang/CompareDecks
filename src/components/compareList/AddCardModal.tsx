@@ -67,9 +67,8 @@ const AddCardModal = ({
               Close
             </button>
           </div>
-
           <img
-            className="h-[6rem] rounded-[0.375rem] bg-black object-contain"
+            className="h-[6rem] rounded-[0.375rem] bg-black object-contain md:h-[10rem]"
             src={formData.imgUrl}
             alt={formData.brand + " " + formData.name}
           />
