@@ -1,35 +1,53 @@
 "use client";
 
-import getUser from "@/utils/getUser";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useUser } from "@/context/UserContext";
+import Image from "next/image";
+
+import userIcon from "../../../_assets/icons/userIcon.svg";
 
 const AccountPage = () => {
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUser();
-      setUser(user);
-      console.log(user);
-    };
-    fetchUser();
-  }, []);
+  const { user, isLoading } = useUser();
 
   return (
-    <main className="h-dynamic-vh" id="create-deck-page">
-      <div className="mx-mobile-spacing">
-        <h1 className="pt-mobile-spacing">Account</h1>
-        <div id="account-card">
-          <label>
-            email:
-            <p>{user?.email}</p>
-          </label>
-          <label>
-            id
-            <p>{user?.id}</p>
-          </label>
+    <main
+      className="flex h-dynamic-vh items-center justify-center"
+      id="account-page"
+    >
+      {!isLoading && (
+        <div
+          className="border-[#E2E8F0 rounded-[0.5rem] border px-[1rem] py-[2rem]"
+          id="account-page-card"
+        >
+          <h1 className="text-[1.5rem] font-[700]">Account</h1>
+          <div className="text-center">
+            <Image
+              className="mx-auto mt-[1.5rem] h-[4rem] w-[4rem]"
+              src={userIcon}
+              alt="user icon"
+            />
+            <div
+              className="mt-[1.5rem] flex flex-col gap-[0.5rem]"
+              id="user-info"
+            >
+              <h2 className="text-[1.5rem] font-[700]">User Name</h2>
+              <p className="text-[1rem] text-[#5e6d8c]">{user?.email}</p>
+              <p className="text-[1rem] text-[#5e6d8c]">User ID: {user?.id}</p>
+            </div>
+            <div className="mt-[2rem] flex gap-[0.5rem] text-[0.875rem] font-[500]">
+              <button className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
+                Change Name
+              </button>
+              <button className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
+                Change Password
+              </button>
+              <button className="rounded-[0.375rem] bg-[#DC2828] px-[1rem] py-[0.5rem] text-white">
+                Delete Account
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </main>
   );
 };
