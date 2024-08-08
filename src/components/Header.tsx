@@ -1,14 +1,12 @@
 "use client";
 
 import { logout } from "@/app/logout/actions";
-import getUser from "@/utils/getUser";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
+import { useUser } from "@/context/UserContext";
 
 const Header = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<any>(null);
+  const { user, isLoading } = useUser();
 
   const NavLink: FC<{ href: string; children: React.ReactNode }> = ({
     href,
@@ -47,45 +45,31 @@ const Header = () => {
     </div>
   );
 
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchUser = async () => {
-      const user = await getUser();
-      setUser(user);
-      setIsLoading(false);
-    };
-    fetchUser();
-  }, []);
-
   return (
     <div className="max-w-full bg-white">
-      {isLoading ? (
-        ``
-      ) : (
-        <div
-          className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[1.5rem]"
-          id="header"
-        >
-          <Link href={"/"}>
-            <img
-              className="h-[2.5rem]"
-              src="https://thumbs.dreamstime.com/b/temporary-rubber-stamp-over-white-background-86664158.jpg"
-              alt="logo"
-            />
-          </Link>
-          <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
-            <NavLink href="/create-deck">Create Deck</NavLink>
-            <NavLink href={"/decks"}>Browse</NavLink>
-          </nav>
-          <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
-            {user && user.aud === "authenticated" ? (
-              <UserLinks />
-            ) : (
-              <GuestLinks />
-            )}
-          </nav>
-        </div>
-      )}
+      <div
+        className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[1.5rem]"
+        id="header"
+      >
+        <Link href={"/"}>
+          <img
+            className="h-[2.5rem]"
+            src="https://thumbs.dreamstime.com/b/temporary-rubber-stamp-over-white-background-86664158.jpg"
+            alt="logo"
+          />
+        </Link>
+        <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
+          <NavLink href="/create-deck">Create Deck</NavLink>
+          <NavLink href={"/decks"}>Browse</NavLink>
+        </nav>
+        <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
+          {user && user.aud === "authenticated" ? (
+            <UserLinks />
+          ) : (
+            <GuestLinks />
+          )}
+        </nav>
+      </div>
     </div>
   );
 };
