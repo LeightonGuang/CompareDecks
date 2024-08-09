@@ -6,6 +6,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface UserContextType {
   user: any;
   isLoading: boolean;
+  setUser: (user: any) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -30,7 +32,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
   return (
-    <UserContext.Provider value={{ user, isLoading }}>
+    <UserContext.Provider value={{ user, isLoading, setUser, setIsLoading }}>
       {children}
     </UserContext.Provider>
   );
