@@ -153,27 +153,31 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           className="mt-[1rem] flex rounded-[4px] bg-[#e0e0e0] p-[24px]"
           id="column-view-container"
         >
-          <ul className="mb-[1rem] hidden sm:flex" id="category-names">
+          <ul
+            className="mb-[1rem] hidden sm:flex sm:flex-col"
+            id="category-names"
+          >
             <li>
-              <div className="h-[2.5rem]" />
+              <div className="h-[2.5rem]" id="pin-spacer" />
               <div
                 className="h-[4rem] border-b border-b-[#c5c5c5] md:h-[6rem] xl:h-[8rem]"
-                id="image-category"
+                id="image-spacer"
               />
-              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Name
-              </li>
-              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Brand
-              </li>
-              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Price
-              </li>
-              <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-                Year
-              </li>
-              <li className="p-[1rem] text-[0.875rem]">Description</li>
             </li>
+
+            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              Name
+            </li>
+            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              Brand
+            </li>
+            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              Price
+            </li>
+            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
+              Year
+            </li>
+            <li className="p-[1rem] text-[0.875rem]">Description</li>
           </ul>
           <ul
             className="scrollbar-top flex w-full snap-x snap-mandatory list-none flex-row overflow-x-auto scroll-smooth pb-[1rem]"
