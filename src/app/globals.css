@@ -4,12 +4,6 @@
 
 /* change CompareList.tsx button container width and height */
 
-:root {
-  --view-checkbox-width: 5rem;
-  --view-checkbox-height: 1.5rem;
-  --view-checkbox-gap: 0.2rem;
-}
-
 img {
   max-width: 100%;
   max-height: 100%;
@@ -20,31 +14,4 @@ img {
   padding: 0;
   margin: 0;
   color: #020817;
-}
-
-image {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#view-checkbox::before {
-  font-size: 0.75rem;
-  content: "▯ Grid";
-  position: absolute;
-  background-color: #ffffff;
-  color: #63b4eb;
-  border-radius: 100rem;
-  width: calc(var(--view-checkbox-width) / 2);
-  height: var(--view-checkbox-height);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: var(--view-checkbox-gap);
-  left: var(--view-checkbox-gap);
-  transition: 200ms ease-in-out;
-}
-
-#view-checkbox:checked::before {
-  content: "☰ List";
-  transform: translateX(100%);
 }
