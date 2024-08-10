@@ -70,10 +70,6 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
     setIsAddCardModal(true);
   };
 
-  const handleTableViewToggle = () => {
-    setIsListView(!isListView);
-  };
-
   const onSubmitEditDeck = () => {};
 
   const handleEditCardButton = () => {};
@@ -103,7 +99,10 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
 
   return (
     <div>
-      <div className="mt-[1rem] flex justify-between" id="compare-list-header">
+      <div
+        className="mt-[1rem] flex items-center justify-between"
+        id="compare-list-header"
+      >
         <div className="flex items-center gap-[0.5rem]">
           {isEditDeckName ? (
             <form
@@ -143,10 +142,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
             </>
           )}
         </div>
-        <ListViewButton
-          isListView={isListView}
-          handleTableViewToggle={handleTableViewToggle}
-        />
+        <ListViewButton isListView={isListView} setIsListView={setIsListView} />
       </div>
       {!isListView ? (
         <div
@@ -356,7 +352,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
         </div>
       ) : (
         <div
-          className="w-full overflow-x-auto p-[1rem]"
+          className="w-full overflow-x-auto py-[1rem]"
           id="table-view-container"
         >
           <table className="w-full">
@@ -381,7 +377,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   }`}
                   key={cardIndex}
                 >
-                  <td className="px-[1rem]">{cardIndex + 1}</td>
+                  <td className="px-[1rem]">{cardIndex + 1}.</td>
                   <td className="px-[1rem]">
                     <button
                       className="h-[1.25rem] w-[1.25rem]"
@@ -449,7 +445,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
                   key={cardIndex}
                 >
                   <td className="px-[1rem]">
-                    {pinnedList.length + cardIndex + 1}
+                    {pinnedList.length + cardIndex + 1}.
                   </td>
                   <td className="px-[1rem]">
                     <button onClick={() => handlePinButton(cardIndex)}>
