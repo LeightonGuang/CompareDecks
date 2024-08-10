@@ -1,21 +1,38 @@
 interface Props {
   isListView: boolean;
-  handleTableViewToggle: () => void;
+  setIsListView: (arg0: boolean) => void;
 }
 
-const ListViewButton = ({ isListView, handleTableViewToggle }: Props) => {
+const ListViewButton = ({ isListView, setIsListView }: Props) => {
   return (
-    <div
-      className="flex h-[1.9rem] w-[5.4rem] justify-center rounded-full bg-[#edf2f6]"
-      id="button-container"
-    >
-      <input
-        className="relative h-full w-full cursor-pointer appearance-none"
-        type="checkbox"
-        checked={isListView}
-        onChange={handleTableViewToggle}
-        id="view-checkbox"
-      />
+    <div className="flex" id="button-container">
+      {isListView ? (
+        <div className="flex">
+          <button
+            className="whitespace-nowrap rounded-full rounded-r border-b border-l border-t border-[#c4c4c4] bg-white px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#c4c4c4]"
+            onClick={() => setIsListView(false)}
+          >
+            ▯ Grid View
+          </button>
+          <div className="border-r border-[#5277b6]" />
+          <button className="whitespace-nowrap rounded-full rounded-l border-b border-r border-t border-[#5277b6] bg-[#f2f5fc] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#5277b6]">
+            ☰ List View
+          </button>
+        </div>
+      ) : (
+        <div className="flex">
+          <button className="whitespace-nowrap rounded-full rounded-r border-b border-l border-t border-[#5277b6] bg-[#f2f5fc] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#5277b6]">
+            ▯ Grid View
+          </button>
+          <div className="border-r border-[#5277b6]" />
+          <button
+            className="whitespace-nowrap rounded-full rounded-l border-b border-r border-t border-[#c4c4c4] bg-white px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#c4c4c4]"
+            onClick={() => setIsListView(true)}
+          >
+            ☰ List View
+          </button>
+        </div>
+      )}
     </div>
   );
 };
