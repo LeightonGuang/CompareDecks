@@ -41,7 +41,7 @@ const Header = () => {
 
   const GuestLinks: FC = () => (
     <NavLink href="/login">
-      <span className="mr-[1rem] rounded-[.325rem] bg-blue px-[1rem] py-[0.5rem] font-[0.875rem] text-[white] hover:bg-[#426bc2]">
+      <span className="rounded-[.325rem] bg-blue px-[1rem] py-[0.5rem] font-[0.875rem] text-[white] hover:bg-[#426bc2]">
         Log in
       </span>
     </NavLink>
