@@ -9,9 +9,7 @@ export async function logout() {
   const { error } = await supabase.auth.signOut();
 
   if (error) {
-    redirect("/error");
+    console.log("Supabase SignOut Error: " + error.message);
+    throw new Error(error.message);
   }
-
-  revalidatePath("/", "layout");
-  redirect("/");
 }
