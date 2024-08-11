@@ -4,8 +4,13 @@ import { logout } from "@/app/logout/actions";
 export async function POST() {
   try {
     await logout(); // Call the server-side logout function
-    return NextResponse.json({ message: "Logout successful" });
+    return NextResponse.json({ message: "Logout successful" }, { status: 200 });
   } catch (error) {
-    return NextResponse.error(); // Respond with an error if something goes wrong
+    console.error("Logout API error: " + error);
+
+    return NextResponse.json(
+      { message: `Error logging out: ${error}` },
+      { status: 500 },
+    ); // Respond with an error if something goes wrong
   }
 }
