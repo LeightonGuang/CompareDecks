@@ -6,7 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const { user, setUser } = useUser();
+  const { user, setUser, fetchUserData } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -19,11 +19,11 @@ const Header = () => {
       if (response.ok) {
         // Update the client-side user state to null
         setUser(null);
-
         // Redirect the user to the homepage after logout
         router.push("/");
       } else {
         console.error("Failed to logout");
+        router.push("/error");
       }
     } catch (error) {
       console.error("An error occurred while logging out:", error);
@@ -93,8 +93,12 @@ const Header = () => {
     };
   }, [dropdownRef]);
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   return (
-    <div className="max-w-full bg-white">
+    <header className="max-w-full bg-white">
       <div
         className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[1.5rem]"
         id="header"
@@ -118,7 +122,7 @@ const Header = () => {
           )}
         </nav>
       </div>
-    </div>
+    </header>
   );
 };
 
