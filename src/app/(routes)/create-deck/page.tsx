@@ -9,9 +9,10 @@ const CreateDeckPage = () => {
   const [deckData, setDeckData] = useState<DeckType | null>(null);
 
   return (
-    <main>
-      <div>Create Deck</div>
-      <CompareList deckData={deckData} />
+    <main className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
+      <div className="mx-mobile-spacing">
+        <CompareList deckData={deckData} />
+      </div>
     </main>
   );
 };
