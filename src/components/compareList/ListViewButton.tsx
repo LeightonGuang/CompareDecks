@@ -3,6 +3,8 @@ interface Props {
   setIsListView: (arg0: boolean) => void;
 }
 
+// https://uxmovement.com/wp-content/uploads/2019/08/toggle_switch-opposing_options.png
+
 const ListViewButton = ({ isListView, setIsListView }: Props) => {
   return (
     <div className="flex" id="button-container">

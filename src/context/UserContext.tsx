@@ -1,7 +1,6 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { clear } from "console";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface UserContextType {
