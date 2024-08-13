@@ -1,21 +1,62 @@
-import { signup } from "@/app/signup/actions";
+"use client";
 
-const SignupPage = async () => {
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
+
+const SignupPage = () => {
+  const signUpForm = useRef<HTMLFormElement>(null);
+  const router = useRouter();
+
+  const handleSignUp = async () => {
+    const formData = new FormData(signUpForm.current!);
+    const displayName = formData.get("displayName");
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          displayName,
+          email,
+          password,
+        }),
+      };
+
+      const response = await fetch("/api/signup", options);
+      console.log(response);
+
+      if (response.ok) {
+        console.log("Sign up successful");
+        router.push("/");
+      } else {
+        console.error("Failed to sign up");
+        router.push("/error");
+      }
+    } catch (error) {
+      console.error("error: " + error);
+      router.push("/error");
+    }
+  };
+
   return (
-    <main className="flex justify-center items-center h-dynamic-vh overflow-y-auto">
+    <main className="flex h-dynamic-vh items-center justify-center overflow-y-auto">
       <div className="p-[2rem]" id="sign-up-container">
-        <div className="py-[3rem] text-center max-w-[28rem]" id="sign-up-card">
-          <h1 className="font-[700] leading-[2.25rem] text-[1.875rem]">
+        <div className="max-w-[28rem] py-[3rem] text-center" id="sign-up-card">
+          <h1 className="text-[1.875rem] font-[700] leading-[2.25rem]">
             Sign up
           </h1>
-          <p className="text-[#5e6d82] leading-[1.5rem] mt-[0.5rem]">
+          <p className="mt-[0.5rem] leading-[1.5rem] text-[#5e6d82]">
             Compare products, services and more by comparing them side-by-side.
           </p>
-          <form className="flex flex-col gap-[1rem] text-left">
+          <form className="flex flex-col gap-[1rem] text-left" ref={signUpForm}>
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Username
               <input
-                className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
+                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
                 placeholder="John Smith"
                 name="displayName"
                 type="text"
@@ -24,7 +65,7 @@ const SignupPage = async () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Email
               <input
-                className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
+                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
                 placeholder="m@example.com"
                 name="email"
                 type="email"
@@ -33,7 +74,7 @@ const SignupPage = async () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Password
               <input
-                className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
+                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
                 name="password"
                 type="password"
               />
@@ -41,15 +82,15 @@ const SignupPage = async () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Confirm Password
               <input
-                className="border border-[#E2E8F0] font-[0.875rem] py-[0.5rem] px-[0.75rem] mt-[0.5rem] rounded-[0.375rem]"
+                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
                 name="confirmPassword"
                 type="password"
               />
             </label>
 
             <button
-              className="bg-blue text-[#f8f8fc] py-[0.5rem] px-[1rem] rounded-[0.375rem]"
-              formAction={signup}
+              className="rounded-[0.375rem] bg-blue px-[1rem] py-[0.5rem] text-[#f8f8fc]"
+              formAction={handleSignUp}
               type="submit"
             >
               Sign Up
