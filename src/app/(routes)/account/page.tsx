@@ -5,9 +5,15 @@ import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 
 import userIcon from "../../../_assets/icons/userIcon.svg";
+import { useRouter } from "next/navigation";
 
 const AccountPage = () => {
   const { user, isLoading } = useUser();
+  const router = useRouter();
+
+  if (!user) {
+    router.push("/login");
+  }
 
   return (
     <main
