@@ -12,5 +12,7 @@ export async function signUp(email: string, password: string) {
   if (error) {
     console.error("Supabase sign up error: " + error.message);
     throw new Error(error.message);
+  } else {
+    console.log("Sign up successful");
   }
 }
