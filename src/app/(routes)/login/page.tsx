@@ -44,10 +44,13 @@ const LoginPage = () => {
   //   }
   // };
 
-  const { fetchUserData } = useUser();
-
-  const emailLoginForm = useRef<HTMLFormElement>(null);
+  const { user, fetchUserData } = useUser();
   const router = useRouter();
+  const emailLoginForm = useRef<HTMLFormElement>(null);
+
+  if (user) {
+    router.push("/");
+  }
 
   const handleLogin = async () => {
     const formData = new FormData(emailLoginForm.current!);
