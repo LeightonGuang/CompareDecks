@@ -24,10 +24,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!data?.user) {
       console.log("No user found");
-      setUser(null);
+      setUser(undefined);
     } else if (error) {
       console.error("Failed to fetch user:", error);
-      setUser(null);
+      setUser(undefined);
     } else {
       console.log("User found");
       setUser(data.user);
