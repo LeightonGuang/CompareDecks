@@ -21,6 +21,7 @@ const Header = () => {
         setUser(null);
         // Redirect the user to the homepage after logout
         router.push("/");
+        fetchUserData();
       } else {
         console.error("Failed to logout");
         router.push("/error");
@@ -97,6 +98,8 @@ const Header = () => {
     fetchUserData();
   }, []);
 
+  console.log(user);
+
   return (
     <header className="max-w-full bg-white">
       <div
@@ -118,7 +121,7 @@ const Header = () => {
           {user && user.aud === "authenticated" ? (
             <UserLinks />
           ) : (
-            <GuestLinks />
+            user === undefined && <GuestLinks />
           )}
         </nav>
       </div>
