@@ -44,25 +44,25 @@ const DecksPage = () => {
     <main className="h-dynamic-vh">
       <div className="flex justify-center">
         <div className="mx-mobile-spacing max-w-[50rem] overflow-x-auto">
-          <h1 className="text-[1.5rem] font[700]">Browse decks</h1>
+          <h1 className="font[700] text-[1.5rem]">Browse decks</h1>
           {isLoading ? (
             <p>Loading...</p>
           ) : (
-            <table className="w-full table-auto mt-mobile-spacing">
+            <table className="mt-mobile-spacing w-full table-auto">
               <thead>
-                <tr className="text-left bg-[#f1f5f9]">
-                  <th className="py-[0.75rem] px-[1rem]">Preview</th>
-                  <th className="py-[0.75rem] px-[1rem]">Deck name</th>
-                  <th className="py-[0.75rem] px-[1rem]">User id</th>
-                  <th className="py-[0.75rem] px-[1rem]">Date created</th>
+                <tr className="bg-[#f1f5f9] text-left">
+                  <th className="px-[1rem] py-[0.75rem]">Preview</th>
+                  <th className="px-[1rem] py-[0.75rem]">Deck name</th>
+                  <th className="px-[1rem] py-[0.75rem]">User id</th>
+                  <th className="px-[1rem] py-[0.75rem]">Date created</th>
                 </tr>
               </thead>
               <tbody>
                 {deckList.map((deck: DeckType) => (
-                  <tr className="text-left border-b h-[2.75rem]" key={deck.id}>
+                  <tr className="h-[2.75rem] border-b text-left" key={deck.id}>
                     {deck.cards[0] && deck.cards[0] ? (
                       <td
-                        className="flex justify-center items-center"
+                        className="flex items-center justify-center"
                         id="preview-img"
                       >
                         <img
@@ -73,11 +73,11 @@ const DecksPage = () => {
                       </td>
                     ) : (
                       <td
-                        className="flex justify-center items-center"
+                        className="flex items-center justify-center"
                         id="preview-placeholder"
                       >
                         <Image
-                          className=" aspect-[16/9] h-[2.75rem] object-cover"
+                          className="aspect-[16/9] h-[2.75rem] object-cover"
                           src={placeholder}
                           alt="placeholder"
                           height={49}
@@ -86,17 +86,17 @@ const DecksPage = () => {
                     )}
                     <td className="h-min">
                       <Link
-                        className="py-[0.75rem] px-[1rem] whitespace-nowrap underline"
+                        className="whitespace-nowrap px-[1rem] py-[0.75rem] underline"
                         href={`/decks/${deck.uuid}`}
                       >
                         {deck.name}
                       </Link>
                     </td>
-                    <td className="py-[0.75rem] px-[1rem] h-max-[2.75rem] whitespace-nowrap">
+                    <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
                       {deck.user_uid}
                     </td>
-                    <td className="py-[0.75rem] px-[1rem]  h-max-[2.75rem] whitespace-nowrap">
-                      {new Date(deck.created_at).toLocaleDateString("en-US", {
+                    <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
+                      {new Date(deck.created_at).toLocaleDateString("en-GB", {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
