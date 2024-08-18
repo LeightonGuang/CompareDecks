@@ -6,28 +6,18 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const { user, setUser, fetchUserData } = useUser();
+  const { user, setUser, signOut, fetchUser } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const handleLogout = async () => {
+  const handleSignOut = async () => {
     try {
-      // Trigger the server-side logout function through the API route
-      const response = await fetch("/api/logout", { method: "POST" });
-
-      if (response.ok) {
-        // Update the client-side user state to null
-        setUser(null);
-        // Redirect the user to the homepage after logout
-        router.push("/");
-        fetchUserData();
-      } else {
-        console.error("Failed to logout");
-        router.push("/error");
-      }
+      await signOut();
+      console.log("Sign out successful");
+      router.push("/");
     } catch (error) {
-      console.error("An error occurred while logging out:", error);
+      console.error(error);
     }
   };
 
@@ -67,8 +57,8 @@ const Header = () => {
           >
             <NavLink href="/account">Account</NavLink>
             <NavLink href="/setting">Setting</NavLink>
-            <button className="hover:underline" onClick={handleLogout}>
-              Logout
+            <button className="hover:underline" onClick={handleSignOut}>
+              Sign out
             </button>
           </div>
         </div>
@@ -95,11 +85,8 @@ const Header = () => {
   }, [dropdownRef]);
 
   useEffect(() => {
-    fetchUserData();
+    fetchUser();
   }, []);
-
-  console.log(user);
-
   return (
     <header className="max-w-full bg-white">
       <div
@@ -118,7 +105,7 @@ const Header = () => {
           <NavLink href={"/decks"}>Browse</NavLink>
         </nav>
         <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
-          {user && user.aud === "authenticated" ? (
+          {user?.aud === "authenticated" ? (
             <UserLinks />
           ) : (
             user === undefined && <GuestLinks />
