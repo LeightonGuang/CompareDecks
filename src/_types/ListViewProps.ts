@@ -8,4 +8,5 @@ export interface ListViewProps {
   handleEditCardButton: () => void;
   handleAddCardButton: () => void;
   handleDeleteCardButton: (cardIndex: number, isPinned: boolean) => void;
+  isAuth: boolean;
 }

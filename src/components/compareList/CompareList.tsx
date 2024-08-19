@@ -27,6 +27,8 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
   const [isListView, setIsListView] = useState<boolean>(false);
   const [isAddCardModal, setIsAddCardModal] = useState<boolean>(false);
 
+  const isAuth = user?.aud === "authenticated";
+
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
     setUnpinnedList((prevList) =>
@@ -140,6 +142,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           handleEditCardButton={handleEditCardButton}
           handleAddCardButton={handleAddCardButton}
           handleDeleteCardButton={handleDeleteCardButton}
+          isAuth={isAuth}
         />
       ) : (
         <ListViewList
@@ -150,6 +153,7 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
           handleEditCardButton={handleEditCardButton}
           handleAddCardButton={handleAddCardButton}
           handleDeleteCardButton={handleDeleteCardButton}
+          isAuth={isAuth}
         />
       )}
       {isAddCardModal && (
