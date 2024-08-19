@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/config/supabase";
+import { createClient } from "@/utils/supabase/client";
 import CompareList from "@/components/compareList/CompareList";
 
 import { DeckType } from "@/_types/DeckType";
@@ -9,6 +9,7 @@ import { DeckType } from "@/_types/DeckType";
 const ExamplePage = () => {
   const getExampleDeck = async () => {
     try {
+      const supabase = createClient();
       const exampleDeckQuery = await supabase
         .from("decks")
         .select(
@@ -31,7 +32,7 @@ const ExamplePage = () => {
           created_at, 
           edited_at
         )
-      `
+      `,
         )
         .eq("uuid", "9722a717-8ce5-46a0-894d-e1f39cc50d30");
 
