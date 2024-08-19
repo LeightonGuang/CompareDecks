@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { supabase } from "@/config/supabase";
+import { createClient } from "@/utils/supabase/client";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
 import { DeckType } from "@/_types/DeckType";
@@ -14,6 +14,7 @@ const DecksPage = () => {
 
   const getDeckList = async () => {
     try {
+      const supabase = createClient();
       const deckListQuery = await supabase
         .from("decks")
         .select("* ,cards(imgUrl)");

@@ -2,7 +2,7 @@
 
 import { DeckType } from "@/_types/DeckType";
 import CompareList from "@/components/compareList/CompareList";
-import { supabaseAdmin } from "@/config/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
@@ -10,8 +10,9 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [loading, setLoading] = useState(true);
 
   const getDeck = async () => {
+    const supabase = createClient();
     try {
-      const exampleDeckQuery = await supabaseAdmin
+      const exampleDeckQuery = await supabase
         .from("decks")
         .select(
           `
@@ -33,7 +34,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
           created_at, 
           edited_at
         )
-      `
+      `,
         )
         .eq("uuid", params.deckId);
 
