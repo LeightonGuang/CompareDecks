@@ -1,6 +1,16 @@
+"use client";
+
 import Hero from "@/components/Hero";
+import { useUser } from "@/context/UserContext";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { fetchUser } = useUser();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <main
       className="h-dynamic-vh w-full snap-y snap-mandatory flex-col overflow-y-auto scroll-smooth"
