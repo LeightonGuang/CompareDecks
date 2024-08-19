@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CompareCard from "./CompareCard";
 import Image from "next/image";
 import AddCardModal from "./AddCardModal";
-import getUser from "@/utils/getUser";
+import { useUser } from "@/context/UserContext";
 
 import ListViewButton from "./ListViewButton";
 import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
@@ -16,7 +16,7 @@ import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 
 const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
-  const [user, setUser] = useState<any>(null);
+  const { user } = useUser();
   const [orderedList, setOrderedList] = useState<CardType[]>(
     deckData?.cards || [],
   );
@@ -85,15 +85,6 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
       );
     }
   };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getUser();
-      setUser(user);
-      console.log(user);
-    };
-    fetchUser();
-  }, []);
 
   const isAuth: boolean = user?.id === deckData?.user_uid;
 
