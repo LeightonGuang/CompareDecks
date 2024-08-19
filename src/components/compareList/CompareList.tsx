@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import CompareCard from "./CompareCard";
+import { useState } from "react";
+import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 import AddCardModal from "./AddCardModal";
-import { useUser } from "@/context/UserContext";
-
+import GridViewList from "./GridViewList";
+import ListViewList from "./ListViewList";
 import ListViewButton from "./ListViewButton";
-import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
-import unpinIcon from "../../_assets/icons/unpinIcon.svg";
+
 import editIcon from "../../_assets/icons/editIcon.svg";
-import binIcon from "../../_assets/icons/binIcon.svg";
 
 import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
@@ -86,8 +84,6 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
     }
   };
 
-  const isAuth: boolean = user?.id === deckData?.user_uid;
-
   return (
     <div>
       <div
@@ -136,371 +132,25 @@ const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
         <ListViewButton isListView={isListView} setIsListView={setIsListView} />
       </div>
       {!isListView ? (
-        <div
-          className="mt-[1rem] flex rounded-[4px] bg-[#e0e0e0] p-[24px]"
-          id="column-view-container"
-        >
-          <ul
-            className="mb-[1rem] hidden sm:flex sm:flex-col"
-            id="category-names"
-          >
-            <li>
-              <div className="h-[2.5rem]" id="pin-spacer" />
-              <div
-                className="h-[4rem] border-b border-b-[#c5c5c5] md:h-[6rem] xl:h-[8rem]"
-                id="image-spacer"
-              />
-            </li>
-
-            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-              Name
-            </li>
-            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-              Brand
-            </li>
-            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-              Price
-            </li>
-            <li className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]">
-              Year
-            </li>
-            <li className="p-[1rem] text-[0.875rem]">Description</li>
-          </ul>
-          <ul
-            className="scrollbar-top flex w-full snap-x snap-mandatory list-none flex-row overflow-x-auto scroll-smooth pb-[1rem]"
-            id="scroll-list"
-          >
-            {pinnedList.map((cardObj, cardIndex) => (
-              <li
-                className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
-                key={cardIndex}
-                id="pinned-cards"
-              >
-                <button
-                  className="flex w-full justify-center"
-                  onClick={() => handleUnpinButton(cardIndex)}
-                  id="unpin-button"
-                >
-                  <Image
-                    className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]"
-                    src={pinnedIcon}
-                    alt="pinned icon"
-                    height={20}
-                    width={20}
-                  />
-                </button>
-                <div
-                  className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
-                  id="image-container"
-                >
-                  <img
-                    className="w-full object-contain"
-                    src={cardObj.imgUrl}
-                    alt=""
-                  />
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.name}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.brand}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.price}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.year}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.description}
-                </div>
-                <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-                  <button onClick={() => handleEditCardButton()}>
-                    <Image
-                      src={editIcon}
-                      alt="edit icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteCardButton(cardIndex, true)}
-                  >
-                    <Image
-                      src={binIcon}
-                      alt="delete icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                </div>
-              </li>
-            ))}
-            {unpinnedList.map((cardObj, cardIndex) => (
-              <li
-                className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
-                key={cardIndex}
-                id="unpinned-card"
-              >
-                <button
-                  className="flex w-full justify-center"
-                  onClick={() => handlePinButton(cardIndex)}
-                >
-                  <Image
-                    className="m-[0.625rem]"
-                    src={unpinIcon}
-                    alt="pinned icon"
-                    height={20}
-                    width={20}
-                  />
-                </button>
-                <div
-                  className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
-                  id="image-container"
-                >
-                  <img
-                    className="h-min w-full object-contain"
-                    src={cardObj.imgUrl}
-                    alt=""
-                  />
-                </div>
-                <div
-                  className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.name}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.brand}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.price}
-                </div>
-                <div
-                  className="min-h-[3.375rem] border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.year}
-                </div>
-                <div
-                  className="min-h-[3.375rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {cardObj.description}
-                </div>
-                <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-                  <button onClick={() => handleEditCardButton()}>
-                    <Image
-                      src={editIcon}
-                      alt="edit icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteCardButton(cardIndex, false)}
-                  >
-                    <Image
-                      src={binIcon}
-                      alt="delete icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                </div>
-              </li>
-            ))}
-            <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
-              <button
-                className="h-full w-full text-[4rem] font-[400]"
-                onClick={() => handleAddCardButton()}
-              >
-                <span>+</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+        <GridViewList
+          pinnedList={pinnedList}
+          unpinnedList={unpinnedList}
+          handlePinButton={handlePinButton}
+          handleUnpinButton={handleUnpinButton}
+          handleEditCardButton={handleEditCardButton}
+          handleAddCardButton={handleAddCardButton}
+          handleDeleteCardButton={handleDeleteCardButton}
+        />
       ) : (
-        <div
-          className="w-full overflow-x-auto py-[1rem]"
-          id="table-view-container"
-        >
-          <table className="w-full">
-            <thead className="">
-              <tr>
-                <th></th>
-                <th></th>
-                <th className="px-[1rem] text-left">Image</th>
-                <th className="px-[1rem] text-left">Name</th>
-                <th className="px-[1rem] text-left">Brand</th>
-                <th className="px-[1rem] text-left">Year</th>
-                <th className="px-[1rem] text-left">Price</th>
-                <th className="px-[1rem] text-left">Description</th>
-                <th>action</th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {pinnedList.map((cardObj, cardIndex) => (
-                <tr
-                  className={`max-h-[3rem] ${
-                    cardIndex % 2 === 0 && `bg-[#e0e0e0]`
-                  }`}
-                  key={cardIndex}
-                >
-                  <td className="px-[1rem]">{cardIndex + 1}.</td>
-                  <td className="px-[1rem]">
-                    <button
-                      className="h-[1.25rem] w-[1.25rem]"
-                      onClick={() => handleUnpinButton(cardIndex)}
-                    >
-                      <Image
-                        className="h-[1.25rem] w-[1.25rem]"
-                        src={pinnedIcon}
-                        alt="pinned icon"
-                      />
-                    </button>
-                  </td>
-                  <td className="px-[1rem]">
-                    <div className="flex max-h-[4rem] w-[6rem] justify-center bg-black">
-                      <img
-                        className="h-[4rem] object-contain"
-                        src={cardObj.imgUrl}
-                        alt={cardObj.brand + " " + cardObj.name}
-                        id="item-image"
-                      />
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.name}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.brand}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.year}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.price}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    <p>{cardObj.description}</p>
-                  </td>
-                  <td>
-                    <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                      <button>
-                        <Image
-                          src={editIcon}
-                          alt="edit icon"
-                          height={20}
-                          width={20}
-                        />
-                      </button>
-                      <button>
-                        <Image
-                          src={binIcon}
-                          alt="bin icon"
-                          height={20}
-                          width={20}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {unpinnedList.map((cardObj, cardIndex) => (
-                <tr
-                  className={`max-h-[3rem] ${
-                    (pinnedList.length + cardIndex) % 2 === 0 && `bg-[#e0e0e0]`
-                  }`}
-                  key={cardIndex}
-                >
-                  <td className="px-[1rem]">
-                    {pinnedList.length + cardIndex + 1}.
-                  </td>
-                  <td className="px-[1rem]">
-                    <button onClick={() => handlePinButton(cardIndex)}>
-                      <Image
-                        className="min-h-[1.25rem] min-w-[1.25rem]"
-                        src={unpinIcon}
-                        alt="unpin icon"
-                        width={20}
-                        height={20}
-                      />
-                    </button>
-                  </td>
-                  <td className="px-[1rem]">
-                    <div className="flex max-h-[4rem] w-[6rem] justify-center bg-black">
-                      <img
-                        className="h-[4rem] object-contain"
-                        src={cardObj.imgUrl}
-                        alt={cardObj.brand + " " + cardObj.name}
-                        id="item-image"
-                      />
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.name}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.brand}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.year}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    {cardObj.price}
-                  </td>
-                  <td className="whitespace-nowrap px-[1rem]">
-                    <p>{cardObj.description}</p>
-                  </td>
-                  <td>
-                    <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                      <button>
-                        <Image
-                          className="min-h-[1.25rem] min-w-[1.25rem]"
-                          src={editIcon}
-                          alt="edit icon"
-                          width={20}
-                          height={20}
-                        />
-                      </button>
-                      <button>
-                        <Image
-                          className="min-h-[1.25rem] min-w-[1.25rem]"
-                          src={binIcon}
-                          alt="bin icon"
-                          width={20}
-                          height={20}
-                        />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ListViewList
+          pinnedList={pinnedList}
+          unpinnedList={unpinnedList}
+          handlePinButton={handlePinButton}
+          handleUnpinButton={handleUnpinButton}
+          handleEditCardButton={handleEditCardButton}
+          handleAddCardButton={handleAddCardButton}
+          handleDeleteCardButton={handleDeleteCardButton}
+        />
       )}
       {isAddCardModal && (
         <AddCardModal
