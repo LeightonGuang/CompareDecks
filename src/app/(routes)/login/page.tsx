@@ -5,29 +5,20 @@ import googleIcon from "../../../_assets/icons/googleIcon.svg";
 import githubIcon from "../../../_assets/icons/githubIcon.svg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useUser } from "@/context/UserContext";
 
 const LoginPage = () => {
-  // const handleGoogleLogin = async (e: any) => {
-  //   "use server";
-  //   e.preventDefault();
-  //   const origin = headers().get("origin");
-  //   const { data, error } = await supabase.auth.signInWithOAuth({
-  //     provider: "google",
-  //     options: { redirectTo: `${origin}` },
-  //   });
+  const { user, signInWithGoogle, signInWithEmail, fetchUser } = useUser();
+  const router = useRouter();
+  const emailLoginForm = useRef<HTMLFormElement>(null);
 
-  //   if (data) {
-  //     console.log(data);
-  //   }
+  if (user) router.push("/");
 
-  //   if (error) {
-  //     console.error(error);
-  //   } else {
-  //     return redirect(data.url);
-  //   }
-  // };
+  const handleGoogleLogin = async (e: any) => {
+    e.preventDefault();
+    signInWithGoogle();
+  };
 
   // const handleGithubLogin = async () => {
   //   "use server";
@@ -44,45 +35,17 @@ const LoginPage = () => {
   //   }
   // };
 
-  const { user, fetchUserData } = useUser();
-  const router = useRouter();
-  const emailLoginForm = useRef<HTMLFormElement>(null);
-
-  if (user) {
-    router.push("/");
-  }
-
   const handleLogin = async () => {
     const formData = new FormData(emailLoginForm.current!);
     const email = formData.get("email");
     const password = formData.get("password");
 
-    try {
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      };
-
-      const response = await fetch("/api/login", options);
-      console.log(response);
-
-      if (response.ok) {
-        fetchUserData();
-        router.push("/");
-      } else {
-        console.error("Failed to login");
-        router.push("/error");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    signInWithEmail(email as string, password as string);
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <main
@@ -101,7 +64,11 @@ const LoginPage = () => {
             className="mt-[1.5rem] flex flex-col gap-[1rem] text-[0.875rem] text-[#020817]"
             id="sign-in-with-container"
           >
-            <form className="w-full" id="google-login-form">
+            <form
+              className="w-full"
+              id="google-login-form"
+              onSubmit={handleGoogleLogin}
+            >
               <button className="flex w-full items-center justify-center gap-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
                 <Image
                   src={googleIcon}
