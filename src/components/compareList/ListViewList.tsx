@@ -14,6 +14,7 @@ const ListViewList = ({
   handleEditCardButton,
   handleAddCardButton,
   handleDeleteCardButton,
+  isAuth,
 }: ListViewProps) => {
   return (
     <div className="w-full overflow-x-auto py-[1rem]" id="table-view-container">
@@ -28,7 +29,7 @@ const ListViewList = ({
             <th className="px-[1rem] text-left">Year</th>
             <th className="px-[1rem] text-left">Price</th>
             <th className="px-[1rem] text-left">Description</th>
-            <th>action</th>
+            {isAuth && <th>action</th>}
           </tr>
         </thead>
         <tbody className="">
@@ -69,28 +70,30 @@ const ListViewList = ({
               <td className="whitespace-nowrap px-[1rem]">
                 <p>{cardObj.description}</p>
               </td>
-              <td>
-                <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                  <button onClick={() => handleEditCardButton()}>
-                    <Image
-                      src={editIcon}
-                      alt="edit icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteCardButton(cardIndex, true)}
-                  >
-                    <Image
-                      src={binIcon}
-                      alt="bin icon"
-                      height={20}
-                      width={20}
-                    />
-                  </button>
-                </div>
-              </td>
+              {isAuth && (
+                <td>
+                  <div className="flex justify-center gap-mobile-spacing px-[1rem]">
+                    <button onClick={() => handleEditCardButton()}>
+                      <Image
+                        src={editIcon}
+                        alt="edit icon"
+                        height={20}
+                        width={20}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCardButton(cardIndex, true)}
+                    >
+                      <Image
+                        src={binIcon}
+                        alt="bin icon"
+                        height={20}
+                        width={20}
+                      />
+                    </button>
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
           {unpinnedList.map((cardObj, cardIndex) => (
@@ -131,30 +134,32 @@ const ListViewList = ({
               <td className="whitespace-nowrap px-[1rem]">
                 <p>{cardObj.description}</p>
               </td>
-              <td>
-                <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                  <button onClick={() => handleEditCardButton()}>
-                    <Image
-                      className="min-h-[1.25rem] min-w-[1.25rem]"
-                      src={editIcon}
-                      alt="edit icon"
-                      width={20}
-                      height={20}
-                    />
-                  </button>
-                  <button
-                    onClick={() => handleDeleteCardButton(cardIndex, false)}
-                  >
-                    <Image
-                      className="min-h-[1.25rem] min-w-[1.25rem]"
-                      src={binIcon}
-                      alt="bin icon"
-                      width={20}
-                      height={20}
-                    />
-                  </button>
-                </div>
-              </td>
+              {isAuth && (
+                <td>
+                  <div className="flex justify-center gap-mobile-spacing px-[1rem]">
+                    <button onClick={() => handleEditCardButton()}>
+                      <Image
+                        className="min-h-[1.25rem] min-w-[1.25rem]"
+                        src={editIcon}
+                        alt="edit icon"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCardButton(cardIndex, false)}
+                    >
+                      <Image
+                        className="min-h-[1.25rem] min-w-[1.25rem]"
+                        src={binIcon}
+                        alt="bin icon"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

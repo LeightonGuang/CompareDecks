@@ -15,6 +15,7 @@ const GridViewList = ({
   handleEditCardButton,
   handleAddCardButton,
   handleDeleteCardButton,
+  isAuth,
 }: ListViewProps) => {
   return (
     <div
@@ -107,14 +108,26 @@ const GridViewList = ({
             >
               {cardObj.description}
             </div>
-            <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-              <button onClick={() => handleEditCardButton()}>
-                <Image src={editIcon} alt="edit icon" height={20} width={20} />
-              </button>
-              <button onClick={() => handleDeleteCardButton(cardIndex, true)}>
-                <Image src={binIcon} alt="delete icon" height={20} width={20} />
-              </button>
-            </div>
+            {isAuth && (
+              <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
+                <button onClick={() => handleEditCardButton()}>
+                  <Image
+                    src={editIcon}
+                    alt="edit icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+                <button onClick={() => handleDeleteCardButton(cardIndex, true)}>
+                  <Image
+                    src={binIcon}
+                    alt="delete icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+              </div>
+            )}
           </li>
         ))}
         {unpinnedList.map((cardObj, cardIndex) => (
@@ -175,24 +188,40 @@ const GridViewList = ({
             >
               {cardObj.description}
             </div>
-            <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-              <button onClick={() => handleEditCardButton()}>
-                <Image src={editIcon} alt="edit icon" height={20} width={20} />
-              </button>
-              <button onClick={() => handleDeleteCardButton(cardIndex, false)}>
-                <Image src={binIcon} alt="delete icon" height={20} width={20} />
-              </button>
-            </div>
+            {isAuth && (
+              <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
+                <button onClick={() => handleEditCardButton()}>
+                  <Image
+                    src={editIcon}
+                    alt="edit icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+                <button
+                  onClick={() => handleDeleteCardButton(cardIndex, false)}
+                >
+                  <Image
+                    src={binIcon}
+                    alt="delete icon"
+                    height={20}
+                    width={20}
+                  />
+                </button>
+              </div>
+            )}
           </li>
         ))}
-        <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
-          <button
-            className="h-full w-full text-[4rem] font-[400]"
-            onClick={() => handleAddCardButton()}
-          >
-            <span>+</span>
-          </button>
-        </li>
+        {isAuth && (
+          <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
+            <button
+              className="h-full w-full text-[4rem] font-[400]"
+              onClick={() => handleAddCardButton()}
+            >
+              <span>+</span>
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );
