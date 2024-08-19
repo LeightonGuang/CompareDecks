@@ -6,7 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const { user, setUser, signOut, fetchUser } = useUser();
+  const { user, signOut, fetchUser } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -14,7 +14,7 @@ const Header = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      console.log("Sign out successful");
+      fetchUser();
       router.push("/");
     } catch (error) {
       console.error(error);
