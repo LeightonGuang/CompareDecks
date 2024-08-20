@@ -11,6 +11,6 @@ export async function login(email: string, password: string) {
 
   if (error) {
     console.log("Supabase signIn Error: " + error.message);
-    throw new Error(error.message);
+    return { error: error.message };
   }
 }
