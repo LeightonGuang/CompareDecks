@@ -8,6 +8,7 @@ interface UserContextType {
   user: any;
   setUser: (user: any) => void;
   isLoading: boolean;
+  errorMessage: string;
   fetchUser: () => Promise<void>;
   setIsLoading: (isLoading: boolean) => void;
   signInWithGoogle: () => Promise<void>;
@@ -20,27 +21,18 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
     console.log("user updated", user);
   }, [user]);
 
-  const getUser = async () => {
-    const superbase = createClient();
-    const { data, error } = await superbase.auth.getUser();
-
-    if (error || !data?.user) {
-      return null;
-    } else {
-      return data.user;
-    }
-  };
-
   const value: any = {
     user,
     setUser,
     isLoading,
+    errorMessage,
 
     fetchUser: async () => {
       const supabase = createClient();
@@ -49,7 +41,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         console.log("user", data.user);
         setUser(data.user);
         setIsLoading(false);
-      } else {
+      }
+      //  else if (error) {
+      //   console.error("fetchUser error", error);
+      //   setUser(undefined);
+      //   setIsLoading(false);
+      // }
+      else {
         console.log("no user");
         setUser(undefined);
         setIsLoading(false);
@@ -89,12 +87,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
         const response = await fetch("/api/login", options);
         console.log(response);
+        const responseData = await response.json();
 
         if (response.ok) {
           router.push("/");
         } else {
-          console.error("Failed to login");
-          router.push("/error");
+          console.error(responseData.message.error);
+          setErrorMessage(responseData.message.error);
         }
       } catch (error) {
         console.error("Error during email login: ", error);
