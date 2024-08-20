@@ -9,7 +9,8 @@ import { useEffect, useRef } from "react";
 import { useUser } from "@/context/UserContext";
 
 const LoginPage = () => {
-  const { user, signInWithGoogle, signInWithEmail, fetchUser } = useUser();
+  const { user, signInWithGoogle, signInWithEmail, fetchUser, errorMessage } =
+    useUser();
   const router = useRouter();
   const emailLoginForm = useRef<HTMLFormElement>(null);
 
@@ -115,6 +116,11 @@ const LoginPage = () => {
                 name="password"
                 type="password"
               />
+              {errorMessage && (
+                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                  {errorMessage}
+                </p>
+              )}
             </label>
 
             <button
