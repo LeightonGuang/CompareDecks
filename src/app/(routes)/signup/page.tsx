@@ -93,7 +93,7 @@ const SignupPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Username*
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${errors.hasEmptyUsernameError && "border-red-500"}`}
                 placeholder="John Smith"
                 name="username"
                 type="text"
@@ -101,7 +101,7 @@ const SignupPage = () => {
                 onChange={handleFormChange}
               />
               {errors.hasEmptyUsernameError && (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Please enter a username
                 </p>
               )}
@@ -109,7 +109,7 @@ const SignupPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Email*
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${errors.hasEmptyEmailError && "border-red-500"}`}
                 placeholder="m@example.com"
                 name="email"
                 type="email"
@@ -117,7 +117,7 @@ const SignupPage = () => {
                 onChange={handleFormChange}
               />
               {errors.hasEmptyEmailError && (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Please enter an email
                 </p>
               )}
@@ -125,24 +125,24 @@ const SignupPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Password*
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${(errors.hasEmptyPasswordError || errors.hasAlphaNumericError || errors.isPasswordLengthError) && "border-red-500"}`}
                 name="password"
                 type="password"
                 value={formState.password}
                 onChange={handleFormChange}
               />
               {errors.hasEmptyPasswordError ? (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Please enter a password
                 </p>
               ) : errors.hasAlphaNumericError ? (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Password must contain at least one letter and one number (eg.
                   abcd1234)
                 </p>
               ) : (
                 errors.isPasswordLengthError && (
-                  <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                  <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                     Password must contain at least 8 characters
                   </p>
                 )
@@ -151,19 +151,19 @@ const SignupPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Confirm Password*
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${errors.hasEmptyConfirmPasswordError && "border-red-500"}`}
                 name="confirmPassword"
                 type="password"
                 value={formState.confirmPassword}
                 onChange={handleFormChange}
               />
               {errors.hasEmptyConfirmPasswordError ? (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Please confirm your password
                 </p>
               ) : (
                 errors.isPasswordMatchError && (
-                  <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                  <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                     Passwords do not match
                   </p>
                 )
