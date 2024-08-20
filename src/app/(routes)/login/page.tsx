@@ -103,7 +103,7 @@ const LoginPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Email
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${errorMessage && "border-red-500"}`}
                 placeholder="m@example.com"
                 name="email"
                 type="email"
@@ -112,12 +112,12 @@ const LoginPage = () => {
             <label className="flex flex-col text-[0.875rem] font-[500]">
               Password
               <input
-                className="mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem]"
+                className={`mt-[0.5rem] rounded-[0.375rem] border border-[#E2E8F0] px-[0.75rem] py-[0.5rem] font-[0.875rem] ${errorMessage && "border-red-500"}`}
                 name="password"
                 type="password"
               />
               {errorMessage && (
-                <p className="ml-[0.5rem] mt-[0.5rem] text-[0.75rem] text-red-500">
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   {errorMessage}
                 </p>
               )}
@@ -136,7 +136,7 @@ const LoginPage = () => {
           </button>
 
           <p className="mt-[1rem] text-[0.875rem] text-[#5e6d82]">
-            {`Don't have an account?`}
+            {`Don't have an account? `}
             <Link className="underline" href={"/signup"}>
               Sign up
             </Link>
