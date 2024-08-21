@@ -44,7 +44,9 @@ const Header = () => {
         className="hover:underline"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        {user.user_metadata.name ? user.user_metadata.name : "User"}
+        {user.user_metadata.name
+          ? user.user_metadata.name
+          : user.email.split("@")[0]}
       </button>
       {isDropdownOpen && (
         <div

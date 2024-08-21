@@ -43,7 +43,9 @@ const AccountPage = () => {
                   id="user-info"
                 >
                   <h2 className="text-[1.5rem] font-[700]">
-                    {user?.user_metadata.name}
+                    {user.user_metadata.name
+                      ? user.user_metadata.name
+                      : user.email.split("@")[0]}
                   </h2>
                   <p className="text-[1rem] text-[#5e6d8c]">{user?.email}</p>
                   <p className="text-[1rem] text-[#5e6d8c]">
