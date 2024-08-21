@@ -11,17 +11,17 @@ const AccountPage = () => {
   const { user, isLoading, fetchUser } = useUser();
   const router = useRouter();
 
-  if (!user) {
-    router.push("/login");
-  }
-
   useEffect(() => {
-    fetchUser;
+    fetchUser();
   }, []);
+
+  if (user === undefined) {
+    router.push("/");
+  }
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading && user && (
         <main
           className="flex h-dynamic-vh items-center justify-center"
           id="account-page"
