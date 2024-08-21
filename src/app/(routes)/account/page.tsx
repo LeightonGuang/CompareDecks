@@ -15,7 +15,7 @@ const AccountPage = () => {
     fetchUser();
   }, []);
 
-  if (user === undefined) {
+  if (user === undefined && !isLoading) {
     router.push("/");
   }
 
