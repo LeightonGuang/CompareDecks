@@ -9,8 +9,14 @@ import { useEffect, useRef } from "react";
 import { useUser } from "@/context/UserContext";
 
 const LoginPage = () => {
-  const { user, signInWithGoogle, signInWithEmail, fetchUser, errorMessage } =
-    useUser();
+  const {
+    user,
+    signInWithGoogle,
+    signInWithEmail,
+    fetchUser,
+    errorMessage,
+    setErrorMessage,
+  } = useUser();
   const router = useRouter();
   const emailLoginForm = useRef<HTMLFormElement>(null);
 
@@ -45,6 +51,7 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
+    setErrorMessage("");
     fetchUser();
   }, []);
 
