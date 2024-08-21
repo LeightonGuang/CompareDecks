@@ -9,6 +9,7 @@ interface UserContextType {
   setUser: (user: any) => void;
   isLoading: boolean;
   errorMessage: string;
+  setErrorMessage: (errorMessage: string) => void;
   fetchUser: () => Promise<void>;
   setIsLoading: (isLoading: boolean) => void;
   signInWithGoogle: () => Promise<void>;
@@ -33,6 +34,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setUser,
     isLoading,
     errorMessage,
+    setErrorMessage,
 
     fetchUser: async () => {
       const supabase = createClient();
@@ -41,13 +43,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         console.log("user", data.user);
         setUser(data.user);
         setIsLoading(false);
-      }
-      //  else if (error) {
-      //   console.error("fetchUser error", error);
-      //   setUser(undefined);
-      //   setIsLoading(false);
-      // }
-      else {
+      } else {
         console.log("no user");
         setUser(undefined);
         setIsLoading(false);
