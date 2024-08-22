@@ -110,7 +110,7 @@ const GridViewList = ({
             </div>
             {isAuth && (
               <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-                <button onClick={() => handleEditCardButton()}>
+                <button onClick={() => handleEditCardButton(cardIndex, true)}>
                   <Image
                     src={editIcon}
                     alt="edit icon"
@@ -190,7 +190,7 @@ const GridViewList = ({
             </div>
             {isAuth && (
               <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-                <button onClick={() => handleEditCardButton()}>
+                <button onClick={() => handleEditCardButton(cardIndex, false)}>
                   <Image
                     src={editIcon}
                     alt="edit icon"
