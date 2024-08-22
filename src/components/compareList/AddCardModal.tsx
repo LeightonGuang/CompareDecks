@@ -49,11 +49,11 @@ const AddCardModal = ({
       setIsError({ ...isError, name: true });
       return;
     } else {
+      setOrderedList([...orderedList, formData]);
+      setUnpinnedList([...unpinnedList, formData]);
       setIsError({ ...isError, name: false });
+      setIsAddCardModal(false);
     }
-    setOrderedList([...orderedList, formData]);
-    setUnpinnedList([...unpinnedList, formData]);
-    setIsAddCardModal(false);
   };
 
   return (
