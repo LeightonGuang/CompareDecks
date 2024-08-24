@@ -14,7 +14,12 @@ import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 import EditCardModal from "./EditCardModal";
 
-const CompareList = ({ deckData }: { deckData: DeckType | null }) => {
+interface Props {
+  deckData: DeckType | null;
+  setDeckData: any;
+}
+
+const CompareList = ({ deckData, setDeckData }: Props) => {
   const { user } = useUser();
   const [formData, setFormData] = useState<CardType | null>(null);
   const [orderedList, setOrderedList] = useState<CardType[]>(
