@@ -21,7 +21,7 @@ interface Props {
 
 const CompareList = ({ deckData, setDeckData }: Props) => {
   const { user } = useUser();
-  const [formData, setFormData] = useState<CardType | null>(null);
+  const [cardFormData, setCardFormData] = useState<CardType | null>(null);
   const [orderedList, setOrderedList] = useState<CardType[]>(
     deckData?.cards || [],
   );
@@ -81,9 +81,9 @@ const CompareList = ({ deckData, setDeckData }: Props) => {
   const handleEditCardButton = (cardIndex: number, isPinned: boolean) => {
     setIsEditCardModal(true);
     if (isPinned) {
-      setFormData(pinnedList[cardIndex]);
+      setCardFormData(pinnedList[cardIndex]);
     } else if (!isPinned) {
-      setFormData(unpinnedList[cardIndex]);
+      setCardFormData(unpinnedList[cardIndex]);
     }
   };
 
@@ -180,7 +180,7 @@ const CompareList = ({ deckData, setDeckData }: Props) => {
       )}
       {isEditCardModal && (
         <EditCardModal
-          formData={formData}
+          cardFormData={cardFormData}
           orderedList={orderedList}
           setOrderedList={setOrderedList}
           pinnedList={pinnedList}

@@ -2,7 +2,7 @@ import { CardType } from "@/_types/CardType";
 import React, { useState } from "react";
 
 interface Props {
-  formData: CardType | null;
+  cardFormData: CardType | null;
   orderedList: CardType[];
   setOrderedList: any;
   pinnedList: CardType[];
@@ -12,7 +12,7 @@ interface Props {
   setIsEditCardModal: any;
 }
 const EditCardModal = ({
-  formData,
+  cardFormData,
   orderedList,
   setOrderedList,
   pinnedList,
@@ -21,7 +21,7 @@ const EditCardModal = ({
   setUnpinnedList,
   setIsEditCardModal,
 }: Props) => {
-  const [editFormData, setEditFormData] = useState<CardType | null>(formData);
+  const [editFormData, setEditFormData] = useState<CardType | null>(cardFormData);
 
   const [isError, setIsError] = useState({
     name: false,
@@ -41,12 +41,12 @@ const EditCardModal = ({
       setIsError({ ...isError, name: true });
       return;
     } else {
-      if (formData) {
+      if (cardFormData) {
         const newOrderedList = [...orderedList];
-        const orderedListIndex = orderedList.indexOf(formData);
+        const orderedListIndex = orderedList.indexOf(cardFormData);
 
-        const indexInPinnedList = pinnedList.indexOf(formData);
-        const indexInUnpinnedList = unpinnedList.indexOf(formData);
+        const indexInPinnedList = pinnedList.indexOf(cardFormData);
+        const indexInUnpinnedList = unpinnedList.indexOf(cardFormData);
 
         if (editFormData) {
           newOrderedList[orderedListIndex] = editFormData;
