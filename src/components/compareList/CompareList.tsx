@@ -13,14 +13,11 @@ import editIcon from "../../_assets/icons/editIcon.svg";
 import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 import EditCardModal from "./EditCardModal";
+import { useDeck } from "@/context/DeckContext";
 
-interface Props {
-  deckData: DeckType | null;
-  setDeckData: any;
-}
-
-const CompareList = ({ deckData, setDeckData }: Props) => {
+const CompareList = () => {
   const { user } = useUser();
+  const { deckData } = useDeck();
   const [cardFormData, setCardFormData] = useState<CardType | null>(null);
   const [orderedList, setOrderedList] = useState<CardType[]>(
     deckData?.cards || [],
