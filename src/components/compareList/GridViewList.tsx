@@ -46,7 +46,7 @@ const GridViewList = ({
         <li className="p-[1rem] text-[0.875rem]">Description</li>
       </ul>
       <ul
-        className="scrollbar-top flex w-full snap-x snap-mandatory list-none flex-row overflow-x-auto scroll-smooth pb-[1rem]"
+        className="scrollbar-top flex min-h-[15rem] w-full snap-x snap-mandatory list-none flex-row overflow-x-auto scroll-smooth pb-[1rem]"
         id="scroll-list"
       >
         {pinnedList.map((cardObj: any, cardIndex: number) => (
