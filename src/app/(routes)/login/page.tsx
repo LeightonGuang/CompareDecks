@@ -47,7 +47,7 @@ const LoginPage = () => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    signInWithEmail(email as string, password as string);
+    await signInWithEmail(email as string, password as string);
   };
 
   useEffect(() => {
