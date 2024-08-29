@@ -35,8 +35,6 @@ const SignupPage = () => {
     isPasswordMatchError: false,
   });
 
-  const router = useRouter();
-
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -44,6 +42,7 @@ const SignupPage = () => {
   };
 
   const handleSignUp = async () => {
+    const router = useRouter();
     try {
       const options = {
         method: "POST",
@@ -59,19 +58,14 @@ const SignupPage = () => {
       };
 
       const response = await fetch("/api/signup", options);
-      console.log(response);
 
       if (response.ok) {
         console.log("Sign up successful");
         router.push("/");
       } else {
         const errorData = await response.json();
-        if (response.status === 400 && errorData.errors) {
-          console.error("Form validation errors");
-          setErrors(errorData.errors);
-        } else {
-          console.error("Failed to sign up" + response.statusText);
-        }
+        const errors = errorData.errors;
+        setErrors(errors);
       }
     } catch (error) {
       console.error("error: " + error);
