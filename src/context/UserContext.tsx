@@ -2,37 +2,43 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface UserContextType {
   user: any;
   setUser: (user: any) => void;
-  isLoading: boolean;
+  isUserFetched: boolean;
+  setIsUserFetched: (isLoading: boolean) => void;
   errorMessage: string;
   setErrorMessage: (errorMessage: string) => void;
   fetchUser: () => Promise<void>;
-  setIsLoading: (isLoading: boolean) => void;
+  signUpWithEmail: (
+    username: string,
+    email: string,
+    password: string,
+    confirmPassword: string,
+  ) => Promise<any>;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  passwordChange: (
+    currentPassword: string,
+    newPassword: string,
+  ) => Promise<any>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isUserFetched, setIsUserFetched] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
-
-  useEffect(() => {
-    console.log("user updated", user);
-  }, [user]);
 
   const value: any = {
     user,
     setUser,
-    isLoading,
+    isUserFetched,
     errorMessage,
     setErrorMessage,
 
@@ -42,11 +48,47 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       if (data.user) {
         console.log("user", data.user);
         setUser(data.user);
-        setIsLoading(false);
+        setIsUserFetched(false);
       } else {
         console.log("no user");
         setUser(undefined);
-        setIsLoading(false);
+        setIsUserFetched(false);
+      }
+    },
+
+    signUpWithEmail: async (
+      username: string,
+      email: string,
+      password: string,
+      confirmPassword: string,
+    ) => {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+            confirmPassword,
+          }),
+        };
+
+        const response = await fetch("/api/signup", options);
+
+        if (response.ok) {
+          console.log("Sign up successful");
+          router.push("/");
+        } else {
+          const errorData = await response.json();
+          const errors = errorData.errors;
+          return errors;
+        }
+      } catch (error) {
+        console.error("error: " + error);
+        router.push("/error");
       }
     },
 
@@ -91,6 +133,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           console.error(responseData.message.error);
           setErrorMessage(responseData.message.error);
         }
+        return response;
       } catch (error) {
         console.error("Error during email login: ", error);
       }
@@ -112,6 +155,32 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         console.error("An error occurred while logging out:", error);
+      }
+    },
+
+    passwordChange: async (currentPassword: string, newPassword: string) => {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+        };
+
+        const response = await fetch("/api/passwordChange", options);
+        const responseData = await response.json();
+        if (response.ok) {
+          console.log(responseData.message);
+        } else {
+          console.error(responseData.message.error);
+          setErrorMessage(responseData.message.error);
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   };

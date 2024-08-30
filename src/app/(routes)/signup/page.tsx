@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { SignupFormProps } from "@/_types/SignupFormProps";
+import { useUser } from "@/context/UserContext";
 
 interface ErrorProps {
   hasEmptyUsernameError: boolean;
@@ -17,13 +18,13 @@ interface ErrorProps {
 }
 
 const SignupPage = () => {
+  const { user, signUpWithEmail } = useUser();
   const [formState, setFormState] = useState<SignupFormProps>({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
   const [errors, setErrors] = useState<ErrorProps>({
     hasEmptyUsernameError: false,
     hasEmptyEmailError: false,
@@ -35,6 +36,8 @@ const SignupPage = () => {
     isPasswordMatchError: false,
   });
 
+  const router = useRouter();
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -42,34 +45,16 @@ const SignupPage = () => {
   };
 
   const handleSignUp = async () => {
-    const router = useRouter();
     try {
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formState.username,
-          email: formState.email,
-          password: formState.password,
-          confirmPassword: formState.confirmPassword,
-        }),
-      };
-
-      const response = await fetch("/api/signup", options);
-
-      if (response.ok) {
-        console.log("Sign up successful");
-        router.push("/");
-      } else {
-        const errorData = await response.json();
-        const errors = errorData.errors;
-        setErrors(errors);
-      }
+      const response = await signUpWithEmail(
+        formState.username,
+        formState.email,
+        formState.password,
+        formState.confirmPassword,
+      );
+      setErrors(response);
     } catch (error) {
       console.error("error: " + error);
-      router.push("/error");
     }
   };
 
