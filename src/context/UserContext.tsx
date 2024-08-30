@@ -21,7 +21,7 @@ interface UserContextType {
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
-  passwordChange: (
+  updatePassword: (
     currentPassword: string,
     newPassword: string,
   ) => Promise<any>;
@@ -158,7 +158,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
 
-    passwordChange: async (currentPassword: string, newPassword: string) => {
+    updatePassword: async (currentPassword: string, newPassword: string) => {
       try {
         const options = {
           method: "POST",
@@ -171,7 +171,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           }),
         };
 
-        const response = await fetch("/api/passwordChange", options);
+        const response = await fetch("/api/updatePassword", options);
         const responseData = await response.json();
         if (response.ok) {
           console.log(responseData.message);
