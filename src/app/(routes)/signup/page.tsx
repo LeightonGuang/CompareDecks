@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { SignupFormProps } from "@/_types/SignupFormProps";
@@ -18,7 +18,7 @@ interface ErrorProps {
 }
 
 const SignupPage = () => {
-  const { user, signUpWithEmail } = useUser();
+  const { signUpWithEmail, fetchUser } = useUser();
   const [formState, setFormState] = useState<SignupFormProps>({
     username: "",
     email: "",
@@ -57,6 +57,10 @@ const SignupPage = () => {
       console.error("error: " + error);
     }
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
     <main className="flex h-dynamic-vh items-center justify-center overflow-y-auto">
