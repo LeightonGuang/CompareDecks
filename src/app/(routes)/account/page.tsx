@@ -1,23 +1,31 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import Image from "next/image";
 
 import userIcon from "../../../_assets/icons/userIcon.svg";
 import { useRouter } from "next/navigation";
+import ChangePasswordModal from "@/components/account/ChangePasswordModal";
 
 const AccountPage = () => {
-  const { user, isLoading, fetchUser } = useUser();
+  const { user, fetchUser } = useUser();
   const router = useRouter();
+  const [isPasswordChange, setIsPasswordChange] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchUser();
+    setIsLoading(false);
   }, []);
 
   if (user === undefined && !isLoading) {
     router.push("/");
   }
+
+  const handlePasswordChangeModal = async () => {
+    setIsPasswordChange(!isPasswordChange);
+  };
 
   return (
     <>
@@ -56,7 +64,10 @@ const AccountPage = () => {
                   <button className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
                     Change Name
                   </button>
-                  <button className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
+                  <button
+                    className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]"
+                    onClick={handlePasswordChangeModal}
+                  >
                     Change Password
                   </button>
                   <button className="rounded-[0.375rem] bg-[#DC2828] px-[1rem] py-[0.5rem] text-white">
@@ -65,6 +76,10 @@ const AccountPage = () => {
                 </div>
               </div>
             </div>
+          )}
+
+          {isPasswordChange && (
+            <ChangePasswordModal setIsPasswordChange={setIsPasswordChange} />
           )}
         </main>
       )}
