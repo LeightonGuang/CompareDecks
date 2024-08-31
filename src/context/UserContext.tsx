@@ -21,6 +21,7 @@ interface UserContextType {
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  updateUsername: (username: string) => Promise<any>;
   updatePassword: (
     currentPassword: string,
     newPassword: string,
@@ -155,6 +156,32 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         console.error("An error occurred while logging out:", error);
+      }
+    },
+
+    updateUsername: async (username: string) => {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            username,
+          }),
+        };
+
+        const response = await fetch("/api/updateUsername", options);
+        const responseData = await response.json();
+        if (response.ok) {
+          console.log(responseData.message);
+        } else {
+          console.error(responseData.message.error);
+          return responseData.message.error;
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
 
