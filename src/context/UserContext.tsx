@@ -159,7 +159,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
 
-    updateUsername: async (username: string) => {
+    updateUsername: async (newUsername: string) => {
       try {
         const options = {
           method: "POST",
@@ -168,7 +168,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           },
           body: JSON.stringify({
             userId: user.id,
-            username,
+            newUsername,
           }),
         };
 
@@ -176,6 +176,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         const responseData = await response.json();
         if (response.ok) {
           console.log(responseData.message);
+          return { success: true };
         } else {
           console.error(responseData.message.error);
           return responseData.message.error;
