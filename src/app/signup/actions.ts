@@ -8,7 +8,7 @@ const validateSignUpData = ({
   password,
   confirmPassword,
 }: SignupFormProps) => {
-  const data = {
+  const errors = {
     hasEmptyUsernameError: username === "",
     hasEmptyEmailError: email === "",
     hasEmptyPasswordError: password === "",
@@ -19,10 +19,10 @@ const validateSignUpData = ({
     isPasswordMatchError: password !== confirmPassword,
   };
 
-  const hasValidationErrors: boolean = Object.values(data).some(
+  const hasValidationErrors: boolean = Object.values(errors).some(
     (error) => error,
   );
-  return { data, hasValidationErrors };
+  return { errors, hasValidationErrors };
 };
 
 export async function signUp(
@@ -30,11 +30,8 @@ export async function signUp(
   email: string,
   password: string,
   confirmPassword: string,
-) {
-  // type-casting here for convenience
-
-  // in practice, you should validate your inputs
-  const { data, hasValidationErrors } = validateSignUpData({
+): Promise<{ data: any; success: boolean; errors: any }> {
+  const { errors, hasValidationErrors } = validateSignUpData({
     username,
     email,
     password,
@@ -42,17 +39,19 @@ export async function signUp(
   });
 
   if (hasValidationErrors) {
-    return { success: false, errors: data };
+    return { data: null, success: false, errors };
   } else if (!hasValidationErrors) {
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
       console.error("Supabase sign up error: " + error.message);
       throw new Error(error.message);
     } else {
       console.log("Sign up successful");
-      return { success: true };
+      return { data: data, success: true, errors };
     }
+  } else {
+    return { data: null, success: false, errors };
   }
 }
