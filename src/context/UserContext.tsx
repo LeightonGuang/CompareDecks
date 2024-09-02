@@ -81,7 +81,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (response.ok) {
           console.log("Sign up successful");
-          router.push("/");
+          return { success: true };
         } else {
           const errorData = await response.json();
           const errors = errorData.errors;
