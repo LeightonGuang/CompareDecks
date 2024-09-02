@@ -2,29 +2,49 @@
 
 import { NextResponse } from "next/server";
 import { signUp } from "@/app/signup/actions";
+import { updateUsername } from "@/app/updateUsername/actions";
 
-export async function POST(request: Request) {
+/**
+ * This function is called when signUpWithEmail is called in UserContext.tsx
+ *
+ * @param request request object {Username, Email, Password, confirmPassword}
+ * @returns errors object and status code
+ */
+
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const body = await request.json();
     const { username, email, password, confirmPassword } = body;
 
-    const result = await signUp(username, email, password, confirmPassword);
+    const { data, success, errors } = await signUp(
+      username,
+      email,
+      password,
+      confirmPassword,
+    );
 
-    console.log("result: ", result);
+    console.table(errors);
 
-    if (!result?.success) {
-      return NextResponse.json(result, { status: 400 });
+    if (!success) {
+      return NextResponse.json(errors, { status: 400 });
     }
 
-    return NextResponse.json(
-      { message: "Sign up successful" },
-      { status: 200 },
-    );
+    // return user id
+    const userId = data?.user?.id;
+
+    if (userId !== undefined) {
+      await updateUsername(userId, username);
+    } else {
+      console.error("User ID is undefined");
+      return NextResponse.json(errors, { status: 400 });
+    }
+
+    return NextResponse.json(errors, { status: 200 });
   } catch (error) {
     console.error("Sign up API error: ", error);
 
     return NextResponse.json(
-      { message: `Error Signing up: ${error}` },
+      { message: `Error signing up: ${error}` },
       { status: 500 },
     );
   }
