@@ -83,9 +83,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           console.log("Sign up successful");
           return { success: true };
         } else {
-          const errorData = await response.json();
-          const errors = errorData.errors;
-          return errors;
+          return { success: false, error: "Sign up failed" };
         }
       } catch (error) {
         console.error("error: " + error);
