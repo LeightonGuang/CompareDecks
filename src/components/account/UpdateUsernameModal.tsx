@@ -18,6 +18,7 @@ const UpdateUsernameModal = ({ setIsUsernameChange }: Props) => {
     const response = await updateUsername(username);
     if (response.success) {
       setIsUsernameChange(false);
+      window.location.reload();
     }
   };
 
