@@ -52,7 +52,12 @@ const SignupPage = () => {
         formState.password,
         formState.confirmPassword,
       );
-      setErrors(response);
+
+      if (response.success) {
+        router.push("/");
+      } else if (!response.success) {
+        router.push("/error");
+      }
     } catch (error) {
       console.error("error: " + error);
     }
