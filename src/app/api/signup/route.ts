@@ -1,8 +1,8 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import { signUp } from "@/app/signup/actions";
-import { updateUsername } from "@/app/updateUsername/actions";
+import { signUp } from "@/app/actions/auth/signup/actions";
+import { updateUsername } from "@/app/actions/auth/updateUsername/actions";
 
 /**
  * This function is called when signUpWithEmail is called in UserContext.tsx

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { passwordChange } from "@/app/updatePassword/actions";
+import { updatePassword } from "@/app/actions/auth/updatePassword/actions";
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const { currentPassword, newPassword } = body;
 
     // check new password is strong
-    const error = await passwordChange(newPassword);
+    const error = await updatePassword(newPassword);
 
     if (error) {
       return NextResponse.json({ message: error }, { status: 400 });
