@@ -6,12 +6,16 @@ import Image from "next/image";
 
 import userIcon from "../../../_assets/icons/userIcon.svg";
 import { useRouter } from "next/navigation";
-import ChangePasswordModal from "@/components/account/ChangePasswordModal";
+import UpdatePasswordModal from "@/components/account/UpdatePasswordModal";
+import UpdateUsernameModal from "@/components/account/UpdateUsernameModal";
+import DeleteAccountModal from "@/components/account/DeleteAccountModal";
 
 const AccountPage = () => {
   const { user, fetchUser } = useUser();
   const router = useRouter();
+  const [isUsernameCHange, setIsUsernameChange] = useState(false);
   const [isPasswordChange, setIsPasswordChange] = useState(false);
+  const [isDeleteAccount, setIsDeleteAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,9 +27,7 @@ const AccountPage = () => {
     router.push("/");
   }
 
-  const handlePasswordChangeModal = async () => {
-    setIsPasswordChange(!isPasswordChange);
-  };
+  const handlePasswordChangeModal = async () => {};
 
   return (
     <>
@@ -61,25 +63,36 @@ const AccountPage = () => {
                   </p>
                 </div>
                 <div className="mt-[2rem] flex gap-[0.5rem] text-[0.875rem] font-[500]">
-                  <button className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]">
-                    Change Name
+                  <button
+                    className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]"
+                    onClick={() => setIsUsernameChange(true)}
+                  >
+                    Update Username
                   </button>
                   <button
                     className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]"
-                    onClick={handlePasswordChangeModal}
+                    onClick={() => setIsPasswordChange(true)}
                   >
-                    Change Password
+                    Update Password
                   </button>
-                  <button className="rounded-[0.375rem] bg-[#DC2828] px-[1rem] py-[0.5rem] text-white">
+                  <button
+                    className="rounded-[0.375rem] bg-[#DC2828] px-[1rem] py-[0.5rem] text-white"
+                    onClick={() => setIsDeleteAccount(true)}
+                  >
                     Delete Account
                   </button>
                 </div>
               </div>
             </div>
           )}
-
+          {isUsernameCHange && (
+            <UpdateUsernameModal setIsUsernameChange={setIsUsernameChange} />
+          )}
           {isPasswordChange && (
-            <ChangePasswordModal setIsPasswordChange={setIsPasswordChange} />
+            <UpdatePasswordModal setIsPasswordChange={setIsPasswordChange} />
+          )}
+          {isDeleteAccount && (
+            <DeleteAccountModal setIsDeleteAccount={setIsDeleteAccount} />
           )}
         </main>
       )}
