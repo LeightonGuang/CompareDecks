@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { updateUsername } from "@/app/updateUsername/actions";
+import { updateUsername } from "@/app/actions/auth/updateUsername/actions";
 
 export async function POST(request: Request) {
   try {
