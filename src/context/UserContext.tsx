@@ -26,6 +26,7 @@ interface UserContextType {
     currentPassword: string,
     newPassword: string,
   ) => Promise<any>;
+  deleteAccount: (userId: string) => Promise<any>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -204,6 +205,31 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         } else {
           console.error(responseData.message.error);
           setErrorMessage(responseData.message.error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    deleteAccount: async (userId: string) => {
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
+        };
+
+        const response = await fetch("/api/deleteAccount", options);
+        const responseData = await response.json();
+        if (response.ok) {
+          console.log(responseData.message);
+          return { success: true };
+        } else {
+          console.error(responseData.message.error);
         }
       } catch (error) {
         console.error(error);
