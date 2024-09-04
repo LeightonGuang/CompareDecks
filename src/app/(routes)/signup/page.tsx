@@ -56,10 +56,11 @@ const SignupPage = () => {
       if (response.success) {
         router.push("/");
       } else if (!response.success) {
-        router.push("/error");
+        setErrors(response.errors);
       }
     } catch (error) {
       console.error("error: " + error);
+      router.push("/error");
     }
   };
 
