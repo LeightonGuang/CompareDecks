@@ -2,6 +2,17 @@
 import { SignupFormProps } from "@/_types/SignupFormProps";
 import { createClient } from "@/utils/supabase/server";
 
+/**
+ * This function validates the signup data
+ *
+ * @param {string} username - The name of the user
+ * @param {string} email - The email of the user
+ * @param {string} password - The password of the user
+ * @param {string} confirmPassword - The confirm password of the user
+ *
+ * @returns {errors, hasValidationErrors} - The validation errors and whether there are any validation errors
+ */
+
 const validateSignUpData = ({
   username,
   email,
@@ -24,6 +35,16 @@ const validateSignUpData = ({
   );
   return { errors, hasValidationErrors };
 };
+
+/**
+ * This function signs up the user
+ *
+ * @param username
+ * @param email
+ * @param password
+ * @param confirmPassword
+ * @returns {data: any, success: boolean, errors: any}
+ */
 
 export async function signUp(
   username: string,
