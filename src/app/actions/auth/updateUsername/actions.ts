@@ -1,5 +1,15 @@
 import { createAdminClient } from "@/utils/supabase/server";
 
+/**
+ * This function updates the username of the user
+ *
+ * @param {string} userId - the id of the user
+ * @param {string} newUsername - the new username
+ * @returns {Object} - the response object
+ * @property {boolean} success - whether the update was successful
+ * @property {string} message - the message
+ */
+
 export async function updateUsername(userId: string, newUsername: string) {
   const supabase = createAdminClient();
   try {
