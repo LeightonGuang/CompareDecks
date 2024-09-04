@@ -1,6 +1,13 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
 
+/**
+ * This function logs the user out using Supabase
+ *
+ * @throws {Error} - If there is an error signing the user out
+ * @returns {void}
+ */
+
 export async function logout() {
   const supabase = createClient();
 
