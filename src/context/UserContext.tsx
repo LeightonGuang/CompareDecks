@@ -79,12 +79,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         };
 
         const response = await fetch("/api/signup", options);
+        const errors = await response.json();
+
+        // console.table(errors);
 
         if (response.ok) {
           console.log("Sign up successful");
-          return { success: true };
+          return { success: true, errors };
         } else {
-          return { success: false, error: "Sign up failed" };
+          return { success: false, errors };
         }
       } catch (error) {
         console.error("error: " + error);
@@ -193,6 +196,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            email: user.email,
             currentPassword,
             newPassword,
           }),
