@@ -43,7 +43,10 @@ const validateSignUpData = ({
  * @param email
  * @param password
  * @param confirmPassword
- * @returns {data: any, success: boolean, errors: any}
+ * @return {Object}
+ * @property {any} data - Only if the sign up was successful
+ * @property {boolean} success - Whether the sign up was successful
+ * @property {any} errors - The validation errors object
  */
 
 export async function signUp(
@@ -67,11 +70,11 @@ export async function signUp(
 
     if (error) {
       console.error("Supabase sign up error: " + error.message);
-      throw new Error(error.message);
-    } else {
-      console.log("Sign up successful");
-      return { data: data, success: true, errors };
+      return { data: null, success: false, errors };
     }
+
+    console.log("Sign up successful");
+    return { data: data, success: true, errors };
   } else {
     return { data: null, success: false, errors };
   }
