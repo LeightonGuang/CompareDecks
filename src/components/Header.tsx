@@ -54,7 +54,7 @@ const Header = () => {
       </button>
       {isDropdownOpen && (
         <div
-          className="absolute right-[0.1rem] top-[2rem] z-10 min-w-[8rem] flex-col rounded-[0.375rem] border-[1px] border-[#ECE8F0] p-[0.25rem] text-[0.875rem] text-[#020812] shadow-md"
+          className="absolute right-[0.1rem] top-[2rem] z-10 min-w-[8rem] flex-col rounded-[0.375rem] border-[1px] border-[#ECE8F0] bg-white p-[0.25rem] text-[0.875rem] text-[#020812] shadow-md"
           id="dropdown-card"
         >
           <div
@@ -62,7 +62,7 @@ const Header = () => {
             onClick={() => setIsDropdownOpen(false)}
           >
             <NavLink href="/account">
-              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] hover:bg-gray-100">
+              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] transition duration-[0.2s] hover:bg-gray-100">
                 <Image
                   className="h-[1rem] w-[1rem]"
                   src={userIcon}
@@ -72,7 +72,7 @@ const Header = () => {
               </div>
             </NavLink>
             <NavLink href="/setting">
-              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] hover:bg-gray-100">
+              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] transition duration-[0.2s] hover:bg-gray-100">
                 <Image
                   className="h-[1rem] w-[1rem]"
                   src={settingIcon}
@@ -83,7 +83,7 @@ const Header = () => {
             </NavLink>
             <div className="mx-[-0.25rem] my-[0.25rem] border-b-[1px] border-[#ECE8F0]" />
             <button onClick={handleSignOut}>
-              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] hover:bg-gray-100">
+              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] transition duration-[0.2s] hover:bg-gray-100">
                 <Image
                   className="h-[1rem] w-[1rem]"
                   src={signoutIcon}
@@ -132,7 +132,7 @@ const Header = () => {
             alt="logo"
           />
         </Link>
-        <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-[500] text-[#020812]">
+        <nav className="flex gap-[1.5rem] py-mobile-spacing text-[0.875rem] font-[500] text-[#020812]">
           <NavLink href="/create-deck">
             <div className="hover:underline">Create Deck</div>
           </NavLink>
@@ -140,7 +140,7 @@ const Header = () => {
             <div className="hover:underline">Browse</div>
           </NavLink>
         </nav>
-        <nav className="flex gap-[1.5rem] py-mobile-spacing font-[.875rem] font-medium">
+        <nav className="flex gap-[1.5rem] py-mobile-spacing font-medium">
           {user?.aud === "authenticated" ? (
             <UserLinks />
           ) : (
