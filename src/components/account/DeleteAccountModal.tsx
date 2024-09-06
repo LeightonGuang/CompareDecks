@@ -1,18 +1,18 @@
 import { useUser } from "@/context/UserContext";
 
 interface Props {
-  setIsDeleteAccount: (arg0: boolean) => void;
+  setShowDeleteAccountModal: (arg0: boolean) => void;
 }
 
 // https://cdn.dribbble.com/users/195163/screenshots/1491585/media/343f9d565c4c964666a6ecd21e374337.jpg?resize=400x300&vertical=center
 
-const DeleteAccountModal = ({ setIsDeleteAccount }: Props) => {
+const DeleteAccountModal = ({ setShowDeleteAccountModal }: Props) => {
   const { user, deleteAccount } = useUser();
   const handleDeleteAccount = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await deleteAccount(user.id);
     if (response.success) {
-      setIsDeleteAccount(false);
+      setShowDeleteAccountModal(false);
       window.location.reload();
     }
   };
@@ -32,7 +32,7 @@ const DeleteAccountModal = ({ setIsDeleteAccount }: Props) => {
               <h1 className="text-[1.25rem]">Delete Account</h1>
               <button
                 className="rounded-[0.25rem] bg-gray-300 px-[0.5rem] py-[0.25rem] text-[0.75rem] text-black"
-                onClick={() => setIsDeleteAccount(false)}
+                onClick={() => setShowDeleteAccountModal(false)}
               >
                 Cancel
               </button>
