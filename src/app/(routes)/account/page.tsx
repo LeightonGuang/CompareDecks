@@ -13,9 +13,9 @@ import DeleteAccountModal from "@/components/account/DeleteAccountModal";
 const AccountPage = () => {
   const { user, fetchUser } = useUser();
   const router = useRouter();
-  const [isUsernameCHange, setIsUsernameChange] = useState(false);
-  const [isPasswordChange, setIsPasswordChange] = useState(false);
-  const [isDeleteAccount, setIsDeleteAccount] = useState(false);
+  const [showUpdateUsernameModal, setShowUpdateUsernameModal] = useState(false);
+  const [showUpdatePasswordModal, setShowUpdatePasswordModal] = useState(false);
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const AccountPage = () => {
         >
           {!isLoading && (
             <div
-              className="border-[#E2E8F0 rounded-[0.5rem] border px-[1rem] py-[2rem]"
+              className="border-[#E2E8F0 mx-mobile-spacing rounded-[0.5rem] border px-[1rem] py-[2rem]"
               id="account-page-card"
             >
               <h1 className="text-[1.5rem] font-[700]">Account</h1>
@@ -65,19 +65,19 @@ const AccountPage = () => {
                 <div className="mt-[2rem] flex gap-[0.5rem] text-[0.875rem] font-[500]">
                   <button
                     className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]"
-                    onClick={() => setIsUsernameChange(true)}
+                    onClick={() => setShowUpdateUsernameModal(true)}
                   >
                     Update Username
                   </button>
                   <button
                     className="rounded-[0.375rem] border border-[#E2E8F0] px-[1rem] py-[0.5rem]"
-                    onClick={() => setIsPasswordChange(true)}
+                    onClick={() => setShowUpdatePasswordModal(true)}
                   >
                     Update Password
                   </button>
                   <button
                     className="rounded-[0.375rem] bg-[#DC2828] px-[1rem] py-[0.5rem] text-white"
-                    onClick={() => setIsDeleteAccount(true)}
+                    onClick={() => setShowDeleteAccountModal(true)}
                   >
                     Delete Account
                   </button>
@@ -85,14 +85,20 @@ const AccountPage = () => {
               </div>
             </div>
           )}
-          {isUsernameCHange && (
-            <UpdateUsernameModal setIsUsernameChange={setIsUsernameChange} />
+          {showUpdateUsernameModal && (
+            <UpdateUsernameModal
+              setShowUpdateUsernameModal={setShowUpdateUsernameModal}
+            />
           )}
-          {isPasswordChange && (
-            <UpdatePasswordModal setIsPasswordChange={setIsPasswordChange} />
+          {showUpdatePasswordModal && (
+            <UpdatePasswordModal
+              setShowUpdatePasswordModal={setShowUpdatePasswordModal}
+            />
           )}
-          {isDeleteAccount && (
-            <DeleteAccountModal setIsDeleteAccount={setIsDeleteAccount} />
+          {showDeleteAccountModal && (
+            <DeleteAccountModal
+              setShowDeleteAccountModal={setShowDeleteAccountModal}
+            />
           )}
         </main>
       )}
