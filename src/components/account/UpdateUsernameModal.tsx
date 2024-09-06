@@ -2,10 +2,10 @@ import { useUser } from "@/context/UserContext";
 import React from "react";
 
 interface Props {
-  setIsUsernameChange: any;
+  setShowUpdateUsernameModal: (arg0: boolean) => void;
 }
 
-const UpdateUsernameModal = ({ setIsUsernameChange }: Props) => {
+const UpdateUsernameModal = ({ setShowUpdateUsernameModal }: Props) => {
   const { updateUsername } = useUser();
   const [username, setUsername] = React.useState<string>("");
 
@@ -17,7 +17,7 @@ const UpdateUsernameModal = ({ setIsUsernameChange }: Props) => {
     e.preventDefault();
     const response = await updateUsername(username);
     if (response.success) {
-      setIsUsernameChange(false);
+      setShowUpdateUsernameModal(false);
       window.location.reload();
     }
   };
@@ -37,7 +37,7 @@ const UpdateUsernameModal = ({ setIsUsernameChange }: Props) => {
               <h1>Update Username</h1>
               <button
                 className="rounded-[0.25rem] bg-red-300 px-[0.5rem] py-[0.25rem] text-[0.75rem] text-red-500"
-                onClick={() => setIsUsernameChange(false)}
+                onClick={() => setShowUpdateUsernameModal(false)}
               >
                 Close
               </button>
