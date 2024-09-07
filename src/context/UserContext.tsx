@@ -188,7 +188,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
 
-    updatePassword: async (currentPassword: string, newPassword: string) => {
+    updatePassword: async (
+      currentPassword: string,
+      newPassword: string,
+    ): Promise<{ success: boolean; error: any }> => {
       try {
         const options = {
           method: "POST",
@@ -205,13 +208,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await fetch("/api/updatePassword", options);
         const responseData = await response.json();
         if (response.ok) {
-          console.log(responseData.message);
+          return { success: true, error: null };
         } else {
-          console.error(responseData.message.error);
-          setErrorMessage(responseData.message.error);
+          return { success: false, error: responseData.error };
         }
       } catch (error) {
-        console.error(error);
+        return { success: false, error };
       }
     },
 
