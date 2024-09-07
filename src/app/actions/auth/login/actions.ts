@@ -6,17 +6,19 @@ import { createClient } from "@/utils/supabase/server";
  *
  * @param {string} email - The email of the user
  * @param {string} password - The password of the user
- * @returns {Object}
- * @property {string} error - Only returned if there is an error
+ * @returns {string} error.message - Return error message if there is an error
  */
 
 export async function login(email: string, password: string) {
   const supabase = createClient();
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (error) {
-    console.log("Supabase signIn Error: " + error.message);
-    return { error: error.message };
+    console.error(error.message);
+    return error.message;
   }
 }
