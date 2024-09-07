@@ -124,6 +124,10 @@ const SignupPage = () => {
                 <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Please enter a password
                 </p>
+              ) : errors.hasWhiteSpaceError ? (
+                <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
+                  Password must not contain white space
+                </p>
               ) : errors.hasAlphaNumericError ? (
                 <p className="mt-[0.5rem] text-[0.75rem] text-red-500">
                   Password must contain at least one letter and one number (eg.
