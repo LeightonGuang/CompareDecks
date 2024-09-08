@@ -16,6 +16,11 @@ interface DeckContextType {
   setPinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
   unpinnedList: CardType[];
   setUnpinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
+  getDeckById: (
+    uuid: string,
+  ) => Promise<
+    { success: boolean; error: any; data: DeckType | null } | undefined
+  >;
 }
 
 const DeckContext = createContext<DeckContextType | undefined>(undefined);
@@ -43,6 +48,26 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     setPinnedList,
     unpinnedList,
     setUnpinnedList,
+    getDeckById: async (uuid: string) => {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uuid,
+        }),
+      };
+
+      const response = await fetch("/api/DeckContext/getDeckById", options);
+      const responseData = await response.json();
+
+      if (response.ok) {
+        return { success: true, error: null, data: responseData.data };
+      } else if (!responseData.ok) {
+        return { success: false, error: responseData.error, data: null };
+      }
+    },
   };
   return <DeckContext.Provider value={value}>{children}</DeckContext.Provider>;
 };
