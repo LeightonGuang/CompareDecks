@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+
+import gridIcon from "../_assets/icons/gridIcon.svg";
 import userIcon from "../_assets/icons/userIcon.svg";
 import settingIcon from "../_assets/icons/settingIcon.svg";
 import signoutIcon from "../_assets/icons/signoutIcon.svg";
@@ -61,6 +63,16 @@ const Header = () => {
             className="flex flex-col"
             onClick={() => setIsDropdownOpen(false)}
           >
+            <NavLink href="/my-decks">
+              <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] transition duration-[0.2s] hover:bg-gray-100">
+                <Image
+                  className="h-[1rem] w-[1rem]"
+                  src={gridIcon}
+                  alt="grid icon"
+                />
+                <p>My Decks</p>
+              </div>
+            </NavLink>
             <NavLink href="/account">
               <div className="flex items-center gap-[0.5rem] rounded-[0.125rem] px-[0.5rem] py-[0.375rem] transition duration-[0.2s] hover:bg-gray-100">
                 <Image
