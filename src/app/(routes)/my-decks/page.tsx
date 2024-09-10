@@ -1,14 +1,16 @@
 "use client";
 
-import { useUser } from "@/context/UserContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUser } from "@/context/UserContext";
 import { createClient } from "@/utils/supabase/client";
-
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
+
 import { DeckType } from "@/_types/DeckType";
 
 const MyDecksPage = () => {
+  const router = useRouter();
   const { fetchUser, user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState<DeckType[]>([]);
@@ -35,6 +37,10 @@ const MyDecksPage = () => {
     }
   };
 
+  const handleDeckClick = (uuid: string) => {
+    router.push(`/decks/${uuid}`);
+  };
+
   useEffect(() => {
     fetchUser();
     setIsLoading(false);
@@ -51,11 +57,11 @@ const MyDecksPage = () => {
       {!isLoading && (
         <main className="h-dynamic-vh overflow-y-auto" id="my-deck-page">
           <div
-            className="mx-mobile-spacing mt-[1.5rem]"
+            className="mx-mobile-spacing mt-[1.5rem] flex justify-center"
             id="my-deck-page__container"
           >
             <div
-              className="mx-auto w-min rounded-[0.5rem] border shadow-sm"
+              className="md: w-max rounded-[0.5rem] border shadow-sm"
               id="my-deck-page__card"
             >
               <div className="px-[1.5rem] py-[1rem]">
@@ -76,13 +82,13 @@ const MyDecksPage = () => {
                       <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
                         Name
                       </th>
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
                         Cards
                       </th>
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
                         Last Updated
                       </th>
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
                         Date Created
                       </th>
                       <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
@@ -93,19 +99,22 @@ const MyDecksPage = () => {
                   <tbody>
                     {decks.map((deck, i) => (
                       <tr
-                        className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
+                        className="cursor-pointer border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={i}
+                        onClick={() => handleDeckClick(deck.uuid)}
                       >
                         <td className="p-[1rem]">
                           <img
-                            className="min-h-[4rem] min-w-[4rem] object-contain"
+                            className="h-[4rem] w-[4rem] object-contain"
                             src="https://placehold.co/600x400"
                             alt=""
                           />
                         </td>
-                        <td className="p-[1rem]">{deck.name}</td>
-                        <td className="p-[1rem]">10</td>
-                        <td className="p-[1rem]">
+                        <td className="whitespace-nowrap p-[1rem]">
+                          {deck.name}
+                        </td>
+                        <td className="hidden p-[1rem] md:table-cell">10</td>
+                        <td className="hidden p-[1rem] md:table-cell">
                           {new Date(deck.edited_at).toLocaleDateString(
                             "en-GB",
                             {
@@ -115,7 +124,7 @@ const MyDecksPage = () => {
                             },
                           )}
                         </td>
-                        <td className="p-[1rem]">
+                        <td className="hidden p-[1rem] md:table-cell">
                           {new Date(deck.created_at).toLocaleDateString(
                             "en-GB",
                             {
