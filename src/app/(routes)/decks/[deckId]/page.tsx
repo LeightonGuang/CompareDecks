@@ -1,68 +1,63 @@
 "use client";
 
-import { DeckType } from "@/_types/DeckType";
 import CompareList from "@/components/compareList/CompareList";
-import { createClient } from "@/utils/supabase/client";
+import { useDeck } from "@/context/DeckContext";
+import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
-  const [deckData, setDeckData] = useState<DeckType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { user, fetchUser } = useUser();
+  const { setDeckData, getDeckById } = useDeck();
+  const [isLoading, setIsLoading] = useState(true);
 
   const getDeck = async () => {
-    const supabase = createClient();
+    setDeckData(null);
     try {
-      const exampleDeckQuery = await supabase
-        .from("decks")
-        .select(
-          `
-        id, 
-        user_uid, 
-        uuid, 
-        name, 
-        created_at, 
-        edited_at,
-        cards:cards (
-          id, 
-          deck_uuid, 
-          imgUrl, 
-          brand, 
-          name, 
-          year, 
-          price, 
-          description, 
-          created_at, 
-          edited_at
-        )
-      `,
-        )
-        .eq("uuid", params.deckId);
+      const response = await getDeckById(params.deckId);
+      if (response) {
+        const { success, error, data } = response;
+        if (data !== null) {
+          setDeckData(data[0]);
+        }
 
-      const { data, error } = await exampleDeckQuery;
-
-      if (data) {
-        setDeckData(data);
-        console.log(data);
-      }
-
-      if (error) {
-        console.error(error);
+        if (!success) {
+          console.error(error);
+        }
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getDeck();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getDeck();
+    }
+    setIsLoading(false);
+  }, [user]);
 
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
       <div className="mx-mobile-spacing">
-        {loading ? <p>Loading...</p> : <CompareList deckData={deckData[0]} />}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <CompareList />
+            <div className="absolute right-0">
+              <button
+                className="ml-[auto] mr-[1rem] mt-[1rem] rounded-[0.325rem] bg-green-500 px-[1rem] py-[0.5rem] text-white disabled:bg-gray-400 disabled:text-black"
+                disabled={true}
+              >
+                Update
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </main>
   );
