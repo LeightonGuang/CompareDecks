@@ -48,11 +48,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const supabase = createClient();
       const { data, error } = await supabase.auth.getUser();
       if (data.user) {
-        console.log("user", data.user);
         setUser(data.user);
         setIsUserFetched(false);
       } else {
-        console.log("no user");
         setUser(undefined);
         setIsUserFetched(false);
       }
