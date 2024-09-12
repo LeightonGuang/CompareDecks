@@ -3,42 +3,31 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@/utils/supabase/client";
 import placeholder from "../../../_assets/images/placeholder.svg";
+import { getAllDecksList } from "@/utils/getAllDecksList";
 
 import { DeckType } from "@/_types/DeckType";
+import { useUser } from "@/context/UserContext";
 
 const DecksPage = () => {
-  const [deckList, setDeckList] = useState<DeckType[]>([]);
+  const { fetchUser } = useUser();
+  const [decksList, setDecksList] = useState<DeckType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const getDeckList = async () => {
+  const fetchData = async () => {
     try {
-      const supabase = createClient();
-      const deckListQuery = await supabase
-        .from("decks")
-        .select("* ,cards(imgUrl)");
-
-      const { data, error }: { data: DeckType[] | null; error: any } =
-        await deckListQuery;
-
-      if (data) {
-        setDeckList(data);
-        console.log(data);
-      }
-
-      if (error) {
-        console.error(error);
-      }
-    } catch (error) {
-      console.error(error);
+      const response = await getAllDecksList();
+      setDecksList(response);
+    } catch (err) {
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getDeckList();
+    fetchUser();
+    fetchData();
   }, []);
 
   return (
@@ -59,52 +48,57 @@ const DecksPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {deckList.map((deck: DeckType) => (
-                  <tr className="h-[2.75rem] border-b text-left" key={deck.id}>
-                    {deck.cards[0] && deck.cards[0] ? (
-                      <td
-                        className="flex items-center justify-center"
-                        id="preview-img"
-                      >
-                        <img
-                          className="h-[2.75rem]"
-                          src={deck.cards[0].imgUrl}
-                          alt="preview"
-                        />
+                {decksList &&
+                  decksList.map((deck: DeckType) => (
+                    <tr
+                      className="h-[2.75rem] border-b text-left"
+                      key={deck.id}
+                    >
+                      {deck.cards[0] && deck.cards[0] ? (
+                        <td
+                          className="flex items-center justify-center"
+                          id="preview-img"
+                        >
+                          <img
+                            className="h-[2.75rem]"
+                            src={deck.cards[0].imgUrl}
+                            alt="preview"
+                          />
+                        </td>
+                      ) : (
+                        <td
+                          className="flex items-center justify-center"
+                          id="preview-placeholder"
+                        >
+                          <Image
+                            className="aspect-[16/9] h-[2.75rem] object-cover"
+                            src={placeholder}
+                            alt="placeholder"
+                            height={49}
+                            width={49}
+                          />
+                        </td>
+                      )}
+                      <td className="h-min">
+                        <Link
+                          className="whitespace-nowrap px-[1rem] py-[0.75rem] underline"
+                          href={`/decks/${deck.uuid}`}
+                        >
+                          {deck.name}
+                        </Link>
                       </td>
-                    ) : (
-                      <td
-                        className="flex items-center justify-center"
-                        id="preview-placeholder"
-                      >
-                        <Image
-                          className="aspect-[16/9] h-[2.75rem] object-cover"
-                          src={placeholder}
-                          alt="placeholder"
-                          height={49}
-                        />
+                      <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
+                        {deck.user_uid}
                       </td>
-                    )}
-                    <td className="h-min">
-                      <Link
-                        className="whitespace-nowrap px-[1rem] py-[0.75rem] underline"
-                        href={`/decks/${deck.uuid}`}
-                      >
-                        {deck.name}
-                      </Link>
-                    </td>
-                    <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
-                      {deck.user_uid}
-                    </td>
-                    <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
-                      {new Date(deck.created_at).toLocaleDateString("en-GB", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      })}
-                    </td>
-                  </tr>
-                ))}
+                      <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
+                        {new Date(deck.created_at).toLocaleDateString("en-GB", {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        })}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           )}
