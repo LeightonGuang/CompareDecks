@@ -1,7 +1,7 @@
 import { getDeckById } from "@/app/actions/DeckContext/getDeckById/actions";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request): Promise<NextResponse> {
+export async function POST(request: Request): Promise<NextResponse> {
   try {
     const { uuid } = await request.json();
     const { data, error } = await getDeckById(uuid);
