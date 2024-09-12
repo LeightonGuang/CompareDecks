@@ -17,22 +17,14 @@ const MyDecksPage = () => {
 
   const getDeckListByUserId = async () => {
     try {
-      console.log("userId", user);
-
       const supabase = createClient();
       const { data, error } = await supabase
         .from("decks")
         .select("*, cards(*)")
         .eq("user_uid", user?.id);
 
-      console.log(data);
-      if (data) {
-        setDecks(data);
-      }
-
-      if (error) {
-        console.error(error);
-      }
+      if (data) setDecks(data);
+      if (error) console.error(error);
     } catch (error) {
       console.error(error);
     }
