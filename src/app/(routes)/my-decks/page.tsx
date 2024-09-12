@@ -22,9 +22,10 @@ const MyDecksPage = () => {
       const supabase = createClient();
       const { data, error } = await supabase
         .from("decks")
-        .select("*")
+        .select("*, cards(*)")
         .eq("user_uid", user?.id);
 
+      console.log(data);
       if (data) {
         setDecks(data);
       }
@@ -39,6 +40,10 @@ const MyDecksPage = () => {
 
   const handleDeckClick = (uuid: string) => {
     router.push(`/decks/${uuid}`);
+  };
+
+  const handleDeleteButton = async (uuid: string) => {
+    console.log("delete deck", uuid);
   };
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const MyDecksPage = () => {
                   <thead>
                     <tr className="hover:bg-[#f9fafc]">
                       <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                        Image
+                        Preview
                       </th>
                       <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
                         Name
@@ -106,14 +111,16 @@ const MyDecksPage = () => {
                         <td className="p-[1rem]">
                           <img
                             className="h-[4rem] w-[4rem] object-contain"
-                            src="https://placehold.co/600x400"
+                            src={deck.cards[0]?.imgUrl}
                             alt=""
                           />
                         </td>
                         <td className="whitespace-nowrap p-[1rem]">
                           {deck.name}
                         </td>
-                        <td className="hidden p-[1rem] md:table-cell">10</td>
+                        <td className="hidden p-[1rem] md:table-cell">
+                          {deck.cards.length}
+                        </td>
                         <td className="hidden p-[1rem] md:table-cell">
                           {new Date(deck.edited_at).toLocaleDateString(
                             "en-GB",
@@ -135,7 +142,10 @@ const MyDecksPage = () => {
                           )}
                         </td>
                         <td className="p-[1rem]">
-                          <button className="mx-auto block">
+                          <button
+                            className="mx-auto block"
+                            onClick={() => handleDeleteButton(deck.uuid)}
+                          >
                             <Image
                               className="h-[1.25rem] w-[1.25rem]"
                               src={redBinIcon}
