@@ -19,7 +19,7 @@ interface DeckContextType {
   getDeckById: (
     uuid: string,
   ) => Promise<
-    { success: boolean; error: any; data: DeckType | null } | undefined
+    { success: boolean; error: any; data: DeckType[] | null } | undefined
   >;
 }
 
@@ -35,9 +35,9 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     deckData?.cards || [],
   );
 
-  useEffect(() => {
-    console.log("deckData updated to: ", deckData);
-  }, [deckData]);
+  // useEffect(() => {
+  //   console.log("deckData updated to: ", deckData);
+  // }, [deckData]);
 
   const value = {
     deckData,
