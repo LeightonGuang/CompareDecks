@@ -37,7 +37,7 @@ const CompareList = () => {
   const [deckName, setDeckName] = useState<string>("");
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
   const [isListView, setIsListView] = useState<boolean>(false);
-  const [isAddCardModal, setIsAddCardModal] = useState<boolean>(false);
+  const [isShowAddCardModal, setIsShowAddCardModal] = useState<boolean>(false);
   const [isEditCardModal, setIsEditCardModal] = useState<boolean>(false);
 
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
@@ -68,17 +68,18 @@ const CompareList = () => {
     setIsEditDeckName(true);
   };
 
-  const onChangeDeckName = (e: any) => {
+  const onDeckNameChange = (e: any) => {
     setDeckName(e.target.value);
   };
 
-  const onSubmitDeckName = (e: any) => {
+  const handleDeckNameSubmit = (e: any) => {
     e.preventDefault();
+    setPendingDeckData({ ...pendingDeckData, name: deckName });
     setIsEditDeckName(false);
   };
 
   const handleAddCardButton = () => {
-    setIsAddCardModal(true);
+    setIsShowAddCardModal(true);
   };
 
   const handleEditCardButton = (cardIndex: number, isPinned: boolean) => {
@@ -102,18 +103,20 @@ const CompareList = () => {
     }
   };
 
-  const updateDeckState = async () => {
-    const sortedData = deckData?.cards.sort((a, b) => a.id - b.id);
+  const updateDeckState = () => {
+    const sortedData = pendingDeckData.cards.sort((a, b) => a.id - b.id);
     setOrderedList(sortedData ?? []);
     setUnpinnedList(sortedData ?? []);
-    setDeckName(deckData?.name ?? "");
+    setDeckName(pendingDeckData.name);
   };
 
   useEffect(() => {
-    if (deckData) updateDeckState();
+    const isPendingDeckDataNotEmpty = Object.keys(pendingDeckData).length !== 0;
+    if (isPendingDeckDataNotEmpty) updateDeckState();
 
     setIsLoading(false);
-  }, [deckData]);
+    console.log("pendingDeckData", pendingDeckData);
+  }, [pendingDeckData]);
 
   return (
     <>
@@ -130,13 +133,13 @@ const CompareList = () => {
               {isEditDeckName ? (
                 <form
                   className="flex h-[2rem] gap-[1rem]"
-                  onSubmit={onSubmitDeckName}
+                  onSubmit={handleDeckNameSubmit}
                 >
                   <input
                     className="w-[12rem] rounded-[0.375rem] border"
-                    type="text"
+                    onChange={onDeckNameChange}
                     value={deckName}
-                    onChange={onChangeDeckName}
+                    type="text"
                   />
                   <button
                     className="rounded-[0.375rem] bg-[#2563eb] px-[0.5rem] py-[0.25rem] text-[0.75rem] text-white"
@@ -148,9 +151,9 @@ const CompareList = () => {
               ) : (
                 <>
                   <h2 className="text-[1.5rem] font-bold leading-[2rem]">
-                    {deckName}
+                    {pendingDeckData.name}
                   </h2>
-                  {user && user?.id === deckData?.user_uid ? (
+                  {user && user?.id === pendingDeckData?.user_uid ? (
                     <button
                       className="mx-[0.625rem]"
                       onClick={handleEditDeckName}
@@ -196,11 +199,11 @@ const CompareList = () => {
               isAuth={isAuth}
             />
           )}
-          {isAddCardModal && (
+          {isShowAddCardModal && (
             <AddCardModal
               // orderedList={orderedList}
               // unpinnedList={unpinnedList}
-              setIsAddCardModal={setIsAddCardModal}
+              setIsShowAddCardModal={setIsShowAddCardModal}
               // setOrderedList={setOrderedList}
               // setUnpinnedList={setUnpinnedList}
             />
