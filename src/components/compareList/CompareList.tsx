@@ -94,14 +94,11 @@ const CompareList = () => {
     setOrderedList(deckData?.cards ?? []);
     setUnpinnedList(deckData?.cards ?? []);
     setDeckName(deckData?.name ?? "");
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (deckData) {
-      // console.log(deckData);
-      updateDeckState();
-    }
+    if (deckData) updateDeckState();
+    setIsLoading(false);
   }, [deckData]);
 
   return (
