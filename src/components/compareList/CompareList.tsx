@@ -15,13 +15,25 @@ import { CardType } from "@/_types/CardType";
 
 const CompareList = () => {
   const { user } = useUser();
-  const { deckData } = useDeck();
+  const {
+    deckData,
+    orderedList,
+    setOrderedList,
+    pinnedList,
+    setPinnedList,
+    unpinnedList,
+    setUnpinnedList,
+    originalDeckData,
+    setOriginalDeckData,
+    pendingDeckData,
+    setPendingDeckData,
+  } = useDeck();
   const isAuth = user?.aud === "authenticated";
   const [isLoading, setIsLoading] = useState(true);
   const [cardFormData, setCardFormData] = useState<CardType | null>(null);
-  const [orderedList, setOrderedList] = useState<CardType[]>([]);
-  const [pinnedList, setPinnedList] = useState<CardType[]>([]);
-  const [unpinnedList, setUnpinnedList] = useState<CardType[]>([]);
+  // const [orderedList, setOrderedList] = useState<CardType[]>([]);
+  // const [pinnedList, setPinnedList] = useState<CardType[]>([]);
+  // const [unpinnedList, setUnpinnedList] = useState<CardType[]>([]);
   const [deckName, setDeckName] = useState<string>("");
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
   const [isListView, setIsListView] = useState<boolean>(false);
@@ -91,13 +103,15 @@ const CompareList = () => {
   };
 
   const updateDeckState = async () => {
-    setOrderedList(deckData?.cards ?? []);
-    setUnpinnedList(deckData?.cards ?? []);
+    const sortedData = deckData?.cards.sort((a, b) => a.id - b.id);
+    setOrderedList(sortedData ?? []);
+    setUnpinnedList(sortedData ?? []);
     setDeckName(deckData?.name ?? "");
   };
 
   useEffect(() => {
     if (deckData) updateDeckState();
+
     setIsLoading(false);
   }, [deckData]);
 
@@ -109,7 +123,10 @@ const CompareList = () => {
             className="mt-[1rem] flex items-center justify-between"
             id="compare-list-header"
           >
-            <div className="flex items-center gap-[0.5rem]">
+            <div
+              className="flex items-center gap-[0.5rem]"
+              id="compare-list-title"
+            >
               {isEditDeckName ? (
                 <form
                   className="flex h-[2rem] gap-[1rem]"
@@ -181,11 +198,11 @@ const CompareList = () => {
           )}
           {isAddCardModal && (
             <AddCardModal
-              orderedList={orderedList}
-              unpinnedList={unpinnedList}
+              // orderedList={orderedList}
+              // unpinnedList={unpinnedList}
               setIsAddCardModal={setIsAddCardModal}
-              setOrderedList={setOrderedList}
-              setUnpinnedList={setUnpinnedList}
+              // setOrderedList={setOrderedList}
+              // setUnpinnedList={setUnpinnedList}
             />
           )}
           {isEditCardModal && (
