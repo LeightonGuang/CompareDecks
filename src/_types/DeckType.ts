@@ -1,9 +1,8 @@
-import { UUID } from "crypto";
 import { CardType } from "./CardType";
 
 export interface DeckType {
   id: number;
-  user_uid: any;
+  user_uid: string;
   uuid: string;
   name: string;
   created_at: string;
