@@ -38,7 +38,7 @@ const CompareList = () => {
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
   const [isListView, setIsListView] = useState<boolean>(false);
   const [isShowAddCardModal, setIsShowAddCardModal] = useState<boolean>(false);
-  const [isEditCardModal, setIsEditCardModal] = useState<boolean>(false);
+  const [isShowEditCardModal, setIsShowEditCardModal] = useState<boolean>(false);
 
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
@@ -83,7 +83,7 @@ const CompareList = () => {
   };
 
   const handleEditCardButton = (cardIndex: number, isPinned: boolean) => {
-    setIsEditCardModal(true);
+    setIsShowEditCardModal(true);
     if (isPinned) {
       setCardFormData(pinnedList[cardIndex]);
     } else if (!isPinned) {
@@ -208,7 +208,7 @@ const CompareList = () => {
               // setUnpinnedList={setUnpinnedList}
             />
           )}
-          {isEditCardModal && (
+          {isShowEditCardModal && (
             <EditCardModal
               cardFormData={cardFormData}
               orderedList={orderedList}
@@ -217,7 +217,7 @@ const CompareList = () => {
               setPinnedList={setPinnedList}
               unpinnedList={unpinnedList}
               setUnpinnedList={setUnpinnedList}
-              setIsEditCardModal={setIsEditCardModal}
+              setIsShowEditCardModal={setIsShowEditCardModal}
             />
           )}
         </div>

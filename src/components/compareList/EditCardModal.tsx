@@ -9,7 +9,7 @@ interface Props {
   setPinnedList: any;
   unpinnedList: CardType[];
   setUnpinnedList: any;
-  setIsEditCardModal: any;
+  setIsShowEditCardModal: any;
 }
 const EditCardModal = ({
   cardFormData,
@@ -19,9 +19,11 @@ const EditCardModal = ({
   setPinnedList,
   unpinnedList,
   setUnpinnedList,
-  setIsEditCardModal,
+  setIsShowEditCardModal,
 }: Props) => {
-  const [editFormData, setEditFormData] = useState<CardType | null>(cardFormData);
+  const [editFormData, setEditFormData] = useState<CardType | null>(
+    cardFormData,
+  );
 
   const [isError, setIsError] = useState({
     name: false,
@@ -62,7 +64,7 @@ const EditCardModal = ({
             setUnpinnedList(newUnpinnedList);
           }
           setIsError({ ...isError, name: false });
-          setIsEditCardModal(false);
+          setIsShowEditCardModal(false);
         }
       }
     }
@@ -85,7 +87,7 @@ const EditCardModal = ({
             <h1>Edit Card</h1>
             <button
               className="rounded-[0.25rem] bg-red-300 px-[0.5rem] py-[0.25rem] text-[0.75rem]"
-              onClick={() => setIsEditCardModal(false)}
+              onClick={() => setIsShowEditCardModal(false)}
             >
               Close
             </button>
