@@ -31,14 +31,12 @@ const CompareList = () => {
   const isAuth = user?.aud === "authenticated";
   const [isLoading, setIsLoading] = useState(true);
   const [cardFormData, setCardFormData] = useState<CardType | null>(null);
-  // const [orderedList, setOrderedList] = useState<CardType[]>([]);
-  // const [pinnedList, setPinnedList] = useState<CardType[]>([]);
-  // const [unpinnedList, setUnpinnedList] = useState<CardType[]>([]);
   const [deckName, setDeckName] = useState<string>("");
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
   const [isListView, setIsListView] = useState<boolean>(false);
   const [isShowAddCardModal, setIsShowAddCardModal] = useState<boolean>(false);
-  const [isShowEditCardModal, setIsShowEditCardModal] = useState<boolean>(false);
+  const [isShowEditCardModal, setIsShowEditCardModal] =
+    useState<boolean>(false);
 
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
@@ -200,23 +198,18 @@ const CompareList = () => {
             />
           )}
           {isShowAddCardModal && (
-            <AddCardModal
-              // orderedList={orderedList}
-              // unpinnedList={unpinnedList}
-              setIsShowAddCardModal={setIsShowAddCardModal}
-              // setOrderedList={setOrderedList}
-              // setUnpinnedList={setUnpinnedList}
-            />
+            <AddCardModal setIsShowAddCardModal={setIsShowAddCardModal} />
           )}
           {isShowEditCardModal && (
             <EditCardModal
               cardFormData={cardFormData}
-              orderedList={orderedList}
-              setOrderedList={setOrderedList}
-              pinnedList={pinnedList}
-              setPinnedList={setPinnedList}
-              unpinnedList={unpinnedList}
-              setUnpinnedList={setUnpinnedList}
+              setCardFormData={setCardFormData}
+              // orderedList={orderedList}
+              // setOrderedList={setOrderedList}
+              // pinnedList={pinnedList}
+              // setPinnedList={setPinnedList}
+              // unpinnedList={unpinnedList}
+              // setUnpinnedList={setUnpinnedList}
               setIsShowEditCardModal={setIsShowEditCardModal}
             />
           )}
