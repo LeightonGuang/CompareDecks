@@ -1,30 +1,25 @@
 import { CardType } from "@/_types/CardType";
+import { useDeck } from "@/context/DeckContext";
 import React, { useState } from "react";
 
 interface Props {
   cardFormData: CardType | null;
-  orderedList: CardType[];
-  setOrderedList: any;
-  pinnedList: CardType[];
-  setPinnedList: any;
-  unpinnedList: CardType[];
-  setUnpinnedList: any;
+  setCardFormData: any;
   setIsShowEditCardModal: any;
 }
 const EditCardModal = ({
   cardFormData,
-  orderedList,
-  setOrderedList,
-  pinnedList,
-  setPinnedList,
-  unpinnedList,
-  setUnpinnedList,
+  setCardFormData,
   setIsShowEditCardModal,
 }: Props) => {
-  const [editFormData, setEditFormData] = useState<CardType | null>(
-    cardFormData,
-  );
-
+  const {
+    orderedList,
+    setOrderedList,
+    pinnedList,
+    setPinnedList,
+    unpinnedList,
+    setUnpinnedList,
+  } = useDeck();
   const [isError, setIsError] = useState({
     name: false,
   });
@@ -33,39 +28,49 @@ const EditCardModal = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setEditFormData({ ...editFormData, [name]: value } as CardType);
+    setCardFormData({ ...cardFormData, [name]: value } as CardType);
   };
 
   const handleSumbitEditCardForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (editFormData?.name === "") {
+
+    console.log("cardFormData", cardFormData);
+
+    const isFormNameEmpty = cardFormData?.name === "";
+    if (isFormNameEmpty) {
       console.log("Please enter a name");
       setIsError({ ...isError, name: true });
       return;
     } else {
       if (cardFormData) {
-        const newOrderedList = [...orderedList];
-        const orderedListIndex = orderedList.indexOf(cardFormData);
+        const isInPinnedList = pinnedList.some(
+          (card) => card.id === cardFormData.id,
+        );
+        const isInUnpinnedList = unpinnedList.some(
+          (card) => card.id === cardFormData.id,
+        );
 
-        const indexInPinnedList = pinnedList.indexOf(cardFormData);
-        const indexInUnpinnedList = unpinnedList.indexOf(cardFormData);
-
-        if (editFormData) {
-          newOrderedList[orderedListIndex] = editFormData;
-          setOrderedList(newOrderedList);
-
-          if (indexInPinnedList !== -1) {
-            const newPinnedList = [...pinnedList];
-            newPinnedList[indexInPinnedList] = editFormData;
-            setPinnedList(newPinnedList);
-          } else if (indexInUnpinnedList !== -1) {
-            const newUnpinnedList = [...unpinnedList];
-            newUnpinnedList[indexInUnpinnedList] = editFormData;
-            setUnpinnedList(newUnpinnedList);
-          }
-          setIsError({ ...isError, name: false });
-          setIsShowEditCardModal(false);
+        if (isInPinnedList) {
+          const updatedPinnedList = pinnedList.map((card) =>
+            card.id === cardFormData.id ? cardFormData : card,
+          );
+          setPinnedList(updatedPinnedList);
+        } else if (isInUnpinnedList) {
+          const updatedUnpinnedList = unpinnedList.map((card) =>
+            card.id === cardFormData.id ? cardFormData : card,
+          );
+          setUnpinnedList(updatedUnpinnedList);
         }
+
+        const updatedOrderedList = orderedList.map((card) =>
+          card.id === cardFormData.id ? cardFormData : card,
+        );
+
+        setOrderedList(updatedOrderedList);
+        console.table(pinnedList);
+        console.table(unpinnedList);
+        setIsError({ ...isError, name: false });
+        setIsShowEditCardModal(false);
       }
     }
   };
@@ -94,8 +99,8 @@ const EditCardModal = ({
           </div>
           <img
             className="h-[6rem] rounded-[0.375rem] bg-black object-contain md:h-[10rem]"
-            src={editFormData?.imgUrl}
-            alt={editFormData?.brand + " " + editFormData?.name}
+            src={cardFormData?.imgUrl}
+            alt={cardFormData?.brand + " " + cardFormData?.name}
           />
           <form
             className="flex flex-col gap-[1rem]"
@@ -107,7 +112,7 @@ const EditCardModal = ({
                 name="name"
                 type="text"
                 placeholder="Name"
-                value={editFormData?.name}
+                value={cardFormData?.name}
                 onChange={onFormChange}
               />
               {isError.name && (
@@ -121,7 +126,7 @@ const EditCardModal = ({
               name="imgUrl"
               type="url"
               placeholder="Image URL"
-              value={editFormData?.imgUrl}
+              value={cardFormData?.imgUrl}
               onChange={onFormChange}
             />
             <input
@@ -129,7 +134,7 @@ const EditCardModal = ({
               name="brand"
               type="text"
               placeholder="Brand"
-              value={editFormData?.brand}
+              value={cardFormData?.brand}
               onChange={onFormChange}
             />
             <input
@@ -137,7 +142,7 @@ const EditCardModal = ({
               name="price"
               type="text"
               placeholder="Price"
-              value={editFormData?.price}
+              value={cardFormData?.price}
               onChange={onFormChange}
             />
             <input
@@ -145,14 +150,14 @@ const EditCardModal = ({
               name="year"
               type="number"
               placeholder="Year"
-              value={editFormData?.year}
+              value={cardFormData?.year}
               onChange={onFormChange}
             />
             <textarea
               className="w-full rounded-[0.375rem] border border-[#E4E4EB] p-[0.5rem] leading-[1.375rem]"
               name="description"
               placeholder="Description"
-              value={editFormData?.description}
+              value={cardFormData?.description}
               onChange={onFormChange}
             />
             <button
