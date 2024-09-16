@@ -8,8 +8,10 @@ import { DeckType } from "@/_types/DeckType";
 // use data from here to show in CompareList
 
 interface DeckContextType {
-  deckData: DeckType | null;
-  setDeckData: React.Dispatch<React.SetStateAction<DeckType | null>>;
+  originalDeckData: DeckType;
+  setOriginalDeckData: React.Dispatch<React.SetStateAction<DeckType>>;
+  pendingDeckData: DeckType;
+  setPendingDeckData: React.Dispatch<React.SetStateAction<DeckType>>;
   orderedList: CardType[];
   setOrderedList: React.Dispatch<React.SetStateAction<CardType[]>>;
   pinnedList: CardType[];
@@ -26,22 +28,26 @@ interface DeckContextType {
 const DeckContext = createContext<DeckContextType | undefined>(undefined);
 
 export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
-  const [deckData, setDeckData] = useState<DeckType | null>(null);
-  const [orderedList, setOrderedList] = useState<CardType[]>(
-    deckData?.cards || [],
+  const [originalDeckData, setOriginalDeckData] = useState<DeckType>(
+    {} as DeckType,
   );
+  const [pendingDeckData, setPendingDeckData] = useState<DeckType>(
+    {} as DeckType,
+  );
+  const [orderedList, setOrderedList] = useState<CardType[]>([]);
   const [pinnedList, setPinnedList] = useState<CardType[]>([]);
-  const [unpinnedList, setUnpinnedList] = useState<CardType[]>(
-    deckData?.cards || [],
-  );
+  const [unpinnedList, setUnpinnedList] = useState<CardType[]>([]);
 
-  // useEffect(() => {
-  //   console.log("deckData updated to: ", deckData);
-  // }, [deckData]);
+  // update orderedList when pendingDeckData changes
+  useEffect(() => {
+    setOrderedList(pendingDeckData.cards);
+  }, [pendingDeckData]);
 
   const value = {
-    deckData,
-    setDeckData,
+    originalDeckData,
+    setOriginalDeckData,
+    pendingDeckData,
+    setPendingDeckData,
     orderedList,
     setOrderedList,
     pinnedList,
