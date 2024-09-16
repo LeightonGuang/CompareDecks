@@ -1,23 +1,35 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CompareList from "@/components/compareList/CompareList";
 import { useDeck } from "@/context/DeckContext";
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+
+import { DeckType } from "@/_types/DeckType";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const { user, fetchUser } = useUser();
-  const { setDeckData, getDeckById } = useDeck();
+  const {
+    setDeckData,
+    getDeckById,
+    pendingDeckData,
+    setPendingDeckData,
+    originalDeckData,
+    setOriginalDeckData,
+  } = useDeck();
+
   const [isLoading, setIsLoading] = useState(true);
 
   const getDeck = async () => {
-    setDeckData(null);
+    setDeckData({} as DeckType);
     try {
       const response = await getDeckById(params.deckId);
       if (response) {
         const { success, error, data } = response;
         if (data !== null) {
           setDeckData(data[0]);
+          setOriginalDeckData(data[0]);
+          setPendingDeckData(data[0]);
         }
 
         if (!success) {
@@ -51,7 +63,10 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
             <div className="absolute right-0">
               <button
                 className="ml-[auto] mr-[1rem] mt-[1rem] rounded-[0.325rem] bg-green-500 px-[1rem] py-[0.5rem] text-white disabled:bg-gray-400 disabled:text-black"
-                disabled={true}
+                disabled={
+                  JSON.stringify(pendingDeckData) ===
+                  JSON.stringify(originalDeckData)
+                }
               >
                 Update
               </button>
