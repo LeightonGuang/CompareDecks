@@ -16,15 +16,12 @@ import { CardType } from "@/_types/CardType";
 const CompareList = () => {
   const { user } = useUser();
   const {
-    deckData,
     orderedList,
     setOrderedList,
     pinnedList,
     setPinnedList,
     unpinnedList,
     setUnpinnedList,
-    originalDeckData,
-    setOriginalDeckData,
     pendingDeckData,
     setPendingDeckData,
   } = useDeck();
