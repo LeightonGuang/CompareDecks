@@ -8,7 +8,7 @@ import { DeckProvider } from "@/context/DeckContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Compare Deck",
+  title: "Compare Decks",
   description:
     "Compare Deck simplifies the process of comparing different things.",
 };
