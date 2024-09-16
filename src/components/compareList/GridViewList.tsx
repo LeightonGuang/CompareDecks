@@ -6,10 +6,9 @@ import editIcon from "../../_assets/icons/editIcon.svg";
 import binIcon from "../../_assets/icons/binIcon.svg";
 
 import { ListViewProps } from "@/_types/ListViewProps";
+import { useDeck } from "@/context/DeckContext";
 
 const GridViewList = ({
-  pinnedList,
-  unpinnedList,
   handlePinButton,
   handleUnpinButton,
   handleEditCardButton,
@@ -17,9 +16,11 @@ const GridViewList = ({
   handleDeleteCardButton,
   isAuth,
 }: ListViewProps) => {
+  const { pinnedList, unpinnedList } = useDeck();
+
   return (
     <div
-      className="mt-[1rem] flex rounded-[4px] bg-[#e0e0e0] p-[24px]"
+      className="mt-[1rem] flex rounded-[0.25rem] bg-[#e0e0e0] p-[1.5rem]"
       id="column-view-container"
     >
       <ul className="mb-[1rem] hidden sm:flex sm:flex-col" id="category-names">

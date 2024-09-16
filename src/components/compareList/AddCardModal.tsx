@@ -1,23 +1,13 @@
 import { useState } from "react";
 
 import { CardType } from "@/_types/CardType";
-import { DeckType } from "@/_types/DeckType";
+import { useDeck } from "@/context/DeckContext";
 
 interface Props {
-  orderedList: CardType[];
-  unpinnedList: CardType[];
-  setIsAddCardModal: any;
-  setOrderedList: any;
-  setUnpinnedList: any;
+  setIsShowAddCardModal: any;
 }
 
-const AddCardModal = ({
-  orderedList,
-  unpinnedList,
-  setIsAddCardModal,
-  setOrderedList,
-  setUnpinnedList,
-}: Props) => {
+const AddCardModal = ({ setIsShowAddCardModal }: Props) => {
   const [formData, setFormData] = useState<CardType>({
     id: 0,
     deck_uuid: "",
@@ -31,6 +21,8 @@ const AddCardModal = ({
     edited_at: "",
   });
 
+  const { pendingDeckData, setPendingDeckData, unpinnedList, setUnpinnedList } =
+    useDeck();
   const [isError, setIsError] = useState({
     name: false,
   });
@@ -42,17 +34,24 @@ const AddCardModal = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmitAddCardForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleAddCardFormSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.name === "") {
       console.log("Please enter a name");
       setIsError({ ...isError, name: true });
       return;
     } else {
-      setOrderedList([...orderedList, formData]);
+      console.log(pendingDeckData);
+      setPendingDeckData({
+        ...pendingDeckData,
+        cards: [
+          ...pendingDeckData.cards,
+          { ...formData, id: pendingDeckData.cards.length + 1 },
+        ],
+      });
       setUnpinnedList([...unpinnedList, formData]);
       setIsError({ ...isError, name: false });
-      setIsAddCardModal(false);
+      setIsShowAddCardModal(false);
     }
   };
 
@@ -73,7 +72,7 @@ const AddCardModal = ({
             <h1>Add Card</h1>
             <button
               className="rounded-[0.25rem] bg-red-300 px-[0.5rem] py-[0.25rem] text-[0.75rem]"
-              onClick={() => setIsAddCardModal(false)}
+              onClick={() => setIsShowAddCardModal(false)}
             >
               Close
             </button>
@@ -85,7 +84,7 @@ const AddCardModal = ({
           />
           <form
             className="flex flex-col gap-[1rem]"
-            onSubmit={handleSubmitAddCardForm}
+            onSubmit={handleAddCardFormSubmit}
           >
             <div>
               <input
