@@ -10,7 +10,6 @@ import { DeckType } from "@/_types/DeckType";
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const { user, fetchUser } = useUser();
   const {
-    setDeckData,
     getDeckById,
     pendingDeckData,
     setPendingDeckData,
@@ -21,13 +20,12 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getDeck = async () => {
-    setDeckData({} as DeckType);
+    setPendingDeckData({} as DeckType);
     try {
       const response = await getDeckById(params.deckId);
       if (response) {
         const { success, error, data } = response;
         if (data !== null) {
-          setDeckData(data[0]);
           setOriginalDeckData(data[0]);
           setPendingDeckData(data[0]);
         }
