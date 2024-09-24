@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import CompareList from "@/components/compareList/CompareList";
+import { supabase } from "@/utils/supabase/client";
 
 import { DeckType } from "@/_types/DeckType";
 
 const ExamplePage = () => {
   const getExampleDeck = async () => {
     try {
-      const supabase = createClient();
       const exampleDeckQuery = await supabase
         .from("decks")
         .select(
@@ -64,7 +63,7 @@ const ExamplePage = () => {
     <main className="h-dynamic-vh" id="create-deck-page">
       <div className="mx-mobile-spacing">
         <h1 className="pt-mobile-spacing">Example Deck</h1>
-        {loading ? <p>Loading...</p> : <CompareList deckData={deckData[0]} />}
+        {loading ? <p>Loading...</p> : <CompareList />}
       </div>
     </main>
   );
