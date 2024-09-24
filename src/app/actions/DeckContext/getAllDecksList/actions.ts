@@ -1,5 +1,6 @@
 "use server";
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
+
 /**
  * Get list of all decks
  *
@@ -10,7 +11,6 @@ import { createClient } from "@/utils/supabase/client";
 
 export async function getAllDecksList() {
   try {
-    const supabase = createClient();
     const { data, error } = await supabase
       .from("decks")
       .select("* , cards(imgUrl)");
