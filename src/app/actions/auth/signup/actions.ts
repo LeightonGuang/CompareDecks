@@ -1,6 +1,6 @@
 "use server";
 import { SignupFormProps } from "@/_types/SignupFormProps";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseServer } from "@/utils/supabase/server";
 
 /**
  * This function validates the signup data
@@ -65,8 +65,10 @@ export async function signUp(
   if (hasValidationErrors) {
     return { data: null, success: false, errors };
   } else if (!hasValidationErrors) {
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabaseServer.auth.signUp({
+      email,
+      password,
+    });
 
     if (error) {
       console.error("Supabase sign up error: " + error.message);
