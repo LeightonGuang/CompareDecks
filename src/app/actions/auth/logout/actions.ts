@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/utils/supabase/server";
+import { supabaseServer } from "@/utils/supabase/server";
 
 /**
  * This function logs the user out using Supabase
@@ -9,9 +9,7 @@ import { createClient } from "@/utils/supabase/server";
  */
 
 export async function logout() {
-  const supabase = createClient();
-
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabaseServer.auth.signOut();
 
   if (error) {
     console.log("Supabase SignOut Error: " + error.message);
