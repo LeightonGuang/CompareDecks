@@ -1,8 +1,8 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState } from "react";
+import { supabase } from "../utils/supabase/client";
 
 interface UserContextType {
   user: any;
@@ -31,7 +31,12 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+export const UserProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+  value?: any;
+}) => {
   const [user, setUser] = useState<any>(null);
   const [isUserFetched, setIsUserFetched] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -45,7 +50,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setErrorMessage,
 
     fetchUser: async () => {
-      const supabase = createClient();
       const { data, error } = await supabase.auth.getUser();
       if (data.user) {
         setUser(data.user);
@@ -95,7 +99,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     signInWithGoogle: async () => {
       try {
-        const supabase = createClient();
         const { data, error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
