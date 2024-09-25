@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/utils/supabase/server";
+import { supabaseServerAdmin } from "@/utils/supabase/server";
 
 /**
  * This function updates the username of the user
@@ -11,14 +11,16 @@ import { createAdminClient } from "@/utils/supabase/server";
  */
 
 export async function updateUsername(userId: string, newUsername: string) {
-  const supabase = createAdminClient();
   try {
-    const { error } = await supabase.auth.admin.updateUserById(userId, {
-      user_metadata: {
-        name: newUsername,
-        full_name: newUsername,
+    const { error } = await supabaseServerAdmin.auth.admin.updateUserById(
+      userId,
+      {
+        user_metadata: {
+          name: newUsername,
+          full_name: newUsername,
+        },
       },
-    });
+    );
     if (error) {
       console.error(error);
       return {
@@ -32,6 +34,10 @@ export async function updateUsername(userId: string, newUsername: string) {
       };
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error during username update:", error);
+    return {
+      success: false,
+      message: `Unexpected error: ${error}`,
+    };
   }
 }

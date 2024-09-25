@@ -1,4 +1,4 @@
-import { createAdminClient } from "@/utils/supabase/server";
+import { supabaseServerAdmin } from "@/utils/supabase/server";
 
 interface returnType {
   success: boolean;
@@ -17,10 +17,8 @@ interface returnType {
 export async function deleteAccount(
   userId: string,
 ): Promise<returnType | undefined> {
-  const supabase = createAdminClient();
-
   try {
-    const { error } = await supabase.auth.admin.deleteUser(userId);
+    const { error } = await supabaseServerAdmin.auth.admin.deleteUser(userId);
 
     if (error) {
       console.error(error);
