@@ -6,7 +6,9 @@ import { supabaseServer } from "@/utils/supabase/server";
  *
  * @param {string} email - The email of the user
  * @param {string} password - The password of the user
- * @returns {string} error.message - Return error message if there is an error
+ * @returns {Object} - Returns an object with either error or the user/session data
+ * @property {string} error - The error message if there is an error
+ * @property {Object} data - The user and session data if the login is successful
  */
 
 export async function login(email: string, password: string) {
@@ -15,11 +17,13 @@ export async function login(email: string, password: string) {
     password,
   };
 
-  const { error } =
+  const { data, error } =
     await supabaseServer.auth.signInWithPassword(loginCredentials);
 
   if (error) {
-    console.error(error.message);
-    return error.message;
+    console.error("Login failed:", error.message);
+    return { data: null, error: error.message };
   }
+
+  return { data: { user: data.user, session: data.session }, error: null };
 }
