@@ -1,5 +1,5 @@
 export interface CardType {
-  id: number;
+  id?: number;
   deck_uuid: string;
   imgUrl: string;
   brand: string;
@@ -7,6 +7,6 @@ export interface CardType {
   year: number;
   price: string;
   description: string;
-  created_at: string;
-  edited_at: string;
+  created_at?: string;
+  edited_at?: string;
 }
