@@ -1,4 +1,4 @@
-import { supabaseServerAdmin } from "@/utils/supabase/server";
+import { getSupabaseServerAdmin } from "@/utils/supabase/server";
 
 /**
  * This function updates the username of the user
@@ -12,6 +12,7 @@ import { supabaseServerAdmin } from "@/utils/supabase/server";
 
 export async function updateUsername(userId: string, newUsername: string) {
   try {
+    const supabaseServerAdmin = getSupabaseServerAdmin();
     const { error } = await supabaseServerAdmin.auth.admin.updateUserById(
       userId,
       {
