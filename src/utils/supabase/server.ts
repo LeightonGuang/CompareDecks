@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-function getSupabaseServer() {
+export function getSupabaseServer() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -24,9 +24,7 @@ function getSupabaseServer() {
   );
 }
 
-export const supabaseServer = getSupabaseServer();
-
-function getSupabaseServerAdmin() {
+export function getSupabaseServerAdmin() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!,
@@ -48,5 +46,3 @@ function getSupabaseServerAdmin() {
     },
   );
 }
-
-export const supabaseServerAdmin = getSupabaseServerAdmin();
