@@ -4,10 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
-import { createClient } from "@/utils/supabase/client";
 import CompareList from "@/components/compareList/CompareList";
 
-import { CardType } from "@/_types/CardType";
 import { DeckType } from "@/_types/DeckType";
 
 const CreateDeckPage = () => {
@@ -21,63 +19,43 @@ const CreateDeckPage = () => {
     setPinnedList,
     unpinnedList,
     setUnpinnedList,
+    createDeck,
   } = useDeck();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  if (user === undefined && !isLoading) {
-    router.push("/");
-  }
-
   const handleCreateDeckButton = async () => {
-    if (user.aud !== "authenticated") {
-      return console.error("User is not authenticated");
-    }
-    console.log("Create deck button clicked");
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("decks")
-        .insert([{ name: "New Deck", user_uid: user?.id }]);
-
-      if (error) console.error(error);
-
-      const { data: insertedDeck, error: selectError } = await supabase
-        .from("decks")
-        .select("*")
-        .eq("user_uid", user?.id)
-        .order("created_at", { ascending: false })
-        .limit(1);
-
-      if (insertedDeck) {
-        const insertedDeckUuid = insertedDeck[0].uuid;
-
-        const cardList: CardType[] = pendingDeckData?.cards.map((card) => ({
-          deck_uuid: insertedDeckUuid,
-          imgUrl: card.imgUrl,
-          brand: card.brand,
-          name: card.name,
-          year: card.year,
-          price: card.price,
-          description: card.description,
-        })) as CardType[];
-
-        const { data: uploadedCards, error: uploadError } = await supabase
-          .from("cards")
-          .insert(cardList);
-
-        if (uploadedCards) {
-          console.log("Uploaded cards:", uploadedCards);
-          router.push(`/decks/${insertedDeckUuid}`);
-        }
-
-        if (uploadError) console.error(uploadError);
+      if (user.aud !== "authenticated") {
+        return console.error("User is not authenticated");
       }
 
-      if (selectError) console.error(selectError);
+      const filteredCardsData = pendingDeckData.cards.map((card) => {
+        const { id, created_at, edited_at, ...rest } = card;
+        return rest;
+      });
+
+      const deckDataWithoutCardsId = {
+        ...pendingDeckData,
+        cards: filteredCardsData,
+      };
+
+      const response = await createDeck(deckDataWithoutCardsId);
+
+      if (response.success) {
+        router.push(`/decks/${response.deck_uuid}`);
+      } else if (!response.success) {
+        router.push("/error");
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (user === undefined && !isLoading) {
+      router.push("/");
+    }
+  }, [user, isLoading]);
 
   useEffect(() => {
     if (pinnedList.length !== 0) setPinnedList([]);
