@@ -134,12 +134,13 @@ export const UserProvider = ({
         if (response.ok) {
           router.push("/");
         } else {
-          console.error(responseData.message.error);
-          setErrorMessage(responseData.message.error);
+          console.error(responseData.message);
+          setErrorMessage(responseData.message);
         }
         return response;
       } catch (error) {
         console.error("Error during email login: ", error);
+        setErrorMessage(error as string);
       }
     },
 
@@ -181,11 +182,12 @@ export const UserProvider = ({
           console.log(responseData.message);
           return { success: true };
         } else {
-          console.error(responseData.message.error);
-          return responseData.message.error;
+          console.error(responseData.message);
+          return { success: false, error: responseData.message };
         }
       } catch (error) {
         console.error(error);
+        return { success: false, error };
       }
     },
 
