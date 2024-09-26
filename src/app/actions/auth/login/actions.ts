@@ -1,5 +1,5 @@
 "use server";
-import { supabaseServer } from "@/utils/supabase/server";
+import { getSupabaseServer } from "@/utils/supabase/server";
 
 /**
  * This function logs in the user with the given email and password using Supabase
@@ -17,6 +17,7 @@ export async function login(email: string, password: string) {
     password,
   };
 
+  const supabaseServer = getSupabaseServer();
   const { data, error } =
     await supabaseServer.auth.signInWithPassword(loginCredentials);
 

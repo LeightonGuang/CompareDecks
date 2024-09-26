@@ -1,5 +1,5 @@
 "use server";
-import { supabaseServer } from "@/utils/supabase/server";
+import { getSupabaseServer } from "@/utils/supabase/server";
 
 /**
  * Get deck by id
@@ -14,6 +14,7 @@ export async function getDeckById(
   uuid: string,
 ): Promise<{ data: any; error: any }> {
   try {
+    const supabaseServer = getSupabaseServer();
     const { data, error } = await supabaseServer
       .from("decks")
       .select(

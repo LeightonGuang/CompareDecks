@@ -1,10 +1,14 @@
+"use server";
+
 import { CardType } from "@/_types/CardType";
-import { createClient } from "@/utils/supabase/client";
+import { getSupabaseServer } from "@/utils/supabase/server";
 
 export async function createDeck(cardList: CardType[]) {
   try {
-    const supabase = createClient();
-    const { data, error } = await supabase.from("cards").insert(cardList);
+    const supabaseServer = getSupabaseServer();
+    const { data, error } = await supabaseServer.from("cards").insert(cardList);
+
+    console.log(data);
   } catch (error) {
     console.error(error);
   }
