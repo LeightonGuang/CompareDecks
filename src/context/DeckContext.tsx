@@ -23,6 +23,9 @@ interface DeckContextType {
   ) => Promise<
     { success: boolean; error: any; data: DeckType[] | null } | undefined
   >;
+  createDeck: (
+    deckData: DeckType,
+  ) => Promise<{ success: boolean; deck_uuid?: string; error?: string }>;
 }
 
 const DeckContext = createContext<DeckContextType | undefined>(undefined);
@@ -55,23 +58,52 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     unpinnedList,
     setUnpinnedList,
     getDeckById: async (uuid: string) => {
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uuid,
-        }),
-      };
+      try {
+        const response = await fetch("/api/DeckContext/getDeckById", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uuid,
+          }),
+        });
 
-      const response = await fetch("/api/DeckContext/getDeckById", options);
-      const responseData = await response.json();
+        const responseData = await response.json();
 
-      if (response.ok) {
-        return { success: true, error: null, data: responseData.data };
-      } else if (!responseData.ok) {
-        return { success: false, error: responseData.error, data: null };
+        if (response.ok) {
+          return { success: true, error: null, data: responseData.data };
+        } else if (!responseData.ok) {
+          return { success: false, error: responseData.error, data: null };
+        }
+      } catch (error) {
+        return { success: false, error, data: null };
+      }
+    },
+    createDeck: async (deckData: DeckType) => {
+      try {
+        const response = await fetch("/api/DeckContext/createDeck", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            deckData,
+          }),
+        });
+
+        const responseData = await response.json();
+        console.log("responseData: ", responseData);
+
+        if (response.ok) {
+          return { success: true, deck_uuid: responseData.deck_uuid };
+        } else if (!response.ok) {
+          return { success: false, error: responseData.error };
+        }
+
+        return responseData.data;
+      } catch (error) {
+        return { success: false, error: error };
       }
     },
   };
