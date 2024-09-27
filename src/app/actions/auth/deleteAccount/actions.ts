@@ -1,4 +1,4 @@
-import { supabaseServerAdmin } from "@/utils/supabase/server";
+import { getSupabaseServerAdmin } from "@/utils/supabase/server";
 
 interface returnType {
   success: boolean;
@@ -18,6 +18,7 @@ export async function deleteAccount(
   userId: string,
 ): Promise<returnType | undefined> {
   try {
+    const supabaseServerAdmin = getSupabaseServerAdmin();
     const { error } = await supabaseServerAdmin.auth.admin.deleteUser(userId);
 
     if (error) {
