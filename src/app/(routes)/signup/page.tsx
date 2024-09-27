@@ -66,7 +66,7 @@ const SignupPage = () => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return (
     <main className="flex h-dynamic-vh items-center justify-center overflow-y-auto">

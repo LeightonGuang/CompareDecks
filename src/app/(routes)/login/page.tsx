@@ -53,7 +53,7 @@ const LoginPage = () => {
   useEffect(() => {
     setErrorMessage("");
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   return (
     <main

@@ -130,7 +130,7 @@ const Header = () => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
   return (
     <header className="max-w-full bg-white">
       <div
