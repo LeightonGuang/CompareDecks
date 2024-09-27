@@ -1,3 +1,5 @@
+"use client";
+
 import { useUser } from "@/context/UserContext";
 import React from "react";
 
@@ -19,6 +21,8 @@ const UpdateUsernameModal = ({ setShowUpdateUsernameModal }: Props) => {
     if (response.success) {
       setShowUpdateUsernameModal(false);
       window.location.reload();
+    } else if (!response.success) {
+      console.error(response.message);
     }
   };
 
