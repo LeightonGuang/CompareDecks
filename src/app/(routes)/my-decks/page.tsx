@@ -40,7 +40,7 @@ const MyDecksPage = () => {
   useEffect(() => {
     fetchUser();
     setIsLoading(false);
-  }, [fetchUser]);
+  }, []);
 
   useEffect(() => {
     if (user) {

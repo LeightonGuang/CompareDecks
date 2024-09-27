@@ -21,7 +21,7 @@ const AccountPage = () => {
   useEffect(() => {
     fetchUser();
     setIsLoading(false);
-  }, [fetchUser]);
+  }, []);
 
   if (user === undefined && !isLoading) {
     router.push("/");
