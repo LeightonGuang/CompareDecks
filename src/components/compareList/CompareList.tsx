@@ -146,7 +146,7 @@ const CompareList = () => {
               ) : (
                 <>
                   <h2 className="text-[1.5rem] font-bold leading-[2rem]">
-                    {pendingDeckData.name}
+                    {pendingDeckData.name ? pendingDeckData.name : ""}
                   </h2>
                   {user && user?.id === pendingDeckData?.user_uid ? (
                     <button
@@ -201,12 +201,6 @@ const CompareList = () => {
             <EditCardModal
               cardFormData={cardFormData}
               setCardFormData={setCardFormData}
-              // orderedList={orderedList}
-              // setOrderedList={setOrderedList}
-              // pinnedList={pinnedList}
-              // setPinnedList={setPinnedList}
-              // unpinnedList={unpinnedList}
-              // setUnpinnedList={setUnpinnedList}
               setIsShowEditCardModal={setIsShowEditCardModal}
             />
           )}
