@@ -10,25 +10,27 @@ import { DeckType } from "@/_types/DeckType";
 import { useUser } from "@/context/UserContext";
 
 const DecksPage = () => {
-  const { fetchUser } = useUser();
+  const { user, fetchUser } = useUser();
   const [decksList, setDecksList] = useState<DeckType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchData = async () => {
+  const fetchAllDecks = async () => {
     try {
       const response = await getAllDecksList();
       setDecksList(response);
     } catch (err) {
       console.error(err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchUser();
-    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchAllDecks();
+    setIsLoading(false);
+  }, [user]);
 
   return (
     <main className="h-dynamic-vh">
