@@ -13,7 +13,9 @@ export async function getAllDecksList() {
   try {
     const { data, error } = await supabase
       .from("decks")
-      .select("* , cards(imgUrl)");
+      .select(
+        `id, user_uid, uuid, name, created_at, edited_at , cards(imgUrl)`,
+      );
 
     if (data) {
       return { allDecksList: data, error: null };
