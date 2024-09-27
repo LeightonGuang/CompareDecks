@@ -99,7 +99,9 @@ const CompareList = () => {
   };
 
   const updateDeckState = () => {
-    const sortedData = pendingDeckData.cards.sort((a, b) => a.id - b.id);
+    const sortedData = pendingDeckData.cards.sort(
+      (a, b) => (a?.id ?? 0) - (b?.id ?? 0),
+    );
     setOrderedList(sortedData ?? []);
     setUnpinnedList(sortedData ?? []);
     setDeckName(pendingDeckData.name);
