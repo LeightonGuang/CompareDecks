@@ -73,7 +73,9 @@ const ListViewList = ({
               {isAuth && (
                 <td>
                   <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                    <button onClick={() => handleEditCardButton()}>
+                    <button
+                      onClick={() => handleEditCardButton(cardIndex, true)}
+                    >
                       <Image
                         src={editIcon}
                         alt="edit icon"
@@ -137,7 +139,9 @@ const ListViewList = ({
               {isAuth && (
                 <td>
                   <div className="flex justify-center gap-mobile-spacing px-[1rem]">
-                    <button onClick={() => handleEditCardButton()}>
+                    <button
+                      onClick={() => handleEditCardButton(cardIndex, false)}
+                    >
                       <Image
                         className="min-h-[1.25rem] min-w-[1.25rem]"
                         src={editIcon}
