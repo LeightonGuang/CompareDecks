@@ -41,7 +41,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   useEffect(() => {
     if (user) {

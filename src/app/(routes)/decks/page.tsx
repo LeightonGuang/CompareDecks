@@ -28,7 +28,7 @@ const DecksPage = () => {
   useEffect(() => {
     fetchUser();
     fetchData();
-  }, []);
+  }, [fetchUser, fetchData]);
 
   return (
     <main className="h-dynamic-vh">

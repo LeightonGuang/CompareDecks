@@ -61,7 +61,7 @@ const CreateDeckPage = () => {
     if (pinnedList.length !== 0) setPinnedList([]);
     if (unpinnedList.length !== 0) setUnpinnedList([]);
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   useEffect(() => {
     if (user) {
