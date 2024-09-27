@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/utils/supabase/server";
+import { getSupabaseServer } from "@/utils/supabase/server";
 
 /**
  * Validates the new password
@@ -51,20 +51,37 @@ export async function updatePassword(newPassword: string): Promise<{
     return { success: true, passwordValidationErrors, supabaseError: null };
   }
 
-  const supabase = createClient();
-
   try {
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    // Make sure user is authenticated before updating the password
+    const supabaseServer = getSupabaseServer();
+    const { data: user, error: getUserError } =
+      await supabaseServer.auth.getUser();
 
-    if (error) {
-      console.log("Supabase SignOut Error: " + error.message);
+    if (getUserError) {
       return {
         success: false,
-        passwordValidationErrors: error,
-        supabaseError: error,
+        passwordValidationErrors: null,
+        supabaseError: getUserError.message,
+      };
+    }
+
+    const { error: updateUserError } = await supabaseServer.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (updateUserError) {
+      console.log("Supabase SignOut Error: " + updateUserError.message);
+      return {
+        success: false,
+        passwordValidationErrors: updateUserError,
+        supabaseError: updateUserError,
       };
     } else {
-      return { success: true, passwordValidationErrors, supabaseError: error };
+      return {
+        success: true,
+        passwordValidationErrors,
+        supabaseError: updateUserError,
+      };
     }
   } catch (error) {
     console.error("Error during password change: ", error);

@@ -1,3 +1,5 @@
+"use server";
+
 import { NextResponse } from "next/server";
 import { updatePassword } from "@/app/actions/auth/updatePassword/actions";
 import { login } from "@/app/actions/auth/login/actions";
@@ -16,10 +18,13 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { email, currentPassword, newPassword } = body;
 
-    const loginErrorMessage = await login(email, currentPassword);
+    const { data: loginData, error: loginError } = await login(
+      email,
+      currentPassword,
+    );
 
-    if (loginErrorMessage) {
-      return NextResponse.json({ error: loginErrorMessage }, { status: 400 });
+    if (loginError) {
+      return NextResponse.json({ error: loginError }, { status: 400 });
     }
 
     // check new password is strong
@@ -32,10 +37,14 @@ export async function POST(request: Request) {
         { error: passwordValidationErrors },
         { status: 400 },
       );
-    } else if (!success && supabaseError) {
+    }
+
+    if (!success && supabaseError) {
       // supabase error
       return NextResponse.json({ error: supabaseError }, { status: 400 });
-    } else if (success) {
+    }
+
+    if (success) {
       return NextResponse.json({ error: null }, { status: 200 });
     }
   } catch (error) {
