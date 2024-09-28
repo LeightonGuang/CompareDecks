@@ -18,6 +18,7 @@ const DecksPage = () => {
   const getDecks = async () => {
     try {
       const response = await getAllDecks();
+      console.table(response);
 
       if (response) {
         if (response.length !== 0) {
