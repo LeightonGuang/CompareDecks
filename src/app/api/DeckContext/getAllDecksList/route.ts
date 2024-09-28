@@ -2,8 +2,6 @@
 import { getAllDecksList } from "@/app/actions/DeckContext/getAllDecksList/actions";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic"; // no caching
-
 export async function GET(): Promise<NextResponse> {
   try {
     const { allDecksList, error } = await getAllDecksList();
@@ -19,7 +17,10 @@ export async function GET(): Promise<NextResponse> {
         { status: 404 },
       );
     }
-    return NextResponse.json({ allDecksList }, { status: 200 });
+    const response = NextResponse.json({ allDecksList }, { status: 200 });
+    response.headers.set("Cache-Control", "no-store");
+
+    return response;
   } catch (error) {
     console.error("Unexpected error: ", error);
     return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
