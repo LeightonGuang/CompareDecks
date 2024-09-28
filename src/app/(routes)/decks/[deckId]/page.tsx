@@ -23,8 +23,10 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
     setPendingDeckData({} as DeckType);
     try {
       const response = await getDeckById(params.deckId);
+
       if (response) {
         const { success, error, data } = response;
+
         if (data !== null) {
           setOriginalDeckData(data[0]);
           setPendingDeckData(data[0]);
@@ -44,9 +46,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      getDeck();
-    }
+    getDeck();
     setIsLoading(false);
   }, [user]);
 
