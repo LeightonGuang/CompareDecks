@@ -60,7 +60,13 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     setUnpinnedList,
     getAllDecks: async () => {
       try {
-        const response = await fetch("/api/DeckContext/getAllDecksList");
+        const response = await fetch("/api/DeckContext/getAllDecksList", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache",
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch decks");
         }
