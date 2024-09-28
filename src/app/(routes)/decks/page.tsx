@@ -4,31 +4,42 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import placeholder from "../../../_assets/images/placeholder.svg";
-import { getAllDecksList } from "@/utils/getAllDecksList";
 
 import { DeckType } from "@/_types/DeckType";
 import { useUser } from "@/context/UserContext";
+import { useDeck } from "@/context/DeckContext";
 
 const DecksPage = () => {
   const { user, fetchUser } = useUser();
+  const { getAllDecks } = useDeck();
   const [decksList, setDecksList] = useState<DeckType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchAllDecks = async () => {
+  const getDecks = async () => {
     try {
-      const response = await getAllDecksList();
-      setDecksList(response);
-    } catch (err) {
-      console.error(err);
+      const response = await getAllDecks();
+
+      if (response) {
+        if (response.length !== 0) {
+          setDecksList(response);
+        }
+
+        if (response.length === 0) {
+          console.error("No decks found");
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchUser();
   }, []);
 
   useEffect(() => {
-    fetchAllDecks();
+    getDecks();
     setIsLoading(false);
   }, [user]);
 
