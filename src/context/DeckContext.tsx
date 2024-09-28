@@ -18,6 +18,7 @@ interface DeckContextType {
   setPinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
   unpinnedList: CardType[];
   setUnpinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
+  getAllDecks: () => Promise<DeckType[]>;
   getDeckById: (
     uuid: string,
   ) => Promise<
@@ -57,6 +58,26 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     setPinnedList,
     unpinnedList,
     setUnpinnedList,
+    getAllDecks: async () => {
+      try {
+        const response = await fetch("/api/DeckContext/getAllDecksList");
+        if (!response.ok) {
+          throw new Error("Failed to fetch decks");
+        }
+
+        const { allDecksList, error } = await response.json();
+
+        if (error) {
+          console.error("error from response", error);
+          return;
+        } else if (!error) {
+          return allDecksList;
+        }
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+    },
     getDeckById: async (uuid: string) => {
       try {
         const response = await fetch("/api/DeckContext/getDeckById", {
