@@ -38,15 +38,19 @@ const MyDecksPage = () => {
   };
 
   useEffect(() => {
-    fetchUser();
-    setIsLoading(false);
+    setIsLoading(true);
+    const fetchData = async () => {
+      try {
+        await fetchUser();
+        await getDeckListByUserId();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      getDeckListByUserId();
-    }
-  }, [user]);
 
   return (
     <>

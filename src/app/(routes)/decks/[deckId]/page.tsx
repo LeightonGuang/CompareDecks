@@ -6,6 +6,7 @@ import { useDeck } from "@/context/DeckContext";
 import { useUser } from "@/context/UserContext";
 
 import { DeckType } from "@/_types/DeckType";
+import { get } from "http";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const { user, fetchUser } = useUser();
@@ -42,13 +43,19 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   };
 
   useEffect(() => {
-    fetchUser();
+    setIsLoading(true);
+    const fetchData = async () => {
+      try {
+        await fetchUser();
+        await getDeck();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    getDeck();
-    setIsLoading(false);
-  }, [user]);
 
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="create-deck-page">

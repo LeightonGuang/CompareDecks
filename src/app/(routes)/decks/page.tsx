@@ -35,13 +35,18 @@ const DecksPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchUser();
+    const fetchData = async () => {
+      try {
+        await fetchUser();
+        await getDecks();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    getDecks();
-    setIsLoading(false);
-  }, [user]);
 
   return (
     <main className="h-dynamic-vh">
