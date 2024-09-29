@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import CompareList from "@/components/compareList/CompareList";
-import { supabase } from "@/utils/supabase/client";
+import { getSupabase } from "@/utils/supabase/client";
 
 import { DeckType } from "@/_types/DeckType";
 
 const ExamplePage = () => {
   const getExampleDeck = async () => {
     try {
+      const supabase = getSupabase();
       const exampleDeckQuery = await supabase
         .from("decks")
         .select(

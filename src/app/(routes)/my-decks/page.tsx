@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
-import { supabase } from "@/utils/supabase/client";
+import { getSupabase } from "@/utils/supabase/client";
 
 import { DeckType } from "@/_types/DeckType";
 
@@ -17,6 +17,7 @@ const MyDecksPage = () => {
 
   const getDeckListByUserId = async () => {
     try {
+      const supabase = getSupabase();
       const { data, error } = await supabase
         .from("decks")
         .select("*, cards(*)")

@@ -1,5 +1,5 @@
 "use server";
-import { supabase } from "@/utils/supabase/client";
+import { getSupabase } from "@/utils/supabase/client";
 
 /**
  * Get list of all decks
@@ -11,6 +11,7 @@ import { supabase } from "@/utils/supabase/client";
 
 export async function getAllDecksList() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("decks")
       .select(

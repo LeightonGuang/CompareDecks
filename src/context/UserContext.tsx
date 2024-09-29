@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState } from "react";
-import { supabase } from "../utils/supabase/client";
+import { getSupabase } from "../utils/supabase/client";
 
 interface UserContextType {
   user: any;
@@ -30,6 +30,7 @@ interface UserContextType {
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
+const supabase = getSupabase();
 
 export const UserProvider = ({
   children,
