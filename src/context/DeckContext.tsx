@@ -61,6 +61,7 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     getAllDecks: async () => {
       try {
         const response = await fetch("/api/DeckContext/getAllDecksList", {
+          next: { revalidate: 0 },
           method: "GET",
           headers: {
             "Content-Type": "application/json",
