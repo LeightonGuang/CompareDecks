@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { SignupFormProps } from "@/_types/SignupFormProps";
 import { useUser } from "@/context/UserContext";
+import Link from "next/link";
 
 interface ErrorProps {
   hasEmptyUsernameError: boolean;
@@ -171,6 +172,13 @@ const SignupPage = () => {
               Sign Up
             </button>
           </form>
+
+          <div className="mt-[1rem] text-[0.875rem] text-[#5e6d82]">
+            Already have an account?{" "}
+            <Link className="underline" href="/login">
+              Log in
+            </Link>
+          </div>
         </div>
       </div>
     </main>
