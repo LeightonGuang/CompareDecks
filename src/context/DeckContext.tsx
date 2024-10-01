@@ -24,6 +24,9 @@ interface DeckContextType {
   ) => Promise<
     { success: boolean; error: any; data: DeckType[] | null } | undefined
   >;
+  getDecksByUserId: (
+    userId: string,
+  ) => Promise<{ success: boolean; error: any; decks: DeckType[] } | undefined>;
   createDeck: (
     deckData: DeckType,
   ) => Promise<{ success: boolean; deck_uuid?: string; error?: string }>;
@@ -110,6 +113,29 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
         }
       } catch (error) {
         return { success: false, error, data: null };
+      }
+    },
+    getDecksByUserId: async (userId: string) => {
+      try {
+        const response = await fetch("/api/DeckContext/getDecksByUserId", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+          return { success: true, error: null, decks: responseData.data };
+        } else if (!responseData.ok) {
+          return { success: false, error: responseData.error, decks: [] };
+        }
+      } catch (error) {
+        return { success: false, error, decks: [] };
       }
     },
     createDeck: async (deckData: DeckType) => {
