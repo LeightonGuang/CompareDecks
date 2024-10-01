@@ -128,9 +128,6 @@ const Header = () => {
     };
   }, [dropdownRef]);
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
   return (
     <header className="max-w-full bg-white">
       <div
