@@ -4,31 +4,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
+import { useDeck } from "@/context/DeckContext";
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
-import { getSupabase } from "@/utils/supabase/client";
 
 import { DeckType } from "@/_types/DeckType";
 
 const MyDecksPage = () => {
   const router = useRouter();
-  const { fetchUser, user } = useUser();
+  const { user, fetchUser } = useUser();
+  const { getDecksByUserId } = useDeck();
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState<DeckType[]>([]);
-
-  const getDeckListByUserId = async () => {
-    try {
-      const supabase = getSupabase();
-      const { data, error } = await supabase
-        .from("decks")
-        .select("*, cards(*)")
-        .eq("user_uid", user?.id);
-
-      if (data) setDecks(data);
-      if (error) console.error(error);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleDeckClick = (uuid: string) => {
     router.push(`/decks/${uuid}`);
@@ -38,42 +24,54 @@ const MyDecksPage = () => {
     console.log("delete deck", uuid);
   };
 
+  const getUsersDecks = async () => {
+    try {
+      const response = await getDecksByUserId(user.id);
+      if (response?.success) {
+        setDecks(response.decks);
+      }
+
+      if (!response?.success) {
+        console.error(response?.error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        await fetchUser();
-        await getDeckListByUserId();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      getUsersDecks();
+      setIsLoading(false);
+    }
+  }, [user]);
 
   return (
     <>
-      {!isLoading && (
-        <main className="h-dynamic-vh overflow-y-auto" id="my-deck-page">
+      <main className="h-dynamic-vh overflow-y-auto" id="my-deck-page">
+        <div
+          className="mx-mobile-spacing mt-[1.5rem] flex justify-center"
+          id="my-deck-page__container"
+        >
           <div
-            className="mx-mobile-spacing mt-[1.5rem] flex justify-center"
-            id="my-deck-page__container"
+            className="md: w-max rounded-[0.5rem] border shadow-sm"
+            id="my-deck-page__card"
           >
-            <div
-              className="md: w-max rounded-[0.5rem] border shadow-sm"
-              id="my-deck-page__card"
-            >
-              <div className="px-[1.5rem] py-[1rem]">
-                <h1 className="text-[1.5rem] font-[600] leading-[1.5rem]">
-                  My Decks
-                </h1>
-                <p className="mt-[0.375rem] text-[0.875rem] leading-[1.25rem] text-[#5E6D82]">
-                  Mange your created Decks.
-                </p>
-              </div>
-              <div className="p-[1.5rem]">
+            <div className="px-[1.5rem] py-[1rem]">
+              <h1 className="text-[1.5rem] font-[600] leading-[1.5rem]">
+                My Decks
+              </h1>
+              <p className="mt-[0.375rem] text-[0.875rem] leading-[1.25rem] text-[#5E6D82]">
+                Mange your created Decks.
+              </p>
+            </div>
+            <div className="p-[1.5rem]">
+              {!isLoading && (
                 <table>
                   <thead>
                     <tr className="hover:bg-[#f9fafc]">
@@ -153,11 +151,11 @@ const MyDecksPage = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
+              )}
             </div>
           </div>
-        </main>
-      )}
+        </div>
+      </main>
     </>
   );
 };
