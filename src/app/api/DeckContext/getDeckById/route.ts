@@ -1,3 +1,5 @@
+"use server";
+
 import { getDeckById } from "@/app/actions/DeckContext/getDeckById/actions";
 import { NextResponse } from "next/server";
 
