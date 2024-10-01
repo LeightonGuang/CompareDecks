@@ -22,8 +22,6 @@ export async function getDecksByUserId(
       .select("*, cards(*)")
       .eq("user_uid", userId);
 
-    console.log("actions", data);
-
     return { decks: data, error: error };
   } catch (error) {
     console.error(error);
