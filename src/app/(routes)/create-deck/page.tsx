@@ -52,19 +52,13 @@ const CreateDeckPage = () => {
   };
 
   useEffect(() => {
-    if (user === undefined && !isLoading) {
-      router.push("/");
-    }
-  }, [user, isLoading]);
-
-  useEffect(() => {
     if (pinnedList.length !== 0) setPinnedList([]);
     if (unpinnedList.length !== 0) setUnpinnedList([]);
     fetchUser();
   }, []);
 
   useEffect(() => {
-    if (user) {
+    if (user !== null) {
       setOriginalDeckData({
         name: "",
         cards: [],
@@ -88,7 +82,7 @@ const CreateDeckPage = () => {
             <button
               className="rounded-full bg-green-500 px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#f2f5fc] disabled:bg-gray-400 disabled:text-black"
               onClick={handleCreateDeckButton}
-              disabled={pendingDeckData.cards.length === 0}
+              disabled={pendingDeckData?.cards?.length === 0}
             >
               Create
             </button>
