@@ -29,7 +29,11 @@ const MyDecksPage = () => {
     try {
       const response = await getDecksByUserId(user.id);
       if (response?.success) {
-        setDecks(response.decks);
+        if (response.decks) {
+          setDecks(response.decks);
+        } else {
+          setDecks([]);
+        }
       }
 
       if (!response?.success) {
@@ -42,15 +46,18 @@ const MyDecksPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchUser();
+    const fetchData = async () => {
+      try {
+        await fetchUser();
+        await getUsersDecks();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
-  useEffect(() => {
-    if (user !== null) {
-      getUsersDecks();
-      setIsLoading(false);
-    }
-  }, [user]);
 
   return (
     <>
