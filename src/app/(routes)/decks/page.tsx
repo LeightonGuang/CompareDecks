@@ -21,12 +21,10 @@ const DecksPage = () => {
     try {
       const response = await getAllDecks();
       // console.table(response);
-      if (response) {
-        if (response.length !== 0) {
-          setDecksList(response);
-        }
-
-        if (response.length === 0) {
+      if (response?.success) {
+        if (response.decks) {
+          setDecksList(response.decks);
+        } else if (!response.success) {
           console.error("No decks found");
         }
       }
