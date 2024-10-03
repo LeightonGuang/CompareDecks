@@ -18,7 +18,9 @@ interface DeckContextType {
   setPinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
   unpinnedList: CardType[];
   setUnpinnedList: React.Dispatch<React.SetStateAction<CardType[]>>;
-  getAllDecks: () => Promise<DeckType[]>;
+  getAllDecks: () => Promise<
+    { success: boolean; error: any; decks: DeckType[] | null } | undefined
+  >;
   getDeckById: (
     uuid: string,
   ) => Promise<
@@ -26,7 +28,9 @@ interface DeckContextType {
   >;
   getDecksByUserId: (
     userId: string,
-  ) => Promise<{ success: boolean; error: any; decks: DeckType[] } | undefined>;
+  ) => Promise<
+    { success: boolean; error: any; decks: DeckType[] | null } | undefined
+  >;
   createDeck: (
     deckData: DeckType,
   ) => Promise<{ success: boolean; deck_uuid?: string; error?: string }>;
@@ -63,33 +67,27 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
     setUnpinnedList,
     getAllDecks: async () => {
       try {
-        const timestamp = new Date().getTime();
-        const response = await fetch(
-          `/api/DeckContext/getAllDecksList?ts=${timestamp}`,
-          {
-            next: { revalidate: 0 },
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Cache-Control": "no-cache",
-            },
+        const response = await fetch(`/api/DeckContext/getAllDecksList`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch decks");
-        }
-
+        });
         const { allDecksList, error } = await response.json();
 
-        if (error) {
+        if (response.ok) {
+          return {
+            success: true,
+            error: null,
+            decks: allDecksList,
+          };
+        } else if (!response.ok) {
           console.error("error from response", error);
-          return;
-        } else if (!error) {
-          return allDecksList;
+          return { success: false, error, decks: null };
         }
       } catch (error) {
         console.error(error);
-        return;
+        return { success: false, error, decks: null };
       }
     },
     getDeckById: async (uuid: string) => {
@@ -132,10 +130,10 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
         if (response.ok) {
           return { success: true, error: null, decks: responseData.data };
         } else if (!responseData.ok) {
-          return { success: false, error: responseData.error, decks: [] };
+          return { success: false, error: responseData.error, decks: null };
         }
       } catch (error) {
-        return { success: false, error, decks: [] };
+        return { success: false, error, decks: null };
       }
     },
     createDeck: async (deckData: DeckType) => {
