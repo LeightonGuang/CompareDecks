@@ -32,32 +32,28 @@ const MyDecksPage = () => {
         if (response.decks) {
           setDecks(response.decks);
         } else {
-          setDecks([]);
+          console.error("No decks found");
         }
-      }
-
-      if (!response?.success) {
+      } else if (!response?.success) {
         console.error(response?.error);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        await fetchUser();
-        await getUsersDecks();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      getUsersDecks();
+    }
+  }, [user]);
 
   return (
     <>

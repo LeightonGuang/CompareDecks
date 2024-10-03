@@ -12,7 +12,7 @@ import { useDeck } from "@/context/DeckContext";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
 const DecksPage = () => {
-  const { fetchUser } = useUser();
+  const { user, fetchUser } = useUser();
   const { getAllDecks } = useDeck();
   const [decksList, setDecksList] = useState<DeckType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -24,29 +24,29 @@ const DecksPage = () => {
       if (response?.success) {
         if (response.decks) {
           setDecksList(response.decks);
-        } else if (!response.success) {
+        } else {
           console.error("No decks found");
         }
+      } else if (!response?.success) {
+        console.error(response?.error);
       }
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        await fetchUser();
-        await getDecks();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      getDecks();
+    }
+  }, [user]);
 
   const THead = ({ children }: { children: React.ReactNode }) => {
     return (
