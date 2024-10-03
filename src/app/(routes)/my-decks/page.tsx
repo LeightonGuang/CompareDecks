@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
+import placeholder from "../../../_assets/images/placeholder.svg";
 
 import { DeckType } from "@/_types/DeckType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
@@ -140,11 +141,19 @@ const MyDecksPage = () => {
                         onClick={() => handleDeckClick(deck.uuid)}
                       >
                         <td className="p-[1rem]">
-                          <img
-                            className="h-[4rem] w-[4rem] object-contain"
-                            src={deck.cards[0]?.imgUrl}
-                            alt=""
-                          />
+                          {deck.cards[0]?.imgUrl ? (
+                            <img
+                              className="h-[4rem] w-[4rem] object-contain"
+                              src={deck.cards[0]?.imgUrl}
+                              alt=""
+                            />
+                          ) : (
+                            <Image
+                              className="h-[4rem] w-[4rem]"
+                              src={placeholder}
+                              alt="placeholder"
+                            />
+                          )}
                         </td>
                         <td className="whitespace-nowrap p-[1rem]">
                           {deck.name}

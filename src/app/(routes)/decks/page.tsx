@@ -134,7 +134,24 @@ const DecksPage = () => {
                         className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={deck.uuid}
                       >
-                        {deck.cards[0] && deck.cards[0] ? (
+                        <TData href={`/decks/${deck.uuid}`}>
+                          <div className="p-[1rem]">
+                            {deck.cards[0]?.imgUrl ? (
+                              <img
+                                className="h-[4rem] w-[4rem] object-contain"
+                                src={deck.cards[0]?.imgUrl}
+                                alt="preview"
+                              />
+                            ) : (
+                              <Image
+                                className="h-[4rem] w-[4rem]"
+                                src={placeholder}
+                                alt="placeholder"
+                              />
+                            )}
+                          </div>
+                        </TData>
+                        {/* {deck.cards[0] && deck.cards[0] ? (
                           <TData href={`/decks/${deck.uuid}`}>
                             <div className="p-[1rem]">
                               <img
@@ -154,7 +171,7 @@ const DecksPage = () => {
                               />
                             </div>
                           </TData>
-                        )}
+                        )} */}
                         <TData
                           className="h-min whitespace-nowrap p-[1rem]"
                           href={`/decks/${deck.uuid}`}
