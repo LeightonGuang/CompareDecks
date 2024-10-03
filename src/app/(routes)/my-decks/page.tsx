@@ -8,6 +8,7 @@ import { useDeck } from "@/context/DeckContext";
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
 
 import { DeckType } from "@/_types/DeckType";
+import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
 const MyDecksPage = () => {
   const router = useRouter();
@@ -71,32 +72,65 @@ const MyDecksPage = () => {
               </p>
             </div>
             <div className="p-[1.5rem]">
-              {!isLoading && (
-                <table>
-                  <thead>
-                    <tr className="hover:bg-[#f9fafc]">
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                        Preview
-                      </th>
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                        Name
-                      </th>
-                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                        Cards
-                      </th>
-                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                        Last Updated
-                      </th>
-                      <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                        Date Created
-                      </th>
-                      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                        Delete
-                      </th>
+              <table>
+                <thead>
+                  <tr className="hover:bg-[#f9fafc]">
+                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      Preview
+                    </th>
+                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      Name
+                    </th>
+                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
+                      Cards
+                    </th>
+                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
+                      Last Updated
+                    </th>
+                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
+                      Date Created
+                    </th>
+                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+                      Delete
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isLoading ? (
+                    <tr className="border-t-[1px] border-[#E2E8F0] p-[1rem]">
+                      <td className="flex justify-center p-[1rem]">
+                        <div className="h-[4rem] w-[4rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {decks.map((deck, i) => (
+                  ) : (
+                    decks.map((deck, i) => (
                       <tr
                         className="cursor-pointer border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={i}
@@ -148,10 +182,10 @@ const MyDecksPage = () => {
                           </button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
