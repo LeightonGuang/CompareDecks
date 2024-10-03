@@ -9,6 +9,7 @@ import placeholder from "../../../_assets/images/placeholder.svg";
 import { DeckType } from "@/_types/DeckType";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
+import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
 const DecksPage = () => {
   const { fetchUser } = useUser();
@@ -107,8 +108,27 @@ const DecksPage = () => {
 
                 <tbody>
                   {isLoading ? (
-                    <tr className="p-[1rem]">
-                      <td className="p-[1rem] text-center">Loading...</td>
+                    <tr className="border-t-[1px] border-[#E2E8F0] p-[1rem]">
+                      <td className="flex justify-center p-[1rem]">
+                        <div className="h-[4rem] w-[4rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
+                      <td className="p-[1rem]">
+                        <div className="h-[1rem]">
+                          <TextLoadingAnimation />
+                        </div>
+                      </td>
                     </tr>
                   ) : (
                     decksList.map((deck: DeckType) => (
