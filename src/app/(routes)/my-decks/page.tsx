@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
+import { THead, TData } from "@/components/list/ListComponents";
 import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
 import { DeckType } from "@/_types/DeckType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
-import Link from "next/link";
 
 const MyDecksPage = () => {
   const { user, fetchUser } = useUser();
@@ -50,33 +50,6 @@ const MyDecksPage = () => {
       getUsersDecks();
     }
   }, [user]);
-
-  const THead = ({ children }: { children: React.ReactNode }) => {
-    return (
-      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-        {children}
-      </th>
-    );
-  };
-
-  const TData = ({
-    children,
-    href = "/",
-  }: {
-    children?: React.ReactNode;
-    className?: string;
-    href?: string;
-  }) => {
-    return (
-      <td id="td">
-        <Link className="h-full" href={href} id="link">
-          <div className="flex items-center justify-center p-[1rem]">
-            <div className="flex h-[4rem] items-center">{children}</div>
-          </div>
-        </Link>
-      </td>
-    );
-  };
 
   return (
     <>
