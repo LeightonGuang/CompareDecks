@@ -151,27 +151,6 @@ const DecksPage = () => {
                             )}
                           </div>
                         </TData>
-                        {/* {deck.cards[0] && deck.cards[0] ? (
-                          <TData href={`/decks/${deck.uuid}`}>
-                            <div className="p-[1rem]">
-                              <img
-                                className="h-[4rem] w-[4rem] object-contain"
-                                src={deck.cards[0].imgUrl}
-                                alt="preview"
-                              />
-                            </div>
-                          </TData>
-                        ) : (
-                          <TData href={`/decks/${deck.uuid}`}>
-                            <div className="p-[1rem]">
-                              <Image
-                                className="h-[4rem] w-[4rem] object-contain"
-                                src={placeholder}
-                                alt="placeholder"
-                              />
-                            </div>
-                          </TData>
-                        )} */}
                         <TData
                           className="h-min whitespace-nowrap p-[1rem]"
                           href={`/decks/${deck.uuid}`}
