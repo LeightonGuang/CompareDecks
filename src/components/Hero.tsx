@@ -13,7 +13,7 @@ const Hero = () => {
           </h1>
           <p className="mt-[0.5rem] text-[#5e6d82] md:max-w-[37.5rem] md:text-[1rem]">
             Our powerful comparison tool helps you make informed decisions by
-            eeasily comparing products, services and more.
+            easily comparing products, services and more.
           </p>
         </div>
         <div className="mt-[1rem] flex flex-col gap-[1rem] md:flex-row">
