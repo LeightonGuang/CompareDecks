@@ -2,7 +2,7 @@
 export const dynamic = "force-dynamic"; // no caching
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { THead, TData } from "@/components/list/ListComponents";
 import Image from "next/image";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
@@ -47,32 +47,6 @@ const DecksPage = () => {
       getDecks();
     }
   }, [user]);
-
-  const THead = ({ children }: { children: React.ReactNode }) => {
-    return (
-      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-        {children}
-      </th>
-    );
-  };
-
-  const TData = ({
-    children,
-    className = "",
-    href = "/",
-  }: {
-    children?: React.ReactNode;
-    className?: string;
-    href?: string;
-  }) => {
-    return (
-      <td>
-        <Link className={`${className} w-min`} href={href}>
-          {children}
-        </Link>
-      </td>
-    );
-  };
 
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="decks-page">
@@ -151,17 +125,9 @@ const DecksPage = () => {
                             )}
                           </div>
                         </TData>
-                        <TData
-                          className="h-min whitespace-nowrap p-[1rem]"
-                          href={`/decks/${deck.uuid}`}
-                        >
-                          {deck.name}
-                        </TData>
+                        <TData href={`/decks/${deck.uuid}`}>{deck.name}</TData>
 
-                        <TData
-                          className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]"
-                          href={`/decks/${deck.uuid}`}
-                        >
+                        <TData href={`/decks/${deck.uuid}`}>
                           {deck.user_uid}
                         </TData>
                         <td className="h-max-[2.75rem] whitespace-nowrap px-[1rem] py-[0.75rem]">
