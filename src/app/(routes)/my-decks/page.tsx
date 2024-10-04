@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
@@ -10,17 +9,13 @@ import placeholder from "../../../_assets/images/placeholder.svg";
 
 import { DeckType } from "@/_types/DeckType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
+import Link from "next/link";
 
 const MyDecksPage = () => {
-  const router = useRouter();
   const { user, fetchUser } = useUser();
   const { getDecksByUserId } = useDeck();
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState<DeckType[]>([]);
-
-  const handleDeckClick = (uuid: string) => {
-    router.push(`/decks/${uuid}`);
-  };
 
   const handleDeleteButton = async (uuid: string) => {
     console.log("delete deck", uuid);
@@ -56,6 +51,33 @@ const MyDecksPage = () => {
     }
   }, [user]);
 
+  const THead = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
+        {children}
+      </th>
+    );
+  };
+
+  const TData = ({
+    children,
+    href = "/",
+  }: {
+    children?: React.ReactNode;
+    className?: string;
+    href?: string;
+  }) => {
+    return (
+      <td id="td">
+        <Link className="h-full" href={href} id="link">
+          <div className="flex items-center justify-center p-[1rem]">
+            <div className="flex h-[4rem] items-center">{children}</div>
+          </div>
+        </Link>
+      </td>
+    );
+  };
+
   return (
     <>
       <main className="h-dynamic-vh overflow-y-auto" id="my-deck-page">
@@ -79,24 +101,12 @@ const MyDecksPage = () => {
               <table>
                 <thead>
                   <tr className="hover:bg-[#f9fafc]">
-                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                      Preview
-                    </th>
-                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                      Name
-                    </th>
-                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                      Cards
-                    </th>
-                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                      Last Updated
-                    </th>
-                    <th className="hidden h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82] md:table-cell">
-                      Date Created
-                    </th>
-                    <th className="h-[3rem] px-[1rem] py-[1px] text-[0.875rem] font-[500] text-[#5E6D82]">
-                      Delete
-                    </th>
+                    <THead>Preview</THead>
+                    <THead>Name</THead>
+                    <THead>Cards</THead>
+                    <THead>Last Updated</THead>
+                    <THead>Date Created</THead>
+                    <THead>Delete</THead>
                   </tr>
                 </thead>
                 <tbody>
@@ -136,11 +146,10 @@ const MyDecksPage = () => {
                   ) : (
                     decks.map((deck, i) => (
                       <tr
-                        className="cursor-pointer border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
+                        className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={i}
-                        onClick={() => handleDeckClick(deck.uuid)}
                       >
-                        <td className="p-[1rem]">
+                        <TData href={`/decks/${deck.uuid}`}>
                           {deck.cards[0]?.imgUrl ? (
                             <img
                               className="h-[4rem] w-[4rem] object-contain"
@@ -154,14 +163,12 @@ const MyDecksPage = () => {
                               alt="placeholder"
                             />
                           )}
-                        </td>
-                        <td className="whitespace-nowrap p-[1rem]">
-                          {deck.name}
-                        </td>
-                        <td className="hidden p-[1rem] md:table-cell">
+                        </TData>
+                        <TData href={`/decks/${deck.uuid}`}>{deck.name}</TData>
+                        <TData href={`/decks/${deck.uuid}`}>
                           {deck.cards.length}
-                        </td>
-                        <td className="hidden p-[1rem] md:table-cell">
+                        </TData>
+                        <TData href={`/decks/${deck.uuid}`}>
                           {new Date(deck.edited_at).toLocaleDateString(
                             "en-GB",
                             {
@@ -170,8 +177,8 @@ const MyDecksPage = () => {
                               day: "2-digit",
                             },
                           )}
-                        </td>
-                        <td className="hidden p-[1rem] md:table-cell">
+                        </TData>
+                        <TData href={`/decks/${deck.uuid}`}>
                           {new Date(deck.created_at).toLocaleDateString(
                             "en-GB",
                             {
@@ -180,7 +187,7 @@ const MyDecksPage = () => {
                               day: "2-digit",
                             },
                           )}
-                        </td>
+                        </TData>
                         <td className="p-[1rem]">
                           <button
                             className="mx-auto block"
