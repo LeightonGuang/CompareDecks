@@ -17,10 +17,12 @@ const MyDecksPage = () => {
   const { getDecksByUserId } = useDeck();
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState<DeckType[]>([]);
+  const [deckToDeleteUuid, setDeckToDeleteUuid] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDeleteButton = async (uuid: string) => {
     console.log("delete deck", uuid);
+    setDeckToDeleteUuid(uuid);
     setShowDeleteModal(true);
   };
 
@@ -178,7 +180,10 @@ const MyDecksPage = () => {
         </div>
       </div>
       {showDeleteModal && (
-        <DeleteMyDeckModal setShowDeleteModal={setShowDeleteModal} />
+        <DeleteMyDeckModal
+          setShowDeleteModal={setShowDeleteModal}
+          deckId={deckToDeleteUuid}
+        />
       )}
     </main>
   );
