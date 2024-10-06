@@ -34,6 +34,7 @@ interface DeckContextType {
   createDeck: (
     deckData: DeckType,
   ) => Promise<{ success: boolean; deck_uuid?: string; error?: string }>;
+  deleteDeck: (deckId: string) => Promise<{ success: boolean }>;
 }
 
 const DeckContext = createContext<DeckContextType | undefined>(undefined);
@@ -160,6 +161,29 @@ export const DeckProvider = ({ children }: { children: React.ReactNode }) => {
         return responseData.data;
       } catch (error) {
         return { success: false, error: error };
+      }
+    },
+    deleteDeck: async (deckId: string) => {
+      try {
+        const response = await fetch("/api/DeckContext/deleteDeck", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            deckId: deckId,
+          }),
+        });
+
+        if (response.ok) {
+          return {
+            success: true,
+          };
+        }
+
+        return { success: false };
+      } catch (error) {
+        return { success: false };
       }
     },
   };
