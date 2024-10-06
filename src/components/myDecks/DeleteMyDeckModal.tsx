@@ -1,12 +1,20 @@
 import Image from "next/image";
 import deleteCrossIcon from "../../_assets/icons/deleteCrossIcon.svg";
+import { useDeck } from "@/context/DeckContext";
 
 interface Props {
   setShowDeleteModal: (arg0: boolean) => void;
+  deckId: string;
 }
-const DeleteMyDeckModal = ({ setShowDeleteModal }: Props) => {
-  const handleDeleteButton = () => {
-    console.log("delete deck");
+const DeleteMyDeckModal = ({ setShowDeleteModal, deckId }: Props) => {
+  const { deleteDeck } = useDeck();
+
+  const handleDeleteButton = async () => {
+    const response = await deleteDeck(deckId);
+
+    if (response?.success) {
+      setShowDeleteModal(false);
+    }
   };
 
   return (
@@ -37,7 +45,7 @@ const DeleteMyDeckModal = ({ setShowDeleteModal }: Props) => {
               undone.
             </p>
           </div>
-          <div
+          <form
             className="mt-[2rem] flex justify-center gap-[1rem]"
             id="delete-my-deck-card-buttons"
           >
@@ -49,11 +57,12 @@ const DeleteMyDeckModal = ({ setShowDeleteModal }: Props) => {
             </button>
             <button
               className="rounded-[0.25rem] bg-red-600 px-[2rem] py-[0.5rem] text-white"
+              type="submit"
               onClick={handleDeleteButton}
             >
               Delete
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
