@@ -79,13 +79,18 @@ const CreateDeckPage = () => {
         {!isLoading && (
           <>
             <CompareList />
-            <button
-              className="rounded-full bg-green-500 px-[0.5rem] py-[0.25rem] text-[0.75rem] text-[#f2f5fc] disabled:bg-gray-400 disabled:text-black"
-              onClick={handleCreateDeckButton}
-              disabled={pendingDeckData?.cards?.length === 0}
-            >
-              Create
-            </button>
+            <div className="absolute right-0">
+              <button
+                className="ml-[auto] mr-[1rem] mt-[1rem] rounded-[0.325rem] bg-green-500 px-[1rem] py-[0.5rem] text-white disabled:bg-gray-400 disabled:text-black"
+                onClick={handleCreateDeckButton}
+                disabled={
+                  pendingDeckData?.cards?.length === 0 ||
+                  pendingDeckData?.name === ""
+                }
+              >
+                Create
+              </button>
+            </div>
           </>
         )}
       </div>
