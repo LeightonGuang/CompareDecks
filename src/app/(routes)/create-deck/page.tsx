@@ -7,6 +7,7 @@ import { useDeck } from "@/context/DeckContext";
 import CompareList from "@/components/compareList/CompareList";
 
 import { DeckType } from "@/_types/DeckType";
+import SetupCreateDeckModal from "@/components/createDeck/SetupCreateDeckModal";
 
 const CreateDeckPage = () => {
   const router = useRouter();
@@ -22,6 +23,8 @@ const CreateDeckPage = () => {
     createDeck,
   } = useDeck();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showSetupCreateDeckModal, setShowSetupCreateDeckModal] =
+    useState<boolean>(true);
 
   const handleCreateDeckButton = async () => {
     try {
@@ -94,6 +97,12 @@ const CreateDeckPage = () => {
           </>
         )}
       </div>
+
+      {showSetupCreateDeckModal && (
+        <SetupCreateDeckModal
+          setShowSetupCreateDeckModal={setShowSetupCreateDeckModal}
+        />
+      )}
     </main>
   );
 };
