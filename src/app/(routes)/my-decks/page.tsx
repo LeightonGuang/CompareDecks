@@ -59,11 +59,11 @@ const MyDecksPage = () => {
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="my-deck-page">
       <div
-        className="mx-mobile-spacing mt-[1.5rem] flex justify-center"
+        className="flex h-full items-center justify-center"
         id="my-deck-page__container"
       >
         <div
-          className="md: w-max rounded-[0.5rem] border shadow-sm"
+          className="mx-[1rem] w-max rounded-[0.5rem] border shadow-sm"
           id="my-deck-page__card"
         >
           <div className="px-[1.5rem] py-[1rem]">
@@ -81,8 +81,8 @@ const MyDecksPage = () => {
                   <THead>Preview</THead>
                   <THead>Name</THead>
                   <THead>Cards</THead>
-                  <THead>Last Updated</THead>
-                  <THead>Date Created</THead>
+                  <THead className="hidden sm:table-cell">Last Updated</THead>
+                  <THead className="hidden sm:table-cell">Date Created</THead>
                   <THead>Delete</THead>
                 </tr>
               </thead>
@@ -145,14 +145,20 @@ const MyDecksPage = () => {
                       <TData href={`/decks/${deck.uuid}`}>
                         {deck.cards.length}
                       </TData>
-                      <TData href={`/decks/${deck.uuid}`}>
+                      <TData
+                        className="hidden sm:table-cell"
+                        href={`/decks/${deck.uuid}`}
+                      >
                         {new Date(deck.edited_at).toLocaleDateString("en-GB", {
                           year: "numeric",
                           month: "2-digit",
                           day: "2-digit",
                         })}
                       </TData>
-                      <TData href={`/decks/${deck.uuid}`}>
+                      <TData
+                        className="hidden sm:table-cell"
+                        href={`/decks/${deck.uuid}`}
+                      >
                         {new Date(deck.created_at).toLocaleDateString("en-GB", {
                           year: "numeric",
                           month: "2-digit",
