@@ -51,10 +51,13 @@ const DecksPage = () => {
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="decks-page">
       <div
-        className="mx-auto flex h-full flex-col items-center justify-center overflow-hidden"
+        className="flex h-full items-center justify-center"
         id="decks-page__container"
       >
-        <div className="rounded-[0.5rem] border shadow-sm" id="decks-card">
+        <div
+          className="mx-[1rem] rounded-[0.5rem] border shadow-sm"
+          id="decks-card"
+        >
           <div className="px-[1.5rem] py-[1rem]">
             <h1 className="text-[1.5rem] font-[600] leading-[1.5rem]">
               Browse decks
