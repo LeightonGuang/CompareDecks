@@ -55,7 +55,7 @@ const DecksPage = () => {
         id="decks-page__container"
       >
         <div
-          className="mx-[1rem] rounded-[0.5rem] border shadow-sm"
+          className="m-[1rem] rounded-[0.5rem] border shadow-sm"
           id="decks-card"
         >
           <div className="px-[1.5rem] py-[1rem]">
