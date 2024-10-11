@@ -1,3 +1,5 @@
+import { AttributeValueType } from "./AttributeValueType";
+
 export interface CardType {
   id?: number;
   deck_uuid: string;
@@ -7,6 +9,7 @@ export interface CardType {
   year: number;
   price: string;
   description: string;
+  attribute_values: AttributeValueType[];
   created_at?: string;
   edited_at?: string;
 }
