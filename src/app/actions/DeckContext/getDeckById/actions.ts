@@ -25,7 +25,7 @@ export async function getDeckById(
     name, 
     created_at, 
     edited_at,
-    cards:cards (
+    cards (
       id, 
       deck_uuid, 
       imgUrl, 
@@ -35,11 +35,27 @@ export async function getDeckById(
       price, 
       description, 
       created_at, 
-      edited_at
+      edited_at,
+      attribute_values (
+        id, 
+        attribute_id,
+        card_id,
+        value,
+        created_at,
+        edited_at,
+        deck_attributes (
+          id,
+          deck_uuid,
+          attribute,
+          created_at,
+          edited_at
+        )
+      )
     )
   `,
       )
-      .eq("uuid", uuid);
+      .eq("uuid", uuid)
+      .order("id", { ascending: true });
 
     return { data, error };
   } catch (error) {
