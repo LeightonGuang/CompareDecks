@@ -1,8 +1,7 @@
-import { CardType } from "./CardType";
+import { AttributeListType } from "./AttributeListType";
 
 export interface ListViewProps {
-  pinnedList: CardType[];
-  unpinnedList: CardType[];
+  attributeList: AttributeListType[];
   handlePinButton: (objIndex: number) => void;
   handleUnpinButton: (objIndex: number) => void;
   handleEditCardButton: (cardIndex: number, isPinned: boolean) => void;
