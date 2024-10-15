@@ -20,7 +20,8 @@ export async function getDecksByUserId(
     const { data, error } = await supabaseServer
       .from("decks")
       .select("*, cards(*)")
-      .eq("user_uid", userId);
+      .eq("user_uid", userId)
+      .order("id", { ascending: true });
 
     return { decks: data, error: error };
   } catch (error) {

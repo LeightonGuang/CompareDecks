@@ -7,7 +7,8 @@ export async function getDeckAttributes(deck_uuid: string) {
     const { data, error } = await supabaseServer
       .from("deck_attributes")
       .select("*")
-      .eq("deck_uuid", deck_uuid);
+      .eq("deck_uuid", deck_uuid)
+      .order("id", { ascending: true });
 
     if (error) {
       console.error("Error fetching deck attributes:", error.message);
