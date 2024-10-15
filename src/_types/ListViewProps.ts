@@ -1,7 +1,7 @@
-import { AttributeListType } from "./AttributeListType";
+import { DeckAttributesType } from "./DeckAttributesType";
 
 export interface ListViewProps {
-  attributeList: AttributeListType[];
+  attributeList: DeckAttributesType[];
   handlePinButton: (objIndex: number) => void;
   handleUnpinButton: (objIndex: number) => void;
   handleEditCardButton: (cardIndex: number, isPinned: boolean) => void;
