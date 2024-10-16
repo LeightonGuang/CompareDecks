@@ -12,6 +12,7 @@ import { useDeck } from "@/context/DeckContext";
 import editIcon from "../../_assets/icons/editIcon.svg";
 
 import { CardType } from "@/_types/CardType";
+import { DeckAttributesType } from "@/_types/DeckAttributesType";
 
 const CompareList = () => {
   const { user } = useUser();
@@ -29,11 +30,33 @@ const CompareList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [cardFormData, setCardFormData] = useState<CardType | null>(null);
   const [deckName, setDeckName] = useState<string>("");
+  const [attributeList, setAttributeList] = useState<DeckAttributesType[]>([]);
   const [isEditDeckName, setIsEditDeckName] = useState<boolean>(false);
   const [isListView, setIsListView] = useState<boolean>(false);
   const [isShowAddCardModal, setIsShowAddCardModal] = useState<boolean>(false);
   const [isShowEditCardModal, setIsShowEditCardModal] =
     useState<boolean>(false);
+
+  const getDeckAttributes = async (deck_uuid: string) => {
+    try {
+      const response = await fetch(`/api/getDeckAttributes`, {
+        method: "POST",
+        body: JSON.stringify({
+          deck_uuid: deck_uuid,
+        }),
+      });
+      const data = await response.json();
+
+      if (data.deckAttributes) {
+        setAttributeList(data.deckAttributes);
+      } else {
+        setAttributeList([]);
+      }
+    } catch (error) {
+      console.error("Error fetching deck attributes:", error);
+      setAttributeList([]);
+    }
+  };
 
   const handlePinButton: (objIndex: number) => void = (objIndex) => {
     setPinnedList([...pinnedList, unpinnedList[objIndex]]);
@@ -111,8 +134,8 @@ const CompareList = () => {
     const isPendingDeckDataNotEmpty = Object.keys(pendingDeckData).length !== 0;
     if (isPendingDeckDataNotEmpty) updateDeckState();
 
+    getDeckAttributes(pendingDeckData.uuid);
     setIsLoading(false);
-    console.log("pendingDeckData", pendingDeckData);
   }, [pendingDeckData]);
 
   return (
@@ -175,8 +198,7 @@ const CompareList = () => {
           </div>
           {!isListView ? (
             <GridViewList
-              pinnedList={pinnedList}
-              unpinnedList={unpinnedList}
+              attributeList={attributeList}
               handlePinButton={handlePinButton}
               handleUnpinButton={handleUnpinButton}
               handleEditCardButton={handleEditCardButton}
@@ -186,8 +208,7 @@ const CompareList = () => {
             />
           ) : (
             <ListViewList
-              pinnedList={pinnedList}
-              unpinnedList={unpinnedList}
+              attributeList={attributeList}
               handlePinButton={handlePinButton}
               handleUnpinButton={handleUnpinButton}
               handleEditCardButton={handleEditCardButton}
