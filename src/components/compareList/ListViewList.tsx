@@ -4,18 +4,27 @@ import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
 import unpinIcon from "../../_assets/icons/unpinIcon.svg";
 import editIcon from "../../_assets/icons/editIcon.svg";
 import binIcon from "../../_assets/icons/binIcon.svg";
-import { ListViewProps } from "@/_types/ListViewProps";
+import { useDeck } from "@/context/DeckContext";
+
+interface Props {
+  handlePinButton: (objIndex: number) => void;
+  handleUnpinButton: (objIndex: number) => void;
+  handleEditCardButton: (cardIndex: number, isPinned: boolean) => void;
+  handleAddCardButton: () => void;
+  handleDeleteCardButton: (cardIndex: number, isPinned: boolean) => void;
+  isAuth: boolean;
+}
 
 const ListViewList = ({
-  pinnedList,
-  unpinnedList,
   handlePinButton,
   handleUnpinButton,
   handleEditCardButton,
   handleAddCardButton,
   handleDeleteCardButton,
   isAuth,
-}: ListViewProps) => {
+}: Props) => {
+  const { pinnedList, unpinnedList } = useDeck();
+
   return (
     <div className="w-full overflow-x-auto py-[1rem]" id="table-view-container">
       <table className="w-full">
