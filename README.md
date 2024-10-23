@@ -28,6 +28,8 @@ This project was created with the Next.js starter template and uses TypeScript. 
 
 This project is deployed on Netlify.
 
+Link: https://comparedecks.netlify.app
+
 ## Supabase Database Schema Design
 
 ### Decks
