@@ -78,71 +78,79 @@ const DecksPage = () => {
               </thead>
 
               <tbody>
-                {isLoading ? (
-                  <tr className="border-t-[1px] border-[#E2E8F0] p-[1rem]">
-                    <td className="flex justify-center p-[1rem]">
-                      <div className="h-[4rem] w-[4rem]">
-                        <TextLoadingAnimation />
-                      </div>
-                    </td>
-                    <td className="p-[1rem]">
-                      <div className="h-[1rem]">
-                        <TextLoadingAnimation />
-                      </div>
-                    </td>
-                    <td className="p-[1rem]">
-                      <div className="h-[1rem]">
-                        <TextLoadingAnimation />
-                      </div>
-                    </td>
-                    <td className="p-[1rem]">
-                      <div className="h-[1rem]">
-                        <TextLoadingAnimation />
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  decksList.map((deck: DeckType) => (
-                    <tr
-                      className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
-                      key={deck.uuid}
-                    >
-                      <TData href={`/decks/${deck.uuid}`}>
-                        <div>
-                          {deck.cards[0]?.imgUrl ? (
-                            <img
-                              className="h-[4rem] w-[4rem] object-contain"
-                              src={deck.cards[0]?.imgUrl}
-                              alt="preview"
-                            />
-                          ) : (
-                            <Image
-                              className="h-[4rem] w-[4rem]"
-                              src={placeholder}
-                              alt="placeholder"
-                            />
-                          )}
-                        </div>
-                      </TData>
-                      <TData href={`/decks/${deck.uuid}`}>{deck.name}</TData>
-
-                      <TData
-                        className="hidden sm:table-cell"
-                        href={`/decks/${deck.uuid}`}
+                {isLoading
+                  ? Array(4)
+                      .fill(0)
+                      .map((_, i) => (
+                        <tr
+                          className="border-t-[1px] border-[#E2E8F0] p-[1rem]"
+                          key={i}
+                        >
+                          <td className="flex justify-center p-[1rem]">
+                            <div className="h-[4rem] w-[4rem]">
+                              <TextLoadingAnimation />
+                            </div>
+                          </td>
+                          <td className="p-[1rem]">
+                            <div className="h-[1rem]">
+                              <TextLoadingAnimation />
+                            </div>
+                          </td>
+                          <td className="p-[1rem]">
+                            <div className="h-[1rem]">
+                              <TextLoadingAnimation />
+                            </div>
+                          </td>
+                          <td className="p-[1rem]">
+                            <div className="h-[1rem]">
+                              <TextLoadingAnimation />
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                  : decksList.map((deck: DeckType) => (
+                      <tr
+                        className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
+                        key={deck.uuid}
                       >
-                        {deck.user_uid}
-                      </TData>
+                        <TData href={`/decks/${deck.uuid}`}>
+                          <div>
+                            {deck.cards[0]?.imgUrl ? (
+                              <img
+                                className="h-[4rem] w-[4rem] object-contain"
+                                src={deck.cards[0]?.imgUrl}
+                                alt="preview"
+                              />
+                            ) : (
+                              <Image
+                                className="h-[4rem] w-[4rem]"
+                                src={placeholder}
+                                alt="placeholder"
+                              />
+                            )}
+                          </div>
+                        </TData>
+                        <TData href={`/decks/${deck.uuid}`}>{deck.name}</TData>
 
-                      <TData href={`/decks/${deck.uuid}`}>
-                        {new Date(deck.created_at).toLocaleDateString("en-GB", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })}
-                      </TData>
-                    </tr>
-                  ))
-                )}
+                        <TData
+                          className="hidden sm:table-cell"
+                          href={`/decks/${deck.uuid}`}
+                        >
+                          {deck.user_uid}
+                        </TData>
+
+                        <TData href={`/decks/${deck.uuid}`}>
+                          {new Date(deck.created_at).toLocaleDateString(
+                            "en-GB",
+                            {
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                            },
+                          )}
+                        </TData>
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </div>
