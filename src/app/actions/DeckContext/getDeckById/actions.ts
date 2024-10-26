@@ -19,45 +19,53 @@ export async function getDeckById(
       .from("decks")
       .select(
         `
-    id, 
-    user_uid, 
-    uuid, 
-    name, 
-    created_at, 
-    edited_at,
-    cards (
-      id, 
-      deck_uuid, 
-      imgUrl, 
-      brand, 
-      name, 
-      year, 
-      price, 
-      description, 
-      created_at, 
-      edited_at,
-      attribute_values (
         id, 
-        attribute_id,
-        card_id,
-        value,
-        created_at,
+        user_uid, 
+        uuid, 
+        name, 
+        created_at, 
         edited_at,
-        deck_attributes (
-          id,
-          deck_uuid,
-          attribute,
-          created_at,
-          edited_at
+        cards (
+          id, 
+          deck_uuid, 
+          imgUrl, 
+          brand, 
+          name, 
+          year, 
+          price, 
+          description, 
+          created_at, 
+          edited_at,
+          attribute_values (
+            id, 
+            attribute_id,
+            card_id,
+            value,
+            created_at,
+            edited_at,
+            deck_attributes (
+              id,
+              deck_uuid,
+              attribute,
+              created_at,
+              edited_at
+            )
+          )
         )
-      )
-    )
-  `,
+      `,
       )
       .eq("uuid", uuid)
       .order("id", { ascending: true });
 
-    return { data, error };
+    const orderedData = data?.map((deck) => ({
+      ...deck,
+      cards: deck.cards.sort((a, b) => a.id - b.id),
+    }));
+
+    return {
+      data: orderedData,
+      error,
+    };
   } catch (error) {
     console.error(error);
     return { data: null, error };
