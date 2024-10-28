@@ -7,6 +7,8 @@
 
 ## About
 
+![screenshot](/src/_assets/images/comparedecksPage.png)
+
 Compare Decks is a web application comparison tool for comparing
 whatever you want, whether it be products, books, movies, card games, services, or anything else.
 
