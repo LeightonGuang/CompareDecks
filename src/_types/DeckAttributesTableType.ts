@@ -1,4 +1,4 @@
-export interface DeckAttributesType {
+export interface DeckAttributesTableType {
   id: number;
   deck_uuid: string;
   attribute: string;
