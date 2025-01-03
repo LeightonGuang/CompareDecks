@@ -129,7 +129,7 @@ const Header = () => {
   }, [dropdownRef]);
 
   return (
-    <header className="max-w-full bg-white">
+    <header className="max-w-full border-[1px] border-b-gray-400 bg-white">
       <div
         className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[2rem]"
         id="header"
