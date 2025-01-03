@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { CardType } from "@/_types/CardType";
+import { CardTableType } from "@/_types/CardsTableType";
 import { useDeck } from "@/context/DeckContext";
 
 interface Props {
@@ -8,18 +8,7 @@ interface Props {
 }
 
 const AddCardModal = ({ setIsShowAddCardModal }: Props) => {
-  const [formData, setFormData] = useState<CardType>({
-    id: 0,
-    deck_uuid: "",
-    imgUrl: "",
-    brand: "",
-    name: "",
-    year: new Date().getFullYear(),
-    price: "",
-    description: "",
-    created_at: "",
-    edited_at: "",
-  });
+  const [formData, setFormData] = useState<CardTableType>({} as CardTableType);
 
   const { pendingDeckData, setPendingDeckData, unpinnedList, setUnpinnedList } =
     useDeck();
@@ -78,9 +67,9 @@ const AddCardModal = ({ setIsShowAddCardModal }: Props) => {
             </button>
           </div>
           <img
+            alt={formData.brand + " " + formData.name}
             className="h-[6rem] rounded-[0.375rem] bg-black object-contain md:h-[10rem]"
             src={formData.imgUrl}
-            alt={formData.brand + " " + formData.name}
           />
           <form
             className="flex flex-col gap-[1rem]"

@@ -6,7 +6,7 @@ import { useDeck } from "@/context/DeckContext";
 import { useUser } from "@/context/UserContext";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const { user, fetchUser } = useUser();
@@ -21,7 +21,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getDeck = async () => {
-    setPendingDeckData({} as DeckType);
+    setPendingDeckData({} as DecksTableType);
     try {
       const response = await getDeckById(params.deckId);
 

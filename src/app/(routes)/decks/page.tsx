@@ -6,7 +6,7 @@ import { THead, TData } from "@/components/list/ListComponents";
 import Image from "next/image";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
@@ -14,7 +14,7 @@ import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimatio
 const DecksPage = () => {
   const { user, fetchUser } = useUser();
   const { getAllDecks } = useDeck();
-  const [decksList, setDecksList] = useState<DeckType[]>([]);
+  const [decksList, setDecksList] = useState<DecksTableType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getDecks = async () => {
@@ -108,7 +108,7 @@ const DecksPage = () => {
                           </td>
                         </tr>
                       ))
-                  : decksList.map((deck: DeckType) => (
+                  : decksList.map((deck: DecksTableType) => (
                       <tr
                         className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={deck.uuid}

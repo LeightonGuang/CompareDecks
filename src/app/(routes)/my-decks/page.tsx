@@ -9,14 +9,14 @@ import redBinIcon from "../../../_assets/icons/redBinIcon.svg";
 import placeholder from "../../../_assets/images/placeholder.svg";
 import DeleteMyDeckModal from "@/components/myDecks/DeleteMyDeckModal";
 
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
 const MyDecksPage = () => {
   const { user, fetchUser } = useUser();
   const { getDecksByUserId } = useDeck();
   const [isLoading, setIsLoading] = useState(true);
-  const [decks, setDecks] = useState<DeckType[]>([]);
+  const [decks, setDecks] = useState<DecksTableType[]>([]);
   const [deckToDeleteUuid, setDeckToDeleteUuid] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 

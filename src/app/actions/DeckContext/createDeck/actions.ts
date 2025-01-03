@@ -1,5 +1,6 @@
 "use server";
-import { DeckType } from "@/_types/DeckType";
+import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { getSupabaseServer } from "@/utils/supabase/server";
 
 /**
@@ -10,7 +11,7 @@ import { getSupabaseServer } from "@/utils/supabase/server";
  * @property {boolean} hasEmptyCards - Whether the deck has no cards
  */
 
-const validateDeck = (deckData: DeckType) => {
+const validateDeck = (deckData: DecksTableType) => {
   const deckErrors = {
     hasEmptyDeckName: deckData.name === "",
     hasEmptyCards: deckData.cards.length === 0,
@@ -27,6 +28,7 @@ const validateDeck = (deckData: DeckType) => {
  * Create deck in supabase
  *
  * @param {DeckType} deckData - name of the deck
+ * @param {DeckAttributesTableType} attributes - attributes of the deck
  *
  * @return {Object} - An object containing the uuid of the deck and any errors that occurred.
  * @property {string} uuid - The uuid of the deck
@@ -34,7 +36,8 @@ const validateDeck = (deckData: DeckType) => {
  */
 
 export async function createDeck(
-  deckData: DeckType,
+  deckData: DecksTableType,
+  attributes: DeckAttributesTableType,
 ): Promise<{ deck_uuid: string | null; error: any }> {
   try {
     const { hasDeckErrors, deckErrors } = validateDeck(deckData);
@@ -57,6 +60,8 @@ export async function createDeck(
         .from("decks")
         .insert({ name: deckData.name, user_uid: deckData.user_uid })
         .select("uuid");
+
+    console.log(createDeckData);
 
     if (createDeckError) {
       console.error("Supabase CreateDeck Error: " + createDeckError.message);

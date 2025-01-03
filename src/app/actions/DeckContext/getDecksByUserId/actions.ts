@@ -1,5 +1,5 @@
 "use server";
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { getSupabaseServer } from "@/utils/supabase/server";
 
 /**
@@ -7,13 +7,13 @@ import { getSupabaseServer } from "@/utils/supabase/server";
  *
  * @param userId - uuid of the user
  * @returns {Object}
- * @property {deckType[]} data - deck data
+ * @property {DecksTableType[]} data - deck data
  * @property {string} error - error message
  */
 
 export async function getDecksByUserId(
   userId: string,
-): Promise<{ decks: DeckType[] | null; error: any }> {
+): Promise<{ decks: DecksTableType[] | null; error: any }> {
   try {
     console.log(userId);
     const supabaseServer = getSupabaseServer();

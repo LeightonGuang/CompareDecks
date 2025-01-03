@@ -6,13 +6,13 @@ import editIcon from "../../_assets/icons/editIcon.svg";
 import binIcon from "../../_assets/icons/binIcon.svg";
 import { useDeck } from "@/context/DeckContext";
 
-import { CardType } from "@/_types/CardType";
-import { AttributeValuesType } from "@/_types/AttributeValuesType";
-import { DeckAttributesType } from "@/_types/DeckAttributesType";
+import { CardTableType } from "@/_types/CardsTableType";
+import { AttributeValuesTableType } from "@/_types/AttributeValuesTableType";
+import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
 import { useEffect } from "react";
 
 interface Props {
-  attributeNames: DeckAttributesType[];
+  attributeNames: DeckAttributesTableType[];
   handlePinButton: any;
   handleUnpinButton: any;
   handleEditCardButton: any;
@@ -64,7 +64,7 @@ const GridViewList = ({
         id="scroll-list"
       >
         {pinnedList.length > 0 &&
-          pinnedList.map((pinnedCardObj: CardType, cardIndex: number) => (
+          pinnedList.map((pinnedCardObj: CardTableType, cardIndex: number) => (
             <li
               className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
               key={cardIndex}
@@ -95,7 +95,7 @@ const GridViewList = ({
               </div>
               {pinnedCardObj.attribute_values.map(
                 (
-                  _attributeObj: AttributeValuesType,
+                  _attributeObj: AttributeValuesTableType,
                   attributeObjIndex: number,
                 ) => (
                   <div
@@ -104,12 +104,12 @@ const GridViewList = ({
                   >
                     {
                       pinnedCardObj.attribute_values.find(
-                        (attributeValue: AttributeValuesType) =>
+                        (attributeValue: AttributeValuesTableType) =>
                           attributeValue.deck_attributes.attribute ===
                           (
                             attributeNames[
                               attributeObjIndex
-                            ] as DeckAttributesType
+                            ] as DeckAttributesTableType
                           ).attribute,
                       )?.value
                     }
@@ -147,91 +147,93 @@ const GridViewList = ({
             </li>
           ))}
         {unpinnedList.length > 0 &&
-          unpinnedList.map((unpinnedCardObj: CardType, cardIndex: number) => {
-            return (
-              <li
-                className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
-                key={cardIndex}
-                id="unpinned-card"
-              >
-                <button
-                  className="flex w-full justify-center"
-                  onClick={() => handlePinButton(cardIndex)}
+          unpinnedList.map(
+            (unpinnedCardObj: CardTableType, cardIndex: number) => {
+              return (
+                <li
+                  className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
+                  key={cardIndex}
+                  id="unpinned-card"
                 >
-                  <Image
-                    className="m-[0.625rem]"
-                    src={unpinIcon}
-                    alt="pinned icon"
-                    height={20}
-                    width={20}
-                  />
-                </button>
-                <div
-                  className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
-                  id="image-container"
-                >
-                  <img
-                    className="h-min w-full object-contain"
-                    src={unpinnedCardObj.imgUrl}
-                    alt=""
-                  />
-                </div>
-                {unpinnedCardObj.attribute_values.map(
-                  (
-                    _attributeObj: AttributeValuesType,
-                    attributeObjIndex: number,
-                  ) => (
-                    <div
-                      className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                      key={attributeObjIndex}
-                    >
-                      {
-                        unpinnedCardObj.attribute_values.find(
-                          (attributeValue: AttributeValuesType) =>
-                            attributeValue.deck_attributes.attribute ===
-                            (
-                              attributeNames[
-                                attributeObjIndex
-                              ] as DeckAttributesType
-                            ).attribute,
-                        )?.value
-                      }
-                    </div>
-                  ),
-                )}
-                <div
-                  className="h-[10rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
-                  id="row"
-                >
-                  {unpinnedCardObj.description}
-                </div>
-                {isAuth && (
-                  <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
-                    <button
-                      onClick={() => handleEditCardButton(cardIndex, false)}
-                    >
-                      <Image
-                        src={editIcon}
-                        alt="edit icon"
-                        height={20}
-                        width={20}
-                      />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteCardButton(cardIndex, false)}
-                    >
-                      <Image
-                        src={binIcon}
-                        alt="delete icon"
-                        height={20}
-                        width={20}
-                      />
-                    </button>
+                  <button
+                    className="flex w-full justify-center"
+                    onClick={() => handlePinButton(cardIndex)}
+                  >
+                    <Image
+                      className="m-[0.625rem]"
+                      src={unpinIcon}
+                      alt="pinned icon"
+                      height={20}
+                      width={20}
+                    />
+                  </button>
+                  <div
+                    className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
+                    id="image-container"
+                  >
+                    <img
+                      className="h-min w-full object-contain"
+                      src={unpinnedCardObj.imgUrl}
+                      alt=""
+                    />
                   </div>
-                )}
-              </li>
-            );
-          })}
+                  {unpinnedCardObj.attribute_values.map(
+                    (
+                      _attributeObj: AttributeValuesTableType,
+                      attributeObjIndex: number,
+                    ) => (
+                      <div
+                        className="min-h-[3.375rem] overflow-x-auto whitespace-nowrap border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
+                        key={attributeObjIndex}
+                      >
+                        {
+                          unpinnedCardObj.attribute_values.find(
+                            (attributeValue: AttributeValuesTableType) =>
+                              attributeValue.deck_attributes.attribute ===
+                              (
+                                attributeNames[
+                                  attributeObjIndex
+                                ] as DeckAttributesTableType
+                              ).attribute,
+                          )?.value
+                        }
+                      </div>
+                    ),
+                  )}
+                  <div
+                    className="h-[10rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-center text-[0.875rem] font-[400]"
+                    id="row"
+                  >
+                    {unpinnedCardObj.description}
+                  </div>
+                  {isAuth && (
+                    <div className="flex justify-center gap-[1rem] p-[1rem] sm:gap-[2rem]">
+                      <button
+                        onClick={() => handleEditCardButton(cardIndex, false)}
+                      >
+                        <Image
+                          src={editIcon}
+                          alt="edit icon"
+                          height={20}
+                          width={20}
+                        />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCardButton(cardIndex, false)}
+                      >
+                        <Image
+                          src={binIcon}
+                          alt="delete icon"
+                          height={20}
+                          width={20}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </li>
+              );
+            },
+          )}
         {isAuth && (
           <li className="flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center rounded-[0.25rem] border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
             <button

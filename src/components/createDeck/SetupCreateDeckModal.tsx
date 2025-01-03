@@ -4,8 +4,8 @@ import { useState } from "react";
 import binIcon from "@/_assets/icons/binIcon.svg";
 import Image from "next/image";
 import { useDeck } from "@/context/DeckContext";
-import { DeckAttributesType } from "@/_types/DeckAttributesType";
-import { CardType } from "@/_types/CardType";
+import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
+import { CardTableType } from "@/_types/CardsTableType";
 
 interface Props {
   setShowSetupCreateDeckModal: (arg0: boolean) => void;
@@ -13,7 +13,7 @@ interface Props {
 const SetupCreateDeckModal = ({ setShowSetupCreateDeckModal }: Props) => {
   const {
     attributeNames,
-    setAttrtibuteNames,
+    setAttributeNames,
     pendingDeckData,
     setPendingDeckData,
   } = useDeck();
@@ -52,7 +52,8 @@ const SetupCreateDeckModal = ({ setShowSetupCreateDeckModal }: Props) => {
         created_at: "",
         edited_at: "",
       }));
-      setAttrtibuteNames(newAttrNames);
+      console.log("newAttrNames", newAttrNames);
+      setAttributeNames(newAttrNames);
       setShowSetupCreateDeckModal(false);
     }
   };

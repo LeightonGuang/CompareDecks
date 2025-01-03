@@ -1,9 +1,9 @@
-import { CardType } from "@/_types/CardType";
+import { CardTableType } from "@/_types/CardsTableType";
 import { useDeck } from "@/context/DeckContext";
 import React, { useState } from "react";
 
 interface Props {
-  cardFormData: CardType | null;
+  cardFormData: CardTableType | null;
   setCardFormData: any;
   setIsShowEditCardModal: any;
 }
@@ -28,7 +28,7 @@ const EditCardModal = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setCardFormData({ ...cardFormData, [name]: value } as CardType);
+    setCardFormData({ ...cardFormData, [name]: value } as CardTableType);
   };
 
   const handleSumbitEditCardForm = (e: React.ChangeEvent<HTMLFormElement>) => {

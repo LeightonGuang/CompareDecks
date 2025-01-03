@@ -1,7 +1,7 @@
 "use server";
 
-import { DeckAttributesType } from "@/_types/DeckAttributesType";
-import { DeckType } from "@/_types/DeckType";
+import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { createDeck } from "@/app/actions/DeckContext/createDeck/actions";
 import { NextResponse } from "next/server";
 
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const {
       deckData,
       attributes,
-    }: { deckData: DeckType; attributes: DeckAttributesType } =
+    }: { deckData: DecksTableType; attributes: DeckAttributesTableType } =
       await request.json();
     const { deck_uuid, error } = await createDeck(deckData, attributes);
 
