@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CompareList from "@/components/compareList/CompareList";
 import { getSupabase } from "@/utils/supabase/client";
 
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 
 const ExamplePage = () => {
   const getExampleDeck = async () => {
@@ -53,7 +53,7 @@ const ExamplePage = () => {
     }
   };
 
-  const [deckData, setDeckData] = useState<DeckType[]>([]);
+  const [deckData, setDeckData] = useState<DecksTableType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
