@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useDeck } from "@/context/DeckContext";
 import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
 import { CardTableType } from "@/_types/CardsTableType";
+import { useRouter } from "next/navigation";
 
 interface Props {
   setShowSetupCreateDeckModal: (arg0: boolean) => void;
@@ -17,6 +18,7 @@ const SetupCreateDeckModal = ({ setShowSetupCreateDeckModal }: Props) => {
     pendingDeckData,
     setPendingDeckData,
   } = useDeck();
+  const router = useRouter();
   const [deckName, setDeckName] = useState("");
   const [attributeList, setAttributeList] = useState<string[]>([]);
 
@@ -114,12 +116,20 @@ const SetupCreateDeckModal = ({ setShowSetupCreateDeckModal }: Props) => {
             </button>
           </form>
         </div>
-        <button
-          className="w-full rounded-md bg-[#3A4FE0] py-[0.5rem] text-[0.875rem] text-white"
-          onClick={handleDeckSetupDone}
-        >
-          Done
-        </button>
+        <div className="flex gap-2">
+          <button
+            className="w-full rounded-md bg-red-600 py-[0.5rem] text-[0.875rem] text-white"
+            onClick={() => router.push("/")}
+          >
+            Cancel
+          </button>
+          <button
+            className="w-full rounded-md bg-[#3A4FE0] py-[0.5rem] text-[0.875rem] text-white"
+            onClick={handleDeckSetupDone}
+          >
+            Done
+          </button>
+        </div>
       </div>
     </div>
   );

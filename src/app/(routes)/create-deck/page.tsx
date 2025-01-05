@@ -6,13 +6,15 @@ import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
 import CompareList from "@/components/compareList/CompareList";
 
-import { DeckType } from "@/_types/DeckType";
+import { DecksTableType } from "@/_types/DecksTableType";
 import SetupCreateDeckModal from "@/components/createDeck/SetupCreateDeckModal";
+import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
 
 const CreateDeckPage = () => {
   const router = useRouter();
   const { user, fetchUser } = useUser();
   const {
+    setAttributeNames,
     setOriginalDeckData,
     pendingDeckData,
     setPendingDeckData,
@@ -23,6 +25,9 @@ const CreateDeckPage = () => {
     createDeck,
   } = useDeck();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [newAttributes, setNewAttributes] = useState<DeckAttributesTableType[]>(
+    [],
+  );
   const [showSetupCreateDeckModal, setShowSetupCreateDeckModal] =
     useState<boolean>(true);
 
@@ -37,12 +42,7 @@ const CreateDeckPage = () => {
         return rest;
       });
 
-      const deckDataWithoutCardsId = {
-        ...pendingDeckData,
-        cards: filteredCardsData,
-      };
-
-      const response = await createDeck(deckDataWithoutCardsId);
+      const response = await createDeck(pendingDeckData, newAttributes);
 
       if (response.success) {
         router.push(`/decks/${response.deck_uuid}`);
@@ -53,6 +53,8 @@ const CreateDeckPage = () => {
       console.error(error);
     }
   };
+
+  const handleDeckSetup = () => {};
 
   useEffect(() => {
     if (pinnedList.length !== 0) setPinnedList([]);
@@ -66,12 +68,12 @@ const CreateDeckPage = () => {
         name: "",
         cards: [],
         user_uid: user?.id,
-      } as unknown as DeckType);
+      } as unknown as DecksTableType);
       setPendingDeckData({
         name: "",
         cards: [],
         user_uid: user?.id,
-      } as unknown as DeckType);
+      } as unknown as DecksTableType);
       setIsLoading(false);
     }
   }, [user]);
