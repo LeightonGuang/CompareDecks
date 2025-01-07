@@ -5,6 +5,7 @@ import { AttributeValuesTableType } from "./AttributeValuesTableType";
 export interface CardTableType {
   id: number;
   deck_uuid: string;
+  order: number;
   imgUrl: string;
   attribute_values: AttributeValuesTableType[];
   description?: string;
