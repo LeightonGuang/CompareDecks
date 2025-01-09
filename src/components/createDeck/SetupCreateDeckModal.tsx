@@ -16,7 +16,7 @@ interface Props {
 
 interface SetupFormType {
   name: string;
-  deck_attributes: string[];
+  deck_attributes: Set<string>;
 }
 
 const SetupCreateDeckModal = ({
@@ -29,7 +29,7 @@ const SetupCreateDeckModal = ({
   const SetupForm = () => {
     const [formData, setFormData] = useState<SetupFormType>({
       name: "",
-      deck_attributes: [],
+      deck_attributes: new Set(),
     });
     const [newAttribute, setNewAttribute] = useState<string>("");
 
@@ -50,15 +50,20 @@ const SetupCreateDeckModal = ({
       {
         setFormData({
           ...formData,
-          deck_attributes: [...formData.deck_attributes, newAttribute],
+          deck_attributes: new Set([
+            ...Array.from(formData.deck_attributes),
+            newAttribute,
+          ]),
         });
         setNewAttribute("");
       }
     };
 
     const handleRemoveAttributeButton = (index: number) => {
-      const filteredAttributeList = formData.deck_attributes.filter(
-        (_a, aIndex) => aIndex !== index,
+      const filteredAttributeList = new Set(
+        Array.from(formData.deck_attributes).filter(
+          (_a, aIndex) => aIndex !== index,
+        ),
       );
 
       setFormData({ ...formData, deck_attributes: filteredAttributeList });
@@ -69,18 +74,19 @@ const SetupCreateDeckModal = ({
 
       if (formData.name === "") {
         alert("Please enter a deck name");
-      } else if (formData.deck_attributes.length === 0) {
+      } else if (formData.deck_attributes.size === 0) {
         alert("Please add at least one attribute");
       } else {
-        const formattedAttributes: DeckAttributesTableType[] =
-          formData.deck_attributes.map((attr, attrIndex) => ({
-            id: undefined,
-            order: attrIndex + 1,
-            deck_uuid: "",
-            attribute: attr,
-            created_at: undefined,
-            edited_at: undefined,
-          }));
+        const formattedAttributes: DeckAttributesTableType[] = Array.from(
+          formData.deck_attributes,
+        ).map((attr, attrIndex) => ({
+          id: undefined,
+          order: attrIndex + 1,
+          deck_uuid: "",
+          attribute: attr,
+          created_at: undefined,
+          edited_at: undefined,
+        }));
 
         setDeckData({
           ...deckData,
@@ -107,8 +113,8 @@ const SetupCreateDeckModal = ({
         />
 
         <ul className="flex flex-col gap-2">
-          {formData.deck_attributes.length > 0 &&
-            formData.deck_attributes.map((attr, index) => (
+          {formData.deck_attributes.size > 0 &&
+            Array.from(formData.deck_attributes).map((attr, index) => (
               <li className="flex justify-between" key={index}>
                 <p>{attr}</p>
                 <button
