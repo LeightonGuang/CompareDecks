@@ -80,7 +80,7 @@ const GridViewList = ({
           className="h-[10rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-[0.875rem] font-[400]"
           id="row"
         >
-          <p className="leading-tight">{card.description}</p>
+          <p className="text-sm leading-tight">{card.description}</p>
         </div>
       </li>
     );
@@ -92,7 +92,12 @@ const GridViewList = ({
     return (
       havePinnedCards &&
       pinnedCards.map((pinnedCard: CardTableType, cardIndex: number) => (
-        <Card key={cardIndex} card={pinnedCard} isPinned={true} cardIndex={cardIndex} />
+        <Card
+          key={cardIndex}
+          card={pinnedCard}
+          isPinned={true}
+          cardIndex={cardIndex}
+        />
       ))
     );
   };
@@ -132,7 +137,7 @@ const GridViewList = ({
             id="image-spacer"
           />
         </li>
-        {deckData?.deck_attributes.map((attributeObj: any, index: number) => (
+        {deckData?.deck_attributes?.map((attributeObj: any, index: number) => (
           <li
             className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]"
             key={index}
