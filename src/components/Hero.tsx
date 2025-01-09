@@ -11,20 +11,20 @@ const Hero = () => {
           <h1 className="text-[1.875rem] font-bold leading-[1.875rem] md:text-[3rem] md:leading-[3rem] xl:text-[3.75rem] xl:leading-[3.75rem]">
             Compare Anything, Anytime
           </h1>
-          <p className="mt-[0.5rem] text-[#5e6d82] md:max-w-[37.5rem] md:text-[1rem]">
+          <p className="mt-[0.5rem] text-[#5e6d82] md:max-w-[37.5rem] md:text-base">
             Our powerful comparison tool helps you make informed decisions by
             easily comparing products, services and more.
           </p>
         </div>
-        <div className="mt-[1rem] flex flex-col gap-[1rem] md:flex-row">
+        <div className="mt-4 flex flex-col gap-4 md:flex-row">
           <Link
-            className="flex h-[2.5rem] justify-center whitespace-nowrap rounded-[0.5rem] bg-[#2563eb] py-[0.5rem] text-[0.875rem] text-white md:w-[min-content] md:px-[2rem]"
+            className="flex h-10 items-center justify-center whitespace-nowrap rounded-[0.5rem] bg-[#2563eb] py-[0.5rem] text-[0.875rem] text-white md:w-[min-content] md:px-[2rem]"
             href={"/create-deck"}
           >
             Start Comparing
           </Link>
           <Link
-            className="flex h-[2.5rem] justify-center whitespace-nowrap rounded-[0.5rem] border-[1px] border-[#E2E8F0] bg-white py-[0.5rem] text-[0.875rem] md:w-[min-content] md:px-[2rem]"
+            className="flex h-10 items-center justify-center whitespace-nowrap rounded-[0.5rem] border-[1px] border-[#E2E8F0] bg-white py-[0.5rem] text-[0.875rem] md:w-[min-content] md:px-[2rem]"
             href={"/example"}
           >
             Learn More
