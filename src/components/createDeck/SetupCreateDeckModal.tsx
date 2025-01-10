@@ -31,6 +31,9 @@ const SetupCreateDeckModal = ({
       name: "",
       deck_attributes: new Set(),
     });
+    const [pendingAttributes, setPendingAttributes] = useState<Set<string>>(
+      new Set(),
+    );
     const [newAttribute, setNewAttribute] = useState<string>("");
 
     const onDeckNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,29 +47,24 @@ const SetupCreateDeckModal = ({
     };
 
     const handleAddAttributeButton = () => {
-      if (newAttribute === "") {
+      if (newAttribute.trim() === "") {
         alert("Please enter an attribute");
+        return;
       }
-      {
-        setFormData({
-          ...formData,
-          deck_attributes: new Set([
-            ...Array.from(formData.deck_attributes),
-            newAttribute,
-          ]),
-        });
-        setNewAttribute("");
-      }
+
+      setPendingAttributes(
+        (prevAttributes) =>
+          new Set([...Array.from(prevAttributes), newAttribute.trim()]),
+      );
+
+      setNewAttribute("");
     };
 
     const handleRemoveAttributeButton = (index: number) => {
-      const filteredAttributeList = new Set(
-        Array.from(formData.deck_attributes).filter(
-          (_a, aIndex) => aIndex !== index,
-        ),
+      const filteredAttributes = Array.from(pendingAttributes).filter(
+        (_, i) => i !== index,
       );
-
-      setFormData({ ...formData, deck_attributes: filteredAttributeList });
+      setPendingAttributes(new Set(filteredAttributes));
     };
 
     const handleDoneButton = (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,11 +72,11 @@ const SetupCreateDeckModal = ({
 
       if (formData.name === "") {
         alert("Please enter a deck name");
-      } else if (formData.deck_attributes.size === 0) {
+      } else if (pendingAttributes.size === 0) {
         alert("Please add at least one attribute");
       } else {
         const formattedAttributes: DeckAttributesTableType[] = Array.from(
-          formData.deck_attributes,
+          pendingAttributes,
         ).map((attr, attrIndex) => ({
           id: undefined,
           order: attrIndex + 1,
@@ -102,6 +100,10 @@ const SetupCreateDeckModal = ({
       console.log(formData);
     }, [formData]);
 
+    useEffect(() => {
+      console.log(pendingAttributes);
+    }, [pendingAttributes]);
+
     return (
       <form className="flex flex-col gap-4" onSubmit={handleDoneButton}>
         <input
@@ -113,8 +115,8 @@ const SetupCreateDeckModal = ({
         />
 
         <ul className="flex flex-col gap-2">
-          {formData.deck_attributes.size > 0 &&
-            Array.from(formData.deck_attributes).map((attr, index) => (
+          {pendingAttributes.size > 0 &&
+            Array.from(pendingAttributes).map((attr, index) => (
               <li className="flex justify-between" key={index}>
                 <p>{attr}</p>
                 <button
@@ -167,11 +169,11 @@ const SetupCreateDeckModal = ({
   return (
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
       <div className="w-64 rounded-md bg-white p-4 md:w-[28rem]">
-        <p className="my-4 text-sm text-[#5E6D82]">
+        <p className="mb-4 text-sm text-[#5E6D82]">
           Setup your deck name and card attributes here.
         </p>
 
-        <div className="my-4 flex flex-col gap-4">
+        <div className="mt-4 flex flex-col gap-4">
           <SetupForm />
         </div>
       </div>
