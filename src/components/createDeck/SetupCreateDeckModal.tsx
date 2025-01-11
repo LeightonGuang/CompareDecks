@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import binIcon from "@/_assets/icons/binIcon.svg";
 
 import { DecksTableType } from "@/_types/DecksTableType";
 import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
+import { BinIconSvg } from "@/_assets/icons/cardIcons";
 
 interface Props {
   setShowCreateDeckModal: (arg0: boolean) => void;
@@ -124,7 +123,7 @@ const SetupCreateDeckModal = ({
                   className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500"
                   onClick={() => handleRemoveAttributeButton(index)}
                 >
-                  <Image className="h-4 w-4" src={binIcon} alt="bin icon" />
+                  <BinIconSvg className="h-4 w-4" />
                 </button>
               </li>
             ))}
