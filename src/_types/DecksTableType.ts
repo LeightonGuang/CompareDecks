@@ -4,12 +4,12 @@ import { DeckAttributesTableType } from "./DeckAttributesTableType";
 // type for decks
 
 export interface DecksTableType {
-  id: number;
+  id?: number;
   name: string;
-  user_uid: string;
-  uuid: string;
-  deck_attributes: DeckAttributesTableType[];
-  cards: CardTableType[];
-  created_at: string;
-  edited_at: string;
+  user_uid?: string;
+  uuid?: string;
+  deck_attributes?: DeckAttributesTableType[];
+  cards?: CardTableType[];
+  created_at?: string;
+  edited_at?: string;
 }
