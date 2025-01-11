@@ -29,28 +29,19 @@ const CompareList = ({
   const [showAddCardModal, setShowAddCardModal] = useState(false);
   const [pinnedList, setPinnedList] = useState<CardTableType[]>([]);
   const [unpinnedList, setUnpinnedList] = useState<CardTableType[]>([]);
-  const [pendingNewCard, setPendingNewCards] = useState<{
-    [key: string]: string;
-  }>({} as { [key: string]: string });
-
-  const handlePinButton = (cardId: number) => {
-    const pinnedCard = unpinnedList.find((card) => card.id === cardId);
-
-    setPinnedList([...pinnedList, pinnedCard!]);
-    setUnpinnedList(unpinnedList.filter((card) => card.id !== cardId));
-  };
-
-  const handleUnpinButton = (cardId: number) => {
-    const unpinnedCard = pinnedList.find((card) => card.id === cardId);
-
-    setUnpinnedList([...unpinnedList, unpinnedCard!]);
-    setPinnedList(pinnedList.filter((card) => card.id !== cardId));
-  };
 
   const AddCardModal = () => {
     const [addCardForm, setAddCardForm] = useState<{
       [key: string]: string;
     }>();
+    const [cardImgUrl, setCardImgUrl] = useState("");
+    const [cardDescription, setCardDescription] = useState("");
+
+    const onCardImgUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+
+      setCardImgUrl(value);
+    };
 
     const onAddCardFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -59,6 +50,12 @@ const CompareList = ({
         ...addCardForm,
         [name]: value,
       });
+    };
+
+    const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+
+      setCardDescription(value);
     };
 
     const handleAddCardButton = () => {
@@ -71,7 +68,9 @@ const CompareList = ({
 
       const formattedCard: CardTableType = {
         ...addCardForm,
+        imgUrl: cardImgUrl,
         order: (deckData.cards?.length ?? 0) + 1,
+        description: cardDescription,
         attribute_values: formattedAttributeValues,
       };
 
@@ -82,6 +81,10 @@ const CompareList = ({
 
       setShowAddCardModal(false);
     };
+
+    useEffect(() => {
+      console.log("cardDescription", cardDescription);
+    }, [cardDescription]);
 
     return (
       <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
@@ -104,6 +107,22 @@ const CompareList = ({
               action={handleAddCardButton}
               className="mt-4 flex flex-col gap-2"
             >
+              <img
+                alt="image preview"
+                className="aspect-video w-full bg-black object-contain"
+                src={cardImgUrl || "https://placehold.co/1920x1080"}
+              />
+
+              <label className="flex flex-col">
+                <span className="font-semibold">Image URL: </span>
+                <input
+                  className="rounded-md border border-[#e0e0e0] p-1"
+                  name="image_url"
+                  type="text"
+                  onChange={onCardImgUrlChange}
+                />
+              </label>
+
               {deckData?.deck_attributes?.map((attr, i) => (
                 <label className="flex flex-col" key={attr?.id ? attr?.id : i}>
                   <span className="font-semibold">{attr.attribute}: </span>
@@ -115,6 +134,15 @@ const CompareList = ({
                   />
                 </label>
               ))}
+              <label className="flex flex-col">
+                <span className="font-semibold">Description: </span>
+                <input
+                  className="rounded-md border border-[#e0e0e0] p-1"
+                  name="description"
+                  type="textarea"
+                  onChange={onDescriptionChange}
+                />
+              </label>
               <button
                 className="mt-2 rounded-md bg-[#1d4ed8] p-2 text-white"
                 type="submit"
@@ -126,6 +154,20 @@ const CompareList = ({
         </div>
       </div>
     );
+  };
+
+  const handlePinButton = (cardId: number) => {
+    const pinnedCard = unpinnedList.find((card) => card.id === cardId);
+
+    setPinnedList([...pinnedList, pinnedCard!]);
+    setUnpinnedList(unpinnedList.filter((card) => card.id !== cardId));
+  };
+
+  const handleUnpinButton = (cardId: number) => {
+    const unpinnedCard = pinnedList.find((card) => card.id === cardId);
+
+    setUnpinnedList([...unpinnedList, unpinnedCard!]);
+    setPinnedList(pinnedList.filter((card) => card.id !== cardId));
   };
 
   useEffect(() => {
