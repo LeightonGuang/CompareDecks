@@ -115,7 +115,7 @@ const DecksPage = () => {
                       >
                         <TData href={`/decks/${deck.uuid}`}>
                           <div>
-                            {deck.cards[0]?.imgUrl ? (
+                            {deck?.cards?.[0]?.imgUrl ? (
                               <img
                                 className="h-[4rem] w-[4rem] object-contain"
                                 src={deck.cards[0]?.imgUrl}
@@ -140,7 +140,7 @@ const DecksPage = () => {
                         </TData>
 
                         <TData href={`/decks/${deck.uuid}`}>
-                          {new Date(deck.created_at).toLocaleDateString(
+                          {new Date(deck.created_at || "").toLocaleDateString(
                             "en-GB",
                             {
                               year: "numeric",
