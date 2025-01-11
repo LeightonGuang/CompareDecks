@@ -9,7 +9,9 @@ import { DecksTableType } from "@/_types/DecksTableType";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [deckData, setDeckData] = useState<DecksTableType | undefined>();
+  const [deckData, setDeckData] = useState<DecksTableType>(
+    {} as DecksTableType,
+  );
 
   const LoadingSkeleton = () => (
     <div className="mt-[1rem] w-full" id="deck-page-loading-card">
@@ -85,7 +87,15 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   return (
     <section className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
       <div className="mx-mobile-spacing">
-        {isLoading ? <LoadingSkeleton /> : <CompareList deckData={deckData} />}
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
+          <CompareList
+            className="mx-4 mt-4"
+            deckData={deckData}
+            setDeckData={setDeckData}
+          />
+        )}
       </div>
     </section>
   );
