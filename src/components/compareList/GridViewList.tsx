@@ -1,13 +1,14 @@
 "use client";
 
-import Image from "next/image";
-
-import unpinIcon from "../../_assets/icons/unpinIcon.svg";
-import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
-
 import { CardTableType } from "@/_types/CardsTableType";
 import { DecksTableType } from "@/_types/DecksTableType";
 import { AttributeValuesTableType } from "@/_types/AttributeValuesTableType";
+import {
+  BinIconSvg,
+  EditIconSvg,
+  PinnedIconSvg,
+  UnpinnedIconSvg,
+} from "@/_assets/icons/cardIcons";
 
 interface Props {
   deckData: DecksTableType | undefined;
@@ -50,13 +51,13 @@ const GridViewList = ({
             }
             id="unpin-button"
           >
-            <Image
-              className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]"
-              src={isPinned ? pinnedIcon : unpinIcon}
-              alt="pinned icon"
-              height={20}
-              width={20}
-            />
+            <div className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]">
+              {isPinned ? (
+                <PinnedIconSvg className="h-5 w-5" />
+              ) : (
+                <UnpinnedIconSvg className="h-5 w-5" />
+              )}
+            </div>
           </button>
         ) : (
           <div className="h-10" />
@@ -90,6 +91,15 @@ const GridViewList = ({
           id="row"
         >
           <p className="text-sm leading-tight">{card.description}</p>
+        </div>
+        <div className="flex justify-center gap-4">
+          <button className="flex items-center justify-center">
+            <EditIconSvg className="h-5 w-5" />
+          </button>
+
+          <button className="flex h-[2.5rem] w-[2.5rem] items-center justify-center">
+            <BinIconSvg className="h-5 w-5" />
+          </button>
         </div>
       </li>
     );
@@ -159,6 +169,7 @@ const GridViewList = ({
             id="image-spacer"
           />
         </li>
+
         {deckData?.deck_attributes?.map((attributeObj: any, index: number) => (
           <li
             className="border-b border-b-[#c5c5c5] p-[1rem] text-[0.875rem]"
@@ -167,6 +178,7 @@ const GridViewList = ({
             {attributeObj.attribute}
           </li>
         ))}
+
         <li className="p-[1rem] text-[0.875rem]">Description</li>
       </ul>
       <ul
