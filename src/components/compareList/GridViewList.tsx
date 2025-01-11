@@ -11,6 +11,7 @@ import { AttributeValuesTableType } from "@/_types/AttributeValuesTableType";
 
 interface Props {
   deckData: DecksTableType | undefined;
+  setShowAddCardModal: React.Dispatch<React.SetStateAction<boolean>>;
   pinnedList: CardTableType[];
   handlePinButton: (cardId: number) => void;
   unpinnedList: CardTableType[];
@@ -19,6 +20,7 @@ interface Props {
 
 const GridViewList = ({
   deckData,
+  setShowAddCardModal,
   pinnedList,
   handlePinButton,
   unpinnedList,
@@ -38,21 +40,28 @@ const GridViewList = ({
         className="w-1/3 flex-shrink-0 snap-start rounded-[0.25rem] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]"
         id="pinned-cards"
       >
-        <button
-          className="flex w-full justify-center"
-          onClick={() =>
-            isPinned ? handleUnpinButton(card.id) : handlePinButton(card.id)
-          }
-          id="unpin-button"
-        >
-          <Image
-            className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]"
-            src={isPinned ? pinnedIcon : unpinIcon}
-            alt="pinned icon"
-            height={20}
-            width={20}
-          />
-        </button>
+        {card?.id ? (
+          <button
+            className="flex w-full justify-center"
+            onClick={() =>
+              isPinned
+                ? handleUnpinButton(card?.id as number)
+                : handlePinButton(card?.id as number)
+            }
+            id="unpin-button"
+          >
+            <Image
+              className="m-[0.625rem] min-h-[1.25rem] min-w-[1.25rem]"
+              src={isPinned ? pinnedIcon : unpinIcon}
+              alt="pinned icon"
+              height={20}
+              width={20}
+            />
+          </button>
+        ) : (
+          <div className="h-10" />
+        )}
+
         <div
           className="flex h-[4rem] w-full items-center justify-center border-b border-b-[#c5c5c5] bg-black md:h-[6rem] xl:h-[8rem]"
           id="image-container"
@@ -124,6 +133,19 @@ const GridViewList = ({
     );
   };
 
+  const AddCard = () => {
+    return (
+      <li className="rounded-md3 flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
+        <button
+          className="h-full w-full text-6xl font-normal"
+          onClick={() => setShowAddCardModal(true)}
+        >
+          <span>+</span>
+        </button>
+      </li>
+    );
+  };
+
   return (
     <div
       className="mt-[1rem] flex rounded-[0.25rem] bg-[#e0e0e0] p-[1.5rem]"
@@ -153,6 +175,7 @@ const GridViewList = ({
       >
         <PinnedCards pinnedCards={pinnedList} />
         <UnpinnedCards unpinnedCards={unpinnedList} />
+        <AddCard />
       </ul>
     </div>
   );
