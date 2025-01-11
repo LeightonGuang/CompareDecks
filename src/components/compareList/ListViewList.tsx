@@ -1,12 +1,11 @@
-import Image from "next/image";
-import unpinIcon from "../../_assets/icons/unpinIcon.svg";
-import pinnedIcon from "../../_assets/icons/pinnedIcon.svg";
+import { PinnedIconSvg, UnpinnedIconSvg } from "@/_assets/icons/cardIcons";
 
 import { CardTableType } from "@/_types/CardsTableType";
 import { DecksTableType } from "@/_types/DecksTableType";
 
 interface Props {
   deckData: DecksTableType | undefined;
+  setShowAddCardModal: React.Dispatch<React.SetStateAction<boolean>>;
   pinnedList: CardTableType[];
   handlePinButton: (cardId: number) => void;
   unpinnedList: CardTableType[];
@@ -15,6 +14,7 @@ interface Props {
 
 const ListViewList = ({
   deckData,
+  setShowAddCardModal,
   pinnedList,
   handlePinButton,
   unpinnedList,
@@ -34,18 +34,22 @@ const ListViewList = ({
         <td className="px-[1rem]">{card.order}.</td>
 
         <td className="px-[1rem]">
-          <button
-            className="h-[1.25rem] w-[1.25rem]"
-            onClick={() =>
-              isPinned ? handleUnpinButton(card.id) : handlePinButton(card.id)
-            }
-          >
-            <Image
+          {card?.id && (
+            <button
               className="h-[1.25rem] w-[1.25rem]"
-              src={isPinned ? pinnedIcon : unpinIcon}
-              alt={isPinned ? "pinned icon" : "unpinned icon"}
-            />
-          </button>
+              onClick={() =>
+                isPinned
+                  ? handleUnpinButton(card?.id as number)
+                  : handlePinButton(card.id as number)
+              }
+            >
+              {isPinned ? (
+                <PinnedIconSvg className="h-5 w-5" />
+              ) : (
+                <UnpinnedIconSvg className="h-5 w-5" />
+              )}
+            </button>
+          )}
         </td>
 
         <td className="px-[1rem]">
@@ -109,15 +113,18 @@ const ListViewList = ({
   };
 
   return (
-    <div className="w-full overflow-x-auto py-4" id="table-view-container">
+    <div
+      className="w-full flex-col overflow-x-auto py-4"
+      id="table-view-container"
+    >
       <table className="w-full">
         <thead>
           <tr>
             <th></th>
             <th></th>
             <th></th>
-            {deckData?.deck_attributes.map((attribute) => {
-              return <th key={attribute.id}>{attribute.attribute}</th>;
+            {deckData?.deck_attributes?.map((attribute, index) => {
+              return <th key={index}>{attribute.attribute}</th>;
             })}
             <th>description</th>
           </tr>
@@ -127,6 +134,12 @@ const ListViewList = ({
           <UnpinnedRows unpinnedrows={unpinnedList} />
         </tbody>
       </table>
+      <button
+        className="mt-4 flex w-full items-center justify-center rounded-lg border-2 border-[#e0e0e0] text-3xl font-normal text-gray-600"
+        onClick={() => setShowAddCardModal(true)}
+      >
+        +
+      </button>
     </div>
   );
 };
