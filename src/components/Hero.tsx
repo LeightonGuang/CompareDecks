@@ -4,6 +4,8 @@ import Link from "next/link";
 import comparedecksPageImg from "../_assets/images/comparedecksPage.png";
 
 const Hero = () => {
+  const exampleUrlPath = "/decks/9722a717-8ce5-46a0-894d-e1f39cc50d30";
+
   return (
     <section className="flex max-w-[84.5rem] flex-col gap-[1.5rem] xl:flex-row xl:items-center xl:justify-between xl:gap-[3rem]">
       <div className="md:w-[37.5rem] xl:max-w-[704px]" id="description">
@@ -25,7 +27,7 @@ const Hero = () => {
           </Link>
           <Link
             className="flex h-10 items-center justify-center whitespace-nowrap rounded-[0.5rem] border-[1px] border-[#E2E8F0] bg-white py-[0.5rem] text-[0.875rem] md:w-[min-content] md:px-[2rem]"
-            href={"/example"}
+            href={exampleUrlPath}
           >
             Learn More
           </Link>
