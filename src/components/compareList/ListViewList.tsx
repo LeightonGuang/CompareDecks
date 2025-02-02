@@ -5,6 +5,7 @@ import { DecksTableType } from "@/_types/DecksTableType";
 
 interface Props {
   deckData: DecksTableType | undefined;
+  isAuthorised: boolean;
   setShowAddCardModal: React.Dispatch<React.SetStateAction<boolean>>;
   pinnedList: CardTableType[];
   handlePinButton: (cardId: number) => void;
@@ -14,6 +15,7 @@ interface Props {
 
 const ListViewList = ({
   deckData,
+  isAuthorised,
   setShowAddCardModal,
   pinnedList,
   handlePinButton,
@@ -129,17 +131,21 @@ const ListViewList = ({
             <th>description</th>
           </tr>
         </thead>
+
         <tbody>
           <PinnedRows pinnedrows={pinnedList} />
           <UnpinnedRows unpinnedrows={unpinnedList} />
         </tbody>
       </table>
-      <button
-        className="mt-4 flex w-full items-center justify-center rounded-lg border-2 border-[#e0e0e0] text-3xl font-normal text-gray-600"
-        onClick={() => setShowAddCardModal(true)}
-      >
-        +
-      </button>
+
+      {isAuthorised && (
+        <button
+          className="mt-4 flex w-full items-center justify-center rounded-lg border-2 border-[#e0e0e0] text-3xl font-normal text-gray-600"
+          onClick={() => setShowAddCardModal(true)}
+        >
+          +
+        </button>
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ import {
 
 interface Props {
   deckData: DecksTableType | undefined;
+  isAuthorised: boolean;
   setShowAddCardModal: React.Dispatch<React.SetStateAction<boolean>>;
   pinnedList: CardTableType[];
   handlePinButton: (cardId: number) => void;
@@ -21,6 +22,7 @@ interface Props {
 
 const GridViewList = ({
   deckData,
+  isAuthorised,
   setShowAddCardModal,
   pinnedList,
   handlePinButton,
@@ -73,6 +75,7 @@ const GridViewList = ({
             src={card.imgUrl}
           />
         </div>
+
         {card.attribute_values.map(
           (
             _attributeObj: AttributeValuesTableType,
@@ -86,21 +89,25 @@ const GridViewList = ({
             </div>
           ),
         )}
+
         <div
           className="h-[10rem] overflow-y-auto border-b border-b-[#c5c5c5] px-[0.5rem] py-[1rem] text-[0.875rem] font-[400]"
           id="row"
         >
           <p className="text-sm leading-tight">{card.description}</p>
         </div>
-        <div className="flex justify-center gap-4">
-          <button className="flex items-center justify-center">
-            <EditIconSvg className="h-5 w-5" />
-          </button>
 
-          <button className="flex h-[2.5rem] w-[2.5rem] items-center justify-center">
-            <BinIconSvg className="h-5 w-5" />
-          </button>
-        </div>
+        {isAuthorised && (
+          <div className="flex justify-center gap-4">
+            <button className="flex items-center justify-center">
+              <EditIconSvg className="h-5 w-5" />
+            </button>
+
+            <button className="flex h-[2.5rem] w-[2.5rem] items-center justify-center">
+              <BinIconSvg className="h-5 w-5" />
+            </button>
+          </div>
+        )}
       </li>
     );
   };
@@ -143,7 +150,7 @@ const GridViewList = ({
     );
   };
 
-  const AddCard = () => {
+  const AddCardButton = () => {
     return (
       <li className="rounded-md3 flex h-full w-1/3 flex-shrink-0 snap-start items-center justify-center border border-[#c5c5c5] hover:bg-gray-300 sm:w-1/4 md:w-1/5 lg:w-1/6 xl:w-[12.5%]">
         <button
@@ -187,7 +194,7 @@ const GridViewList = ({
       >
         <PinnedCards pinnedCards={pinnedList} />
         <UnpinnedCards unpinnedCards={unpinnedList} />
-        <AddCard />
+        {isAuthorised && <AddCardButton />}
       </ul>
     </div>
   );
