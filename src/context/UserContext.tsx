@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState } from "react";
 import { getSupabase } from "../utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 interface UserContextType {
-  user: any;
-  setUser: (user: any) => void;
+  user: User;
+  setUser: (user: User) => void;
   isUserFetched: boolean;
   setIsUserFetched: (isLoading: boolean) => void;
   errorMessage: string;
