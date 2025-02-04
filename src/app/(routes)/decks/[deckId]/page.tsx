@@ -5,13 +5,16 @@ import CompareList from "@/components/compareList/CompareList";
 import { getDeckById } from "@/app/actions/DeckContext/getDeckById/actions";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
+import { useUser } from "@/context/UserContext";
 import { DecksTableType } from "@/_types/DecksTableType";
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthorised, setisAuthorised] = useState(false);
   const [deckData, setDeckData] = useState<DecksTableType>(
     {} as DecksTableType,
   );
+  const { user } = useUser();
 
   const LoadingSkeleton = () => (
     <div className="mt-[1rem] w-full" id="deck-page-loading-card">
@@ -84,17 +87,29 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setisAuthorised(user?.id === deckData?.user_uid);
+  }, [user, deckData]);
+
   return (
     <section className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
-      <div className="mx-mobile-spacing">
+      <div className="mx-4">
         {isLoading ? (
           <LoadingSkeleton />
         ) : (
-          <CompareList
-            className="mx-4 mt-4"
-            deckData={deckData}
-            setDeckData={setDeckData}
-          />
+          <div className="m-4 flex flex-col">
+            <CompareList
+              deckData={deckData}
+              isAuthorised={isAuthorised}
+              setDeckData={setDeckData}
+            />
+
+            {isAuthorised ? (
+              <button className="mt-4 w-min rounded-md bg-sky-600 px-4 py-2 text-white">
+                Update
+              </button>
+            ) : null}
+          </div>
         )}
       </div>
     </section>
