@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import GridViewList from "./GridViewList";
 import ListViewList from "./ListViewList";
+import { useEffect, useState } from "react";
 import ListViewButton from "./ListViewButton";
 
 import { CardTableType } from "@/_types/CardsTableType";
@@ -16,15 +16,19 @@ import { AttributeValuesTableType } from "@/_types/AttributeValuesTableType";
   - deck attributes
 */
 
-const CompareList = ({
-  className,
-  deckData,
-  setDeckData,
-}: {
+interface Props {
   className?: string;
+  isAuthorised: boolean;
   deckData: DecksTableType;
   setDeckData: React.Dispatch<React.SetStateAction<DecksTableType>>;
-}) => {
+}
+
+const CompareList = ({
+  className,
+  isAuthorised,
+  deckData,
+  setDeckData,
+}: Props) => {
   const [isListView, setIsListView] = useState(false);
   const [showAddCardModal, setShowAddCardModal] = useState(false);
   const [pinnedList, setPinnedList] = useState<CardTableType[]>([]);
@@ -60,6 +64,7 @@ const CompareList = ({
 
     const handleAddCardButton = () => {
       // each attribute value
+      const attributes = deckData.deck_attributes;
       const formattedAttributeValues: AttributeValuesTableType[] =
         Object.entries(addCardForm!).map(([key, value]) => ({
           value: value,
@@ -83,13 +88,13 @@ const CompareList = ({
     };
 
     useEffect(() => {
-      console.log("cardDescription", cardDescription);
-    }, [cardDescription]);
+      console.log("addCardForm", addCardForm);
+    }, [addCardForm]);
 
     return (
       <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
         <div
-          className="flex w-64 flex-col rounded-md bg-white p-4 md:w-[28rem]"
+          className="flex max-h-[90%] w-64 flex-col overflow-y-auto rounded-md bg-white p-4 md:w-[28rem]"
           id="card"
         >
           <div className="flex flex-col">
@@ -103,53 +108,60 @@ const CompareList = ({
               </button>
             </div>
 
-            <form
-              action={handleAddCardButton}
-              className="mt-4 flex flex-col gap-2"
-            >
-              <img
-                alt="image preview"
-                className="aspect-video w-full bg-black object-contain"
-                src={cardImgUrl || "https://placehold.co/1920x1080"}
-              />
-
-              <label className="flex flex-col">
-                <span className="font-semibold">Image URL: </span>
-                <input
-                  className="rounded-md border border-[#e0e0e0] p-1"
-                  name="image_url"
-                  type="text"
-                  onChange={onCardImgUrlChange}
+            <div>
+              <form
+                action={handleAddCardButton}
+                className="mt-4 flex flex-col gap-2"
+              >
+                <img
+                  alt="image preview"
+                  className="aspect-video w-full bg-black object-contain"
+                  src={cardImgUrl || "https://placehold.co/1920x1080"}
                 />
-              </label>
 
-              {deckData?.deck_attributes?.map((attr, i) => (
-                <label className="flex flex-col" key={attr?.id ? attr?.id : i}>
-                  <span className="font-semibold">{attr.attribute}: </span>
+                <label className="flex flex-col">
+                  <span className="font-semibold">Image URL: </span>
                   <input
                     className="rounded-md border border-[#e0e0e0] p-1"
-                    name={attr.attribute}
+                    name="image_url"
                     type="text"
-                    onChange={onAddCardFormChange}
+                    onChange={onCardImgUrlChange}
                   />
                 </label>
-              ))}
-              <label className="flex flex-col">
-                <span className="font-semibold">Description: </span>
-                <input
-                  className="rounded-md border border-[#e0e0e0] p-1"
-                  name="description"
-                  type="textarea"
-                  onChange={onDescriptionChange}
-                />
-              </label>
-              <button
-                className="mt-2 rounded-md bg-[#1d4ed8] p-2 text-white"
-                type="submit"
-              >
-                Add
-              </button>
-            </form>
+
+                {deckData?.deck_attributes?.map((attr, i) => (
+                  <label
+                    className="flex flex-col"
+                    key={attr?.id ? attr?.id : i}
+                  >
+                    <span className="font-semibold">{attr.attribute}: </span>
+                    <input
+                      className="rounded-md border border-[#e0e0e0] p-1"
+                      name={attr.attribute}
+                      type="text"
+                      onChange={onAddCardFormChange}
+                    />
+                  </label>
+                ))}
+
+                <label className="flex flex-col">
+                  <span className="font-semibold">Description: </span>
+                  <input
+                    className="rounded-md border border-[#e0e0e0] p-1"
+                    name="description"
+                    type="textarea"
+                    onChange={onDescriptionChange}
+                  />
+                </label>
+
+                <button
+                  className="mt-2 rounded-md bg-[#1d4ed8] p-2 text-white"
+                  type="submit"
+                >
+                  Add
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -191,6 +203,7 @@ const CompareList = ({
         {isListView ? (
           <ListViewList
             deckData={deckData}
+            isAuthorised={isAuthorised}
             setShowAddCardModal={setShowAddCardModal}
             pinnedList={pinnedList}
             handlePinButton={handlePinButton}
@@ -200,6 +213,7 @@ const CompareList = ({
         ) : (
           <GridViewList
             deckData={deckData}
+            isAuthorised={isAuthorised}
             setShowAddCardModal={setShowAddCardModal}
             pinnedList={pinnedList}
             handlePinButton={handlePinButton}
