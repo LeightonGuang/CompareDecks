@@ -48,7 +48,7 @@ const Header = () => {
         >
           {user.user_metadata.name
             ? user.user_metadata.name
-            : user.email.split("@")[0]}
+            : user.email?.split("@")[0]}
         </button>
         {isDropdownOpen && (
           <div
