@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 const CreateDeckPage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthorised, setisAuthorised] = useState(false);
   const [deckData, setDeckData] = useState<DecksTableType>({
     name: "",
     user_uid: "",
@@ -18,9 +18,9 @@ const CreateDeckPage = () => {
   const [showCreateDeckModal, setShowCreateDeckModal] = useState(true);
 
   const handleAddDeckButton = () => {
-    if (isAuthenticated) {
+    if (isAuthorised) {
       // add deck to supabase
-    } else if (!isAuthenticated) {
+    } else if (!isAuthorised) {
       localStorage.setItem("Deck", JSON.stringify(deckData));
     }
   };
@@ -35,6 +35,7 @@ const CreateDeckPage = () => {
         <CompareList
           className="mx-4 mt-4"
           deckData={deckData}
+          isAuthorised={isAuthorised}
           setDeckData={setDeckData}
         />
 
