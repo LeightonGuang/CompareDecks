@@ -1,14 +1,7 @@
-import { AttributeValuesTableType } from "./AttributeValuesTableType";
-
-// type for cards table
-
 export interface CardTableType {
-  id?: number;
-  deck_uuid?: string;
-  order: number;
-  imgUrl?: string;
-  attribute_values: AttributeValuesTableType[];
-  description?: string;
-  edited_at?: string;
-  created_at?: string;
+  id?: number; // Unique ID for the card row
+  deck_uuid?: string; // Foreign key to Decks(uuid)
+  name: string; // Name of the product
+  card_order: number; // Order of the card in the deck
+  imgUrl?: string; // URL of the image
 }

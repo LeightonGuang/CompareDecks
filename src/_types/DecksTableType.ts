@@ -1,15 +1,8 @@
-import { CardTableType } from "./CardsTableType";
-import { DeckAttributesTableType } from "./DeckAttributesTableType";
-
-// type for decks
-
 export interface DecksTableType {
-  id?: number;
-  name: string;
-  user_uid?: string;
-  uuid?: string;
-  deck_attributes?: DeckAttributesTableType[];
-  cards?: CardTableType[];
-  created_at?: string;
-  edited_at?: string;
+  id?: number; // Unique ID for the deck row
+  uuid?: string; // Public identifier for the deck
+  name?: string; // Name of the deck
+  user_uid?: string; // Foreign key to Users(uid)
+  created_at?: Date; // Creation date
+  edited_at?: Date; // Last edit date
 }

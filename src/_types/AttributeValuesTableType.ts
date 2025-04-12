@@ -1,13 +1,6 @@
-import { DeckAttributesTableType } from "./DeckAttributesTableType";
-
-// type for attribute_values table
-
 export interface AttributeValuesTableType {
-  id?: number;
-  attribute_id?: number;
-  card_id?: number;
-  value: string;
-  deck_attributes: DeckAttributesTableType;
-  created_at?: string;
-  edited_at?: string;
+  id?: number; //	Unique ID for the value row
+  attribute_id?: number; // Foreign key to Cards(id)
+  card_id?: number; // Foreign key to Attributes(id)
+  value: string; // Attribute value stored as string
 }
