@@ -6,6 +6,12 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { useEffect, useRef, useState } from "react";
 
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "./ui/navigation-menu";
 import gridIcon from "../_assets/icons/gridIcon.svg";
 import userIcon from "../_assets/icons/userIcon.svg";
 import settingIcon from "../_assets/icons/settingIcon.svg";
@@ -52,7 +58,7 @@ const Header = () => {
         </button>
         {isDropdownOpen && (
           <div
-            className="absolute right-[0.1rem] top-[2rem] z-10 min-w-[8rem] flex-col rounded-[0.375rem] border-[1px] border-[#ECE8F0] bg-white p-[0.25rem] text-[0.875rem] text-[#020812] shadow-md"
+            className="absolute top-[2rem] right-[0.1rem] z-10 min-w-[8rem] flex-col rounded-[0.375rem] border-[1px] border-[#ECE8F0] bg-white p-[0.25rem] text-[0.875rem] text-[#020812] shadow-md"
             id="dropdown-card"
           >
             <div
@@ -108,14 +114,14 @@ const Header = () => {
 
     const GuestLinks = () => (
       <NavLink href="/login">
-        <span className="rounded-[.325rem] bg-blue px-[1rem] py-[0.5rem] font-[0.875rem] text-[white] hover:bg-[#426bc2]">
+        <span className="bg-blue rounded-[.325rem] px-[1rem] py-[0.5rem] font-[0.875rem] text-[white] hover:bg-[#426bc2]">
           Log in
         </span>
       </NavLink>
     );
 
     return (
-      <nav className="flex gap-[1.5rem] py-mobile-spacing font-medium">
+      <nav className="py-mobile-spacing flex gap-[1.5rem] font-medium">
         {user?.aud === "authenticated" ? (
           <UserLinks />
         ) : (
@@ -127,7 +133,7 @@ const Header = () => {
 
   const NavLinks = () => {
     return (
-      <nav className="flex gap-[1.5rem] py-mobile-spacing text-[0.875rem] font-[500] text-[#020812]">
+      <nav className="py-mobile-spacing flex gap-[1.5rem] text-[0.875rem] font-[500] text-[#020812]">
         <NavLink href="/create-deck">
           <div className="hover:underline">Create Deck</div>
         </NavLink>
@@ -162,20 +168,42 @@ const Header = () => {
   }, [dropdownRef]);
 
   return (
-    <header className="max-w-full border-b border-b-gray-400 bg-white">
-      <div
-        className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[2rem]"
-        id="header"
-      >
-        <Link href={"/"}>
-          <div className="text-3xl font-bold text-sky-600">CD</div>
-        </Link>
+    // <header className="max-w-full border-b border-b-gray-400 bg-white">
+    //   <div
+    //     className="mx-mobile-spacing flex max-h-[3.25rem] items-center justify-between leading-[1.25rem] xl:mx-[2rem]"
+    //     id="header"
+    //   >
+    //     <Link href={"/"}>
+    //       <div className="text-3xl font-bold text-sky-600">CD</div>
+    //     </Link>
 
-        <NavLinks />
+    //     <NavLinks />
 
-        <UserDropdown />
-      </div>
-    </header>
+    //     <UserDropdown />
+    //   </div>
+    // </header>
+
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink className="" href="/">
+            CD
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink className="" href="/create-deck">
+            Create Deck
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuLink className="" href="/links">
+            Browse
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 };
 
