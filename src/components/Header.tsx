@@ -198,7 +198,7 @@ const Header = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuLink className="" href="/links">
+          <NavigationMenuLink className="" href="/decks">
             Browse
           </NavigationMenuLink>
         </NavigationMenuItem>
