@@ -13,16 +13,35 @@ const AttributeCard = ({
   setAttributes: (attributes: string[]) => void;
 }) => {
   const [attribute, setAttribute] = useState("");
+  const [errors, setErrors] = useState({
+    isMissingAttribute: false,
+    isDuplicateAttribute: false,
+  });
 
   const onAttributeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAttribute(e.target.value);
   };
 
   const handleAddAttributeButton = () => {
+    setErrors({
+      isMissingAttribute: false,
+      isDuplicateAttribute: false,
+    });
+
     // check if attribute is empty
-    if (!attribute) return;
+    if (!attribute) {
+      setErrors((prevErrors) => ({ ...prevErrors, isMissingAttribute: true }));
+      return;
+    }
     // check if attribute already exists
-    if (attributes.includes(attribute)) return;
+    const isDuplicateAttribute = attributes.includes(attribute);
+    if (isDuplicateAttribute) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        isDuplicateAttribute: true,
+      }));
+      return;
+    }
     setAttributes([...attributes, attribute]);
     setAttribute("");
   };
@@ -34,31 +53,50 @@ const AttributeCard = ({
 
   return (
     <Card className="w-60">
-      <CardHeader>
-        <div className="flex gap-4">
+      <CardHeader className="border-b">
+        <div className="flex gap-2">
           <Input
             placeholder="Attribute"
             value={attribute}
             onChange={onAttributeChange}
           />
-          <Button onClick={handleAddAttributeButton}>+ Add</Button>
+          <Button
+            className="hover:cursor-pointer"
+            onClick={handleAddAttributeButton}
+          >
+            + Add
+          </Button>
         </div>
+
+        {errors.isMissingAttribute && (
+          <p className="mt-1 text-xs text-red-600">
+            *Attribute cannot be empty
+          </p>
+        )}
+
+        {errors.isDuplicateAttribute && (
+          <p className="mt-1 text-xs text-red-600">*Attribute already exist</p>
+        )}
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-2">
         <h3 className="text-sm font-medium">Current Attributes:</h3>
 
-        <div className="flex flex-col gap-2">
+        <div className="grid gap-2">
           {attributes.map((attribute, i) => (
-            <div className="flex items-center justify-between" key={i}>
+            <div
+              className="bg-muted/40 flex items-center justify-between rounded-md p-2"
+              key={i}
+            >
               <span className="font-medium">{attribute}</span>
 
               <Button
+                className="hover:cursor-pointer"
                 size="icon"
                 variant="ghost"
                 onClick={() => handleDeleteButton(i)}
               >
-                <BinIconSvg className="h-4 w-4" />
+                <BinIconSvg className="h-4 w-4 text-red-500" />
               </Button>
             </div>
           ))}
