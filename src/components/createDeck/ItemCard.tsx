@@ -126,6 +126,7 @@ const ItemCard = ({
                     {isEditing ? (
                       <Input
                         placeholder={`Enter ${attribute}`}
+                        value={attributeValue}
                         onChange={(e) => onAttributeValueChange(e, attribute)}
                       />
                     ) : (
