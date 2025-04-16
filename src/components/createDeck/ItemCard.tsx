@@ -52,8 +52,10 @@ const ItemCard = ({
     setCards([...cards]);
   };
 
-  // TODO: Add image upload functionality
-  // TODO: Add delete card functionality
+  const handleDeleteButton = () => {
+    cards.splice(cardIndex, 1);
+    setCards([...cards]);
+  };
 
   return (
     <Card className="w-60">
@@ -61,12 +63,12 @@ const ItemCard = ({
         <h2 className={`${!card.name && "text-muted-foreground"}`}>
           {isEditing ? (
             <Input
-              placeholder="Item name"
+              placeholder="Card name"
               value={card.name}
               onChange={onCardNameChange}
             />
           ) : (
-            card.name || "Untitled name"
+            card.name || "Card " + String(cardIndex + 1)
           )}
         </h2>
 
@@ -82,7 +84,12 @@ const ItemCard = ({
             <EditIconSvg className="h-4 w-4" />
           </Button>
 
-          <Button className="hover:cursor-pointer" size="icon" variant="ghost">
+          <Button
+            className="hover:cursor-pointer"
+            size="icon"
+            variant="ghost"
+            onClick={handleDeleteButton}
+          >
             <BinIconSvg className="h-4 w-4 text-red-500" />
           </Button>
         </div>
