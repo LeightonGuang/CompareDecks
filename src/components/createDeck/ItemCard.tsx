@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { BinIconSvg, EditIconSvg } from "@/_assets/icons/cardIcons";
 
@@ -56,6 +56,18 @@ const ItemCard = ({
     cards.splice(cardIndex, 1);
     setCards([...cards]);
   };
+
+  // Update card attributes when deck attributes change
+  useEffect(() => {
+    attributes.forEach((key, i) => {
+      if (!card[key]) {
+        card[key] = "";
+        const updatedCards = [...cards];
+        updatedCards[cardIndex] = card;
+        setCards(updatedCards);
+      }
+    });
+  }, [attributes]);
 
   return (
     <Card className="w-60">
