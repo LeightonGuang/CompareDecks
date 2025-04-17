@@ -4,13 +4,15 @@ import { Button } from "../ui/button";
 import { BinIconSvg } from "@/_assets/icons/cardIcons";
 import { Card, CardContent, CardHeader } from "../ui/card";
 
+import { AttributeTableType } from "@/_types/AttributeTableType";
+
 // Edit and delete atttributes of a deck
 const AttributeCard = ({
   attributes,
   setAttributes,
 }: {
-  attributes: string[];
-  setAttributes: (attributes: string[]) => void;
+  attributes: AttributeTableType[];
+  setAttributes: (attributes: AttributeTableType[]) => void;
 }) => {
   const [attribute, setAttribute] = useState("");
   const [errors, setErrors] = useState({
@@ -28,13 +30,15 @@ const AttributeCard = ({
       isDuplicateAttribute: false,
     });
 
-    // check if attribute is empty
+    // check if attribute input is empty
     if (!attribute) {
       setErrors((prevErrors) => ({ ...prevErrors, isMissingAttribute: true }));
       return;
     }
     // check if attribute already exists
-    const isDuplicateAttribute = attributes.includes(attribute);
+    const isDuplicateAttribute = attributes.some(
+      (attr) => attr.name === attribute,
+    );
     if (isDuplicateAttribute) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -42,7 +46,11 @@ const AttributeCard = ({
       }));
       return;
     }
-    setAttributes([...attributes, attribute]);
+    // add new attribute to attributes
+    setAttributes([
+      ...attributes,
+      { name: attribute, sort_order: attributes.length },
+    ]);
     setAttribute("");
   };
 
@@ -88,7 +96,7 @@ const AttributeCard = ({
               className="bg-muted/40 flex items-center justify-between rounded-md p-2"
               key={i}
             >
-              <span className="font-medium">{attribute}</span>
+              <span className="font-medium">{attribute.name}</span>
 
               <Button
                 className="hover:cursor-pointer"

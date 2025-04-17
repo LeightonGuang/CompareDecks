@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { BinIconSvg, EditIconSvg } from "@/_assets/icons/cardIcons";
 
+import { AttributeTableType } from "@/_types/AttributeTableType";
+
 const ItemCard = ({
   cardIndex,
   attributes,
@@ -13,7 +15,7 @@ const ItemCard = ({
   setCards,
 }: {
   cardIndex: number;
-  attributes: string[];
+  attributes: AttributeTableType[];
   card: any;
   cards: any[];
   setCards: (cards: any) => void;
@@ -59,9 +61,9 @@ const ItemCard = ({
 
   // Update card attributes when deck attributes change
   useEffect(() => {
-    attributes.forEach((key, i) => {
-      if (!card[key]) {
-        card[key] = "";
+    attributes.forEach((attribute, i) => {
+      if (!attribute.name) {
+        card[attribute.name] = "";
         const updatedCards = [...cards];
         updatedCards[cardIndex] = card;
         setCards(updatedCards);
@@ -131,15 +133,19 @@ const ItemCard = ({
               )}
 
               {attributes.map((attribute) => {
-                const attributeValue = card[attribute];
+                const attributeValue = card[attribute.name];
                 return (
-                  <div key={attribute} className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">{attribute}</label>
+                  <div key={attribute.name} className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">
+                      {attribute.name}
+                    </label>
                     {isEditing ? (
                       <Input
-                        placeholder={`Enter ${attribute}`}
+                        placeholder={`Enter ${attribute.name}`}
                         value={attributeValue}
-                        onChange={(e) => onAttributeValueChange(e, attribute)}
+                        onChange={(e) =>
+                          onAttributeValueChange(e, attribute.name)
+                        }
                       />
                     ) : (
                       <span
@@ -174,11 +180,11 @@ const ItemCard = ({
                   )}
 
                   {attributes.map((attribute) => {
-                    const attributeValue = card[attribute];
+                    const attributeValue = card[attribute.name];
                     return (
-                      <div key={attribute} className="flex flex-col gap-2">
+                      <div key={attribute.name} className="flex flex-col gap-2">
                         <label className="text-sm font-medium">
-                          {attribute}
+                          {attribute.name}
                         </label>
                         <span
                           className={`bg-muted/30 min-h-[2.5rem] p-2 ${!attributeValue && "text-muted-foreground italic"}`}

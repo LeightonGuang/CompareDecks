@@ -8,11 +8,13 @@ import {
   TableHeader,
 } from "../ui/table";
 
+import { AttributeTableType } from "@/_types/AttributeTableType";
+
 const CompareTable = ({
   attributes,
   cards,
 }: {
-  attributes: string[];
+  attributes: AttributeTableType[];
   cards: any[];
 }) => {
   return (
@@ -58,7 +60,7 @@ const CompareTable = ({
             attributes.map((attribute, attributeIndex) => (
               <TableRow key={attributeIndex}>
                 {/* first column to show the attribute name */}
-                <TableCell>{attribute}</TableCell>
+                <TableCell>{attribute.name}</TableCell>
                 {/* remaining columns to show the card values */}
                 {cards.map((card) => {
                   return Object.entries(card).map(
@@ -69,7 +71,7 @@ const CompareTable = ({
                         return urlRegex.test(str);
                       };
 
-                      if (key === attribute) {
+                      if (key === attribute.name) {
                         return (
                           <TableCell key={key}>
                             {isLink(value) ? (
