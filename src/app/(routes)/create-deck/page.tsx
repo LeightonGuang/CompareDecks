@@ -1,59 +1,151 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import ItemCard from "@/components/createDeck/ItemCard";
+import DeckDetails from "@/components/createDeck/DeckDetails";
+import CompareTable from "@/components/createDeck/CompareTable";
+import AttributeCard from "@/components/createDeck/AttributeCard";
+
+import { CardTableType } from "@/_types/CardsTableType";
 import { DecksTableType } from "@/_types/DecksTableType";
-import CompareList from "@/components/compareList/CompareList";
-import SetupCreateDeckModal from "@/components/createDeck/SetupCreateDeckModal";
-import React, { useEffect, useState } from "react";
+import { AttributeTableType } from "@/_types/AttributeTableType";
 
 const CreateDeckPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthorised, setisAuthorised] = useState(false);
+  const [isEditDeckDetails, setIsEditDeckDetails] = useState(false);
   const [deckData, setDeckData] = useState<DecksTableType>({
     name: "",
-    user_uid: "",
-    uuid: "",
-    deck_attributes: [],
-    cards: [],
+    description: "",
+  } as DecksTableType);
+  const [attributes, setAttributes] = useState<AttributeTableType[]>([
+    { name: "Brand", sort_order: 0 },
+    { name: "Price", sort_order: 1 },
+  ]);
+  const [cards, setCards] = useState<CardTableType[]>([
+    { name: "", imgUrl: "", card_order: 0 },
+  ]);
+  const [errors, setErrors] = useState({
+    isMissingDeckName: false,
+    isMissingDeckDescription: false,
+    isMissingDeckAttributes: false,
+    isMissingCardNames: false,
   });
-  const [showCreateDeckModal, setShowCreateDeckModal] = useState(true);
 
-  const handleAddDeckButton = () => {
-    if (isAuthorised) {
-      // add deck to supabase
-    } else if (!isAuthorised) {
-      localStorage.setItem("Deck", JSON.stringify(deckData));
+  const handleAddCardButtonClick = () => {
+    setCards([...cards, { name: "", imgUrl: "", card_order: cards.length }]);
+  };
+
+  const handleSaveButtonClick = () => {
+    setErrors({
+      isMissingDeckName: false,
+      isMissingDeckDescription: false,
+      isMissingDeckAttributes: false,
+      isMissingCardNames: false,
+    });
+    // TODO : check deck name is not empty
+    if (deckData.name === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        isMissingDeckName: true,
+      }));
+      return;
+    }
+    // TODO : check deck description is not empty
+    if (deckData.description === "") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        isMissingDeckDescription: true,
+      }));
+      return;
+    }
+    // TODO : check attributes are not empty
+    if (attributes.length === 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        isMissingDeckAttributes: true,
+      }));
+      return;
+    }
+    // TODO : check cards name are not empty
+    if (cards.some((card) => card.name === "")) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        isMissingCardNames: true,
+      }));
+      return;
     }
   };
 
   useEffect(() => {
-    console.log("deckData", deckData);
-  }, [deckData]);
+    console.log("cards: ", cards);
+  }, [cards]);
+
+  useEffect(() => {
+    console.log("attributes: ", attributes);
+  }, [attributes]);
 
   return (
-    <section>
-      <div>
-        <CompareList
-          className="mx-4 mt-4"
-          deckData={deckData}
-          isAuthorised={isAuthorised}
-          setDeckData={setDeckData}
-        />
+    <section className="p-4">
+      <DeckDetails
+        isEditDeckDetails={isEditDeckDetails}
+        setIsEditDeckDetails={setIsEditDeckDetails}
+        deckData={deckData}
+        setDeckData={setDeckData}
+      />
 
-        <button
-          className="mx-4 mt-4 w-min whitespace-nowrap rounded-md bg-[#1d4ed8] px-6 py-2 text-right text-white"
-          onClick={handleAddDeckButton}
-        >
-          Create Deck
-        </button>
+      <div className="mt-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-medium">Cards</h2>
+
+          <Button
+            className="hover:cursor-pointer"
+            onClick={handleAddCardButtonClick}
+          >
+            + Add Card
+          </Button>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-4">
+          <AttributeCard
+            attributes={attributes}
+            setAttributes={setAttributes}
+          />
+          {cards.map((card, i) => {
+            return (
+              <ItemCard
+                key={i}
+                cardIndex={i}
+                attributes={attributes}
+                card={card}
+                cards={cards}
+                setCards={setCards}
+              />
+            );
+          })}
+        </div>
+
+        <div className="mt-4">
+          <h2 className="mb-4 text-2xl font-medium">Compare Table</h2>
+          <CompareTable attributes={attributes} cards={cards} />
+        </div>
+
+        <div className="mt-4 flex w-full flex-col items-center justify-center">
+          <Button className="w-max" onClick={handleSaveButtonClick}>
+            Save
+          </Button>
+          <p className="ml-2 text-red-500">
+            {errors.isMissingDeckName
+              ? "Deck names are missing"
+              : errors.isMissingDeckDescription
+                ? "Deck description is missing"
+                : errors.isMissingCardNames
+                  ? "Card names are missing"
+                  : errors.isMissingDeckAttributes
+                    ? "Attributes are missing"
+                    : ""}
+          </p>
+        </div>
       </div>
-
-      {showCreateDeckModal && (
-        <SetupCreateDeckModal
-          setShowCreateDeckModal={setShowCreateDeckModal}
-          deckData={deckData}
-          setDeckData={setDeckData}
-        />
-      )}
     </section>
   );
 };
