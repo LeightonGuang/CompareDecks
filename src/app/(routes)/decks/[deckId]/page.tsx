@@ -1,20 +1,51 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CompareList from "@/components/compareList/CompareList";
+import { Button } from "@/components/ui/button";
+import ItemCard from "@/components/createDeck/ItemCard";
+import DeckDetails from "@/components/createDeck/DeckDetails";
+import CompareTable from "@/components/createDeck/CompareTable";
+import AttributeCard from "@/components/createDeck/AttributeCard";
 import { getDeckById } from "@/app/actions/DeckContext/getDeckById/actions";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
-import { useUser } from "@/context/UserContext";
+import { FetchCardType } from "@/_types/FetchCardType";
 import { DecksTableType } from "@/_types/DecksTableType";
+import { FetchDeckDataType } from "@/_types/FetchDeckDataType";
+import { AttributeTableType } from "@/_types/AttributeTableType";
+
+interface CardsType {
+  id?: number;
+  card_order: number;
+  name: string;
+  imgUrl?: string;
+  [key: string]: string | number | undefined;
+}
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthorised, setisAuthorised] = useState(false);
-  const [deckData, setDeckData] = useState<DecksTableType>(
-    {} as DecksTableType,
+  const [fetchedDeckData, setFetchedDeckData] = useState<FetchDeckDataType>(
+    {} as FetchDeckDataType,
   );
-  const { user } = useUser();
+  const [deckData, setDeckData] = useState<DecksTableType>({
+    name: "",
+    description: "",
+  } as DecksTableType);
+  const [attributes, setAttributes] = useState<AttributeTableType[]>([]);
+  const [cards, setCards] = useState<CardsType[]>([]);
+  const [isEditDeckDetials, setIsEditDeckDetials] = useState(false);
+  const [errors, setErrors] = useState({
+    isMissingDeckName: false,
+    isMissingDeckDescription: false,
+    isMissingDeckAttributes: false,
+    isMissingCardNames: false,
+  });
+
+  const handleAddCardButtonClick = () => {
+    setCards([...cards, { name: "", imgUrl: "", card_order: cards.length }]);
+  };
+
+  const handleSaveButtonClick = () => {};
 
   const LoadingSkeleton = () => (
     <div className="mt-[1rem] w-full" id="deck-page-loading-card">
@@ -74,7 +105,24 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
       if (deckError) {
         console.error(deckError);
       } else if (deckData) {
-        setDeckData(deckData);
+        setDeckData({ name: deckData.name, description: deckData.description });
+        setAttributes(deckData.attributes);
+
+        const formattedCards = deckData.cards.map((card: FetchCardType) => {
+          const cardData: CardsType = {
+            id: card.id,
+            card_order: card.card_order,
+            name: card.name,
+            imgUrl: card.imgUrl,
+          };
+
+          card.attribute_values.forEach((attribute) => {
+            cardData[attribute.attributes.name] = attribute.value;
+          });
+          return cardData;
+        });
+
+        setCards(formattedCards);
       }
     } catch (error) {
       console.error(error);
@@ -87,30 +135,67 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    setisAuthorised(user?.id === deckData?.user_uid);
-  }, [user, deckData]);
-
   return (
-    <section className="h-dynamic-vh overflow-y-auto" id="create-deck-page">
-      <div className="mx-4">
-        {isLoading ? (
-          <LoadingSkeleton />
-        ) : (
-          <div className="m-4 flex flex-col">
-            <CompareList
-              deckData={deckData}
-              isAuthorised={isAuthorised}
-              setDeckData={setDeckData}
-            />
+    <section className="p-4">
+      <DeckDetails
+        isEditDeckDetails={false}
+        setIsEditDeckDetails={setIsEditDeckDetials}
+        deckData={deckData}
+        setDeckData={setDeckData}
+      />
 
-            {isAuthorised ? (
-              <button className="mt-4 w-min rounded-md bg-sky-600 px-4 py-2 text-white">
-                Update
-              </button>
-            ) : null}
-          </div>
-        )}
+      <div className="mt-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-medium">Cards</h2>
+
+          <Button
+            className="hover:cursor-pointer"
+            onClick={handleAddCardButtonClick}
+          >
+            + Add Card
+          </Button>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-4">
+          <AttributeCard
+            attributes={attributes}
+            setAttributes={setAttributes}
+          />
+          {cards.map((card, i) => {
+            return (
+              <ItemCard
+                key={i}
+                cardIndex={i}
+                attributes={attributes}
+                card={card}
+                cards={cards}
+                setCards={setCards}
+              />
+            );
+          })}
+        </div>
+
+        <div className="mt-4">
+          <h2 className="mb-4 text-2xl font-medium">Compare Table</h2>
+          <CompareTable attributes={attributes} cards={cards} />
+        </div>
+
+        <div className="mt-4 flex w-full flex-col items-center justify-center">
+          <Button className="w-max" onClick={handleSaveButtonClick}>
+            Save
+          </Button>
+          <p className="ml-2 text-red-500">
+            {errors.isMissingDeckName
+              ? "Deck name is missing"
+              : errors.isMissingDeckDescription
+                ? "Deck description is missing"
+                : errors.isMissingCardNames
+                  ? "Card names are missing"
+                  : errors.isMissingDeckAttributes
+                    ? "Attributes are missing"
+                    : ""}
+          </p>
+        </div>
       </div>
     </section>
   );
