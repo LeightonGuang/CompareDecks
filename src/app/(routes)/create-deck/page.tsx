@@ -77,12 +77,16 @@ const CreateDeckPage = () => {
   };
 
   useEffect(() => {
-    console.log("cards: ", cards);
-  }, [cards]);
+    console.log("deckData: ", deckData);
+  }, [deckData]);
 
   useEffect(() => {
     console.log("attributes: ", attributes);
   }, [attributes]);
+
+  useEffect(() => {
+    console.log("cards: ", cards);
+  }, [cards]);
 
   return (
     <section className="p-4">
@@ -135,7 +139,7 @@ const CreateDeckPage = () => {
           </Button>
           <p className="ml-2 text-red-500">
             {errors.isMissingDeckName
-              ? "Deck names are missing"
+              ? "Deck name is missing"
               : errors.isMissingDeckDescription
                 ? "Deck description is missing"
                 : errors.isMissingCardNames
