@@ -1,42 +1,38 @@
 "use client";
 export const dynamic = "force-dynamic"; // no caching
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { THead, TData } from "@/components/list/ListComponents";
-import Image from "next/image";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
-import { useDeck } from "@/context/DeckContext";
-import { DecksTableType } from "@/_types/DecksTableType";
+import { DeckListType } from "@/_types/DeckListType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
+import { getAllDecksList } from "@/app/actions/DeckContext/getAllDecksList/actions";
 
 const DecksPage = () => {
-  const { getAllDecks } = useDeck();
-  const [decksList, setDecksList] = useState<DecksTableType[]>([]);
+  const [decksList, setDecksList] = useState<DeckListType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getDecks = async () => {
     try {
-      const response = await getAllDecks();
-      // console.table(response);
-      if (response?.success) {
-        if (response.decks) {
-          setDecksList(response.decks);
-        } else {
-          console.error("No decks found");
-        }
-      } else if (!response?.success) {
-        console.error(response?.error);
+      const response = await getAllDecksList();
+
+      if (response.data) {
+        console.log(response.data);
+        setDecksList(response.data);
+      } else if (response.error) {
+        console.error(response.error);
       }
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
+    } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    getDecks();
   }, []);
 
   return (
@@ -99,7 +95,7 @@ const DecksPage = () => {
                           </td>
                         </tr>
                       ))
-                  : decksList.map((deck: DecksTableType) => (
+                  : decksList.map((deck) => (
                       <tr
                         className="border-t-[1px] border-[#E2E8F0] hover:bg-[#f9fafc]"
                         key={deck.uuid}
