@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   Table,
   TableRow,
@@ -7,7 +6,9 @@ import {
   TableHead,
   TableHeader,
 } from "../ui/table";
+import { Button } from "../ui/button";
 
+import { CardTableType } from "@/_types/CardsTableType";
 import { AttributeTableType } from "@/_types/AttributeTableType";
 
 const CompareTable = ({
@@ -15,16 +16,23 @@ const CompareTable = ({
   cards,
 }: {
   attributes: AttributeTableType[];
-  cards: any[];
+  cards: CardTableType[];
 }) => {
   return (
     <div>
+      <Button
+        onClick={() => {
+          console.log(cards);
+        }}
+      >
+        cards
+      </Button>
       <Table className="border">
         <TableHeader>
           <TableRow>
             <TableHead>Features</TableHead>
             {cards.map((card, i) => (
-              <TableHead key={card.name + i}>
+              <TableHead key={i}>
                 {card.name || (
                   <span className="text-muted-foreground">
                     {"Card " + String(i + 1)}
@@ -37,17 +45,17 @@ const CompareTable = ({
 
         <TableBody>
           {/* Display image if at least one card has an image */}
-          {cards.some((card: any) => card.imgUrl !== "") && (
+          {cards.some((card: any) => card?.imgUrl !== "") && (
             <TableRow>
               <TableCell>Image</TableCell>
               {cards.map((card, i) => (
-                <TableCell className="" key={card.name + i}>
+                <TableCell className="" key={i}>
                   <div className="flex w-full justify-center">
                     <img
                       alt={card.name}
                       className="w-40 rounded-xs object-contain"
                       src={
-                        card.imgUrl ||
+                        card?.imgUrl ||
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjt-ewgNomB7qqJH9Hn5VxQsnOgH_rRb2u9Q&s"
                       }
                     />
@@ -56,7 +64,7 @@ const CompareTable = ({
               ))}
             </TableRow>
           )}
-          {attributes.length !== 0 &&
+          {attributes.length > 0 &&
             attributes.map((attribute, attributeIndex) => (
               <TableRow key={attributeIndex}>
                 {/* first column to show the attribute name */}

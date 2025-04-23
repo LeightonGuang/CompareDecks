@@ -63,7 +63,7 @@ const MyDecksPage = () => {
         id="my-deck-page__container"
       >
         <div
-          className="mx-[1rem] w-max rounded-[0.5rem] border shadow-sm"
+          className="shadow-xs mx-[1rem] w-max rounded-[0.5rem] border"
           id="my-deck-page__card"
         >
           <div className="px-[1.5rem] py-[1rem]">
@@ -127,10 +127,10 @@ const MyDecksPage = () => {
                       key={i}
                     >
                       <TData href={`/decks/${deck.uuid}`}>
-                        {deck.cards[0]?.imgUrl ? (
+                        {deck.cards?.[0]?.imgUrl ? (
                           <img
                             className="h-[4rem] w-[4rem] object-contain"
-                            src={deck.cards[0]?.imgUrl}
+                            src={deck.cards?.[0]?.imgUrl}
                             alt=""
                           />
                         ) : (
@@ -143,7 +143,7 @@ const MyDecksPage = () => {
                       </TData>
                       <TData href={`/decks/${deck.uuid}`}>{deck.name}</TData>
                       <TData href={`/decks/${deck.uuid}`}>
-                        {deck.cards.length}
+                        {deck.cards?.length}
                       </TData>
                       <TData
                         className="hidden sm:table-cell"

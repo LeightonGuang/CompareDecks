@@ -49,7 +49,12 @@ const AttributeCard = ({
     // add new attribute to attributes
     setAttributes([
       ...attributes,
-      { name: attribute, sort_order: attributes.length },
+      {
+        deck_uuid: attributes[0].deck_uuid,
+        id: undefined,
+        name: attribute,
+        sort_order: attributes.length + 1,
+      },
     ]);
     setAttribute("");
   };

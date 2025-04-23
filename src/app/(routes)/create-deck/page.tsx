@@ -7,8 +7,8 @@ import DeckDetails from "@/components/createDeck/DeckDetails";
 import CompareTable from "@/components/createDeck/CompareTable";
 import AttributeCard from "@/components/createDeck/AttributeCard";
 
-import { CardTableType } from "@/_types/CardsTableType";
 import { DecksTableType } from "@/_types/DecksTableType";
+import { DynamicCardType } from "@/_types/DynamicCardType";
 import { AttributeTableType } from "@/_types/AttributeTableType";
 
 const CreateDeckPage = () => {
@@ -21,8 +21,8 @@ const CreateDeckPage = () => {
     { name: "Brand", sort_order: 0 },
     { name: "Price", sort_order: 1 },
   ]);
-  const [cards, setCards] = useState<CardTableType[]>([
-    { name: "", imgUrl: "", card_order: 0 },
+  const [cards, setCards] = useState<DynamicCardType[]>([
+    { card_order: 0, name: "", imgUrl: "" },
   ]);
   const [errors, setErrors] = useState({
     isMissingDeckName: false,

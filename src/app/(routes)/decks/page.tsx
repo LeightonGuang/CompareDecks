@@ -6,13 +6,11 @@ import { THead, TData } from "@/components/list/ListComponents";
 import Image from "next/image";
 import placeholder from "../../../_assets/images/placeholder.svg";
 
-import { DecksTableType } from "@/_types/DecksTableType";
-import { useUser } from "@/context/UserContext";
 import { useDeck } from "@/context/DeckContext";
+import { DecksTableType } from "@/_types/DecksTableType";
 import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimation";
 
 const DecksPage = () => {
-  const { user, fetchUser } = useUser();
   const { getAllDecks } = useDeck();
   const [decksList, setDecksList] = useState<DecksTableType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -39,14 +37,7 @@ const DecksPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchUser();
   }, []);
-
-  useEffect(() => {
-    if (user !== null) {
-      getDecks();
-    }
-  }, [user]);
 
   return (
     <main className="h-dynamic-vh overflow-y-auto" id="decks-page">
@@ -55,11 +46,11 @@ const DecksPage = () => {
         id="decks-page__container"
       >
         <div
-          className="m-[1rem] rounded-[0.5rem] border shadow-sm"
+          className="m-[1rem] rounded-[0.5rem] border shadow-xs"
           id="decks-card"
         >
           <div className="px-[1.5rem] py-[1rem]">
-            <h1 className="text-[1.5rem] font-[600] leading-[1.5rem]">
+            <h1 className="text-[1.5rem] leading-[1.5rem] font-[600]">
               Browse decks
             </h1>
             <p className="mt-[0.375rem] text-[0.875rem] leading-[1.25rem] text-[#5E6D82]">
@@ -117,9 +108,9 @@ const DecksPage = () => {
                           <div>
                             {deck?.cards?.[0]?.imgUrl ? (
                               <img
+                                alt="preview"
                                 className="h-[4rem] w-[4rem] object-contain"
                                 src={deck.cards[0]?.imgUrl}
-                                alt="preview"
                               />
                             ) : (
                               <Image

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { BinIconSvg, EditIconSvg } from "@/_assets/icons/cardIcons";
 
 import { AttributeTableType } from "@/_types/AttributeTableType";
+import { DynamicCardType } from "@/_types/DynamicCardType";
 
 const ItemCard = ({
   cardIndex,
@@ -16,9 +17,9 @@ const ItemCard = ({
 }: {
   cardIndex: number;
   attributes: AttributeTableType[];
-  card: any;
-  cards: any[];
-  setCards: (cards: any) => void;
+  card: DynamicCardType;
+  cards: DynamicCardType[];
+  setCards: (cards: DynamicCardType[]) => void;
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -61,28 +62,33 @@ const ItemCard = ({
 
   // Update card attributes when deck attributes change
   useEffect(() => {
-    attributes.forEach((attribute, i) => {
-      if (!attribute.name) {
-        card[attribute.name] = "";
-        const updatedCards = [...cards];
-        updatedCards[cardIndex] = card;
-        setCards(updatedCards);
-      }
+    // TODO: Add new attributes to all cards
+
+    const updatedCards: DynamicCardType[] = cards.map((card) => {
+      const updatedCard = { ...card };
+      attributes.forEach((attribute) => {
+        if (!updatedCard[attribute.name]) {
+          updatedCard[attribute.name] = "";
+        }
+      });
+
+      return updatedCard;
     });
+    setCards(updatedCards);
   }, [attributes]);
 
   return (
     <Card className="w-60">
       <CardHeader className="flex items-center justify-between border-b pb-2">
-        <h2 className={`${!card.name && "text-muted-foreground"}`}>
+        <h2 className={`${card?.name && "text-muted-foreground"}`}>
           {isEditing ? (
             <Input
               placeholder="Card name"
-              value={card.name}
+              value={card?.name}
               onChange={onCardNameChange}
             />
           ) : (
-            card.name || "Card " + String(cardIndex + 1)
+            card?.name || "Card " + String(cardIndex + 1)
           )}
         </h2>
 
@@ -122,7 +128,7 @@ const ItemCard = ({
 
               {card.imgUrl && (
                 <Image
-                  alt={card.name}
+                  alt={card.name || ""}
                   className="object-contain"
                   src={card.imgUrl}
                   width={0}
@@ -133,7 +139,7 @@ const ItemCard = ({
               )}
 
               {attributes.map((attribute) => {
-                const attributeValue = card[attribute.name];
+                const attributeValue = card[attribute.name] || "";
                 return (
                   <div key={attribute.name} className="flex flex-col gap-2">
                     <label className="text-sm font-medium">
@@ -142,7 +148,7 @@ const ItemCard = ({
                     {isEditing ? (
                       <Input
                         placeholder={`Enter ${attribute.name}`}
-                        value={attributeValue}
+                        value={String(attributeValue)}
                         onChange={(e) =>
                           onAttributeValueChange(e, attribute.name)
                         }
@@ -169,7 +175,7 @@ const ItemCard = ({
                 <div className="space-y-4">
                   {card.imgUrl && (
                     <Image
-                      alt={card.name}
+                      alt={card.name || ""}
                       className="object-contain"
                       src={card.imgUrl}
                       width={0}
@@ -180,7 +186,7 @@ const ItemCard = ({
                   )}
 
                   {attributes.map((attribute) => {
-                    const attributeValue = card[attribute.name];
+                    const attributeValue = card[attribute.name] || "";
                     return (
                       <div key={attribute.name} className="flex flex-col gap-2">
                         <label className="text-sm font-medium">
