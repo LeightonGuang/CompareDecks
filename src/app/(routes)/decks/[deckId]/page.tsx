@@ -11,6 +11,7 @@ import { TextLoadingAnimation } from "@/components/animation/TextLoadingAnimatio
 
 import { FetchCardType } from "@/_types/FetchCardType";
 import { DecksTableType } from "@/_types/DecksTableType";
+import { DynamicCardType } from "@/_types/DynamicCardType";
 import { FetchDeckDataType } from "@/_types/FetchDeckDataType";
 import { AttributeTableType } from "@/_types/AttributeTableType";
 
@@ -32,7 +33,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
     description: "",
   } as DecksTableType);
   const [attributes, setAttributes] = useState<AttributeTableType[]>([]);
-  const [cards, setCards] = useState<CardsType[]>([]);
+  const [cards, setCards] = useState<DynamicCardType[]>([]);
   const [isEditDeckDetials, setIsEditDeckDetials] = useState(false);
   const [errors, setErrors] = useState({
     isMissingDeckName: false,
