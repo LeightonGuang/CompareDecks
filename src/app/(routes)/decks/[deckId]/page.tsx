@@ -24,6 +24,7 @@ interface CardsType {
 }
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
+  const [isAuthor, setIsAuthor] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchedDeckData, setFetchedDeckData] = useState<FetchDeckDataType>(
     {} as FetchDeckDataType,
@@ -48,54 +49,54 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
 
   const handleSaveButtonClick = () => {};
 
-  const LoadingSkeleton = () => (
-    <div className="mt-[1rem] w-full" id="deck-page-loading-card">
-      <h1 className="h-[2rem] w-[16rem]">
-        <TextLoadingAnimation />
-      </h1>
-      <div className="mt-[1rem] flex h-[34rem] rounded-[0.25rem] bg-[#e0e0e0] p-[1.5rem]">
-        <ul className="w-[6.5rem]">
-          <li className="h-[2.5rem]" />
-          <li className="h-[8rem] border-b border-b-[#c5c5c5] p-[1rem]" />
-          {Array(5)
-            .fill(0)
-            .map((_, index) => (
-              <li className="border-b border-b-[#c5c5c5] p-[1rem]" key={index}>
-                <div className="h-[1.3125rem] w-full">
-                  <TextLoadingAnimation />
-                </div>
-              </li>
-            ))}
-        </ul>
-        <ul className="flex">
-          {Array(5)
-            .fill(0)
-            .map((_, index) => (
-              <li className="w-[10rem]" key={index}>
-                <ul className="text-center">
-                  <li className="h-[2.5rem]" />
-                  <li className="h-[8rem] border-b border-b-[#c5c5c5] p-[0.5rem]">
-                    <TextLoadingAnimation />
-                  </li>
-                  {Array(5)
-                    .fill(0)
-                    .map((_, j) => (
-                      <li
-                        className="border-b border-b-[#c5c5c5] p-[1rem]"
-                        key={j}
-                      >
-                        <div className="h-[1.3125rem] w-full">
-                          <TextLoadingAnimation />
-                        </div>
-                      </li>
-                    ))}
-                </ul>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
-  );
+  // const LoadingSkeleton = () => (
+  //   <div className="mt-[1rem] w-full" id="deck-page-loading-card">
+  //     <h1 className="h-[2rem] w-[16rem]">
+  //       <TextLoadingAnimation />
+  //     </h1>
+  //     <div className="mt-[1rem] flex h-[34rem] rounded-[0.25rem] bg-[#e0e0e0] p-[1.5rem]">
+  //       <ul className="w-[6.5rem]">
+  //         <li className="h-[2.5rem]" />
+  //         <li className="h-[8rem] border-b border-b-[#c5c5c5] p-[1rem]" />
+  //         {Array(5)
+  //           .fill(0)
+  //           .map((_, index) => (
+  //             <li className="border-b border-b-[#c5c5c5] p-[1rem]" key={index}>
+  //               <div className="h-[1.3125rem] w-full">
+  //                 <TextLoadingAnimation />
+  //               </div>
+  //             </li>
+  //           ))}
+  //       </ul>
+  //       <ul className="flex">
+  //         {Array(5)
+  //           .fill(0)
+  //           .map((_, index) => (
+  //             <li className="w-[10rem]" key={index}>
+  //               <ul className="text-center">
+  //                 <li className="h-[2.5rem]" />
+  //                 <li className="h-[8rem] border-b border-b-[#c5c5c5] p-[0.5rem]">
+  //                   <TextLoadingAnimation />
+  //                 </li>
+  //                 {Array(5)
+  //                   .fill(0)
+  //                   .map((_, j) => (
+  //                     <li
+  //                       className="border-b border-b-[#c5c5c5] p-[1rem]"
+  //                       key={j}
+  //                     >
+  //                       <div className="h-[1.3125rem] w-full">
+  //                         <TextLoadingAnimation />
+  //                       </div>
+  //                     </li>
+  //                   ))}
+  //               </ul>
+  //             </li>
+  //           ))}
+  //       </ul>
+  //     </div>
+  //   </div>
+  // );
 
   const fetchData = async () => {
     try {
@@ -139,6 +140,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   return (
     <section className="p-4">
       <DeckDetails
+        isAuthor={isAuthor}
         isEditDeckDetails={false}
         setIsEditDeckDetails={setIsEditDeckDetials}
         deckData={deckData}
@@ -149,23 +151,28 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-medium">Cards</h2>
 
-          <Button
-            className="hover:cursor-pointer"
-            onClick={handleAddCardButtonClick}
-          >
-            + Add Card
-          </Button>
+          {isAuthor && (
+            <Button
+              className="hover:cursor-pointer"
+              onClick={handleAddCardButtonClick}
+            >
+              + Add Card
+            </Button>
+          )}
         </div>
 
         <div className="mt-4 flex flex-wrap gap-4">
-          <AttributeCard
-            attributes={attributes}
-            setAttributes={setAttributes}
-          />
+          {isAuthor && (
+            <AttributeCard
+              attributes={attributes}
+              setAttributes={setAttributes}
+            />
+          )}
           {cards.map((card, i) => {
             return (
               <ItemCard
                 key={i}
+                isAuthor={isAuthor}
                 cardIndex={i}
                 attributes={attributes}
                 card={card}
@@ -182,9 +189,11 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
         </div>
 
         <div className="mt-4 flex w-full flex-col items-center justify-center">
-          <Button className="w-max" onClick={handleSaveButtonClick}>
-            Save
-          </Button>
+          {isAuthor && (
+            <Button className="w-max" onClick={handleSaveButtonClick}>
+              Save
+            </Button>
+          )}
           <p className="ml-2 text-red-500">
             {errors.isMissingDeckName
               ? "Deck name is missing"

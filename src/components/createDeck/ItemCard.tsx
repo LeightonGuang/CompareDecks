@@ -5,16 +5,18 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { BinIconSvg, EditIconSvg } from "@/_assets/icons/cardIcons";
 
-import { AttributeTableType } from "@/_types/AttributeTableType";
 import { DynamicCardType } from "@/_types/DynamicCardType";
+import { AttributeTableType } from "@/_types/AttributeTableType";
 
 const ItemCard = ({
+  isAuthor,
   cardIndex,
   attributes,
   card,
   cards,
   setCards,
 }: {
+  isAuthor: boolean;
   cardIndex: number;
   attributes: AttributeTableType[];
   card: DynamicCardType;
@@ -93,25 +95,29 @@ const ItemCard = ({
         </h2>
 
         <div className="flex gap-2">
-          <Button
-            className="hover:cursor-pointer"
-            size="icon"
-            variant="ghost"
-            onClick={() => {
-              setIsEditing(!isEditing);
-            }}
-          >
-            <EditIconSvg className="h-4 w-4" />
-          </Button>
+          {isAuthor && (
+            <Button
+              className="hover:cursor-pointer"
+              size="icon"
+              variant="ghost"
+              onClick={() => {
+                setIsEditing(!isEditing);
+              }}
+            >
+              <EditIconSvg className="h-4 w-4" />
+            </Button>
+          )}
 
-          <Button
-            className="hover:cursor-pointer"
-            size="icon"
-            variant="ghost"
-            onClick={handleDeleteButton}
-          >
-            <BinIconSvg className="h-4 w-4 text-red-500" />
-          </Button>
+          {isAuthor && (
+            <Button
+              className="hover:cursor-pointer"
+              size="icon"
+              variant="ghost"
+              onClick={handleDeleteButton}
+            >
+              <BinIconSvg className="h-4 w-4 text-red-500" />
+            </Button>
+          )}
         </div>
       </CardHeader>
 

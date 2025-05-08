@@ -6,11 +6,13 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { DecksTableType } from "@/_types/DecksTableType";
 
 const DeckDetails = ({
+  isAuthor,
   isEditDeckDetails,
   setIsEditDeckDetails,
   deckData,
   setDeckData,
 }: {
+  isAuthor: boolean;
   isEditDeckDetails: boolean;
   setIsEditDeckDetails: (isEditDeckDetails: boolean) => void;
   deckData: DecksTableType;
@@ -51,17 +53,19 @@ const DeckDetails = ({
             </h2>
           )}
 
-          <Button
-            className="hover:cursor-pointer"
-            size="icon"
-            title="Edit Deck Details"
-            variant="ghost"
-            onClick={() => {
-              setIsEditDeckDetails(!isEditDeckDetails);
-            }}
-          >
-            <EditIconSvg className="h-4 w-4" />
-          </Button>
+          {isAuthor && (
+            <Button
+              className="hover:cursor-pointer"
+              size="icon"
+              title="Edit Deck Details"
+              variant="ghost"
+              onClick={() => {
+                setIsEditDeckDetails(!isEditDeckDetails);
+              }}
+            >
+              <EditIconSvg className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </CardHeader>
 
