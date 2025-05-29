@@ -1,20 +1,20 @@
 "use server";
-import { DeckAttributesTableType } from "@/_types/DeckAttributesTableType";
 import { DecksTableType } from "@/_types/DecksTableType";
 import { getSupabaseServer } from "@/utils/supabase/server";
 
-/**
- * @param {DeckType} deckData
- *
- * @returns {Object}
- * @property {boolean} hasEmptyDeckName - Whether the deck name is empty
- * @property {boolean} hasEmptyCards - Whether the deck has no cards
- */
+interface DeckDataType {
+  name: string;
+  description: string;
+  cards: string[];
+  attributes: string[];
+}
 
-const validateDeck = (deckData: DecksTableType) => {
+const validateDeck = (deckData: DeckDataType) => {
   const deckErrors = {
     hasEmptyDeckName: deckData.name === "",
+    hasEmptyDescription: deckData.description === "",
     hasEmptyCards: deckData.cards.length === 0,
+    hasEmptyAttributes: deckData.attributes.length === 0,
   };
 
   const hasDeckErrors: boolean = Object.values(deckErrors).some(
