@@ -42,7 +42,7 @@ const CreateDeckPage = () => {
       isMissingDeckAttributes: false,
       isMissingCardNames: false,
     });
-    // TODO : check deck name is not empty
+    // check deck name is not empty
     if (deckData.name === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -50,7 +50,7 @@ const CreateDeckPage = () => {
       }));
       return;
     }
-    // TODO : check deck description is not empty
+    // check deck description is not empty
     if (deckData.description === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -58,7 +58,7 @@ const CreateDeckPage = () => {
       }));
       return;
     }
-    // TODO : check attributes are not empty
+    // check attributes are not empty
     if (attributes.length === 0) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -66,7 +66,7 @@ const CreateDeckPage = () => {
       }));
       return;
     }
-    // TODO : check cards name are not empty
+    // check cards name are not empty
     if (cards.some((card) => card.name === "")) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -74,6 +74,8 @@ const CreateDeckPage = () => {
       }));
       return;
     }
+
+    // TODO: Save deck data to database
   };
 
   useEffect(() => {
@@ -91,6 +93,7 @@ const CreateDeckPage = () => {
   return (
     <section className="p-4">
       <DeckDetails
+        isAuthor={true}
         isEditDeckDetails={isEditDeckDetails}
         setIsEditDeckDetails={setIsEditDeckDetails}
         deckData={deckData}
@@ -119,6 +122,7 @@ const CreateDeckPage = () => {
               <ItemCard
                 key={i}
                 cardIndex={i}
+                isAuthor={true}
                 attributes={attributes}
                 card={card}
                 cards={cards}
