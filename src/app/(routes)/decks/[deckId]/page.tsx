@@ -114,6 +114,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
           const cardData: CardsType = {
             id: card.id,
             card_order: card.card_order,
+            description: card.description,
             name: card.name,
             imgUrl: card.imgUrl,
           };
