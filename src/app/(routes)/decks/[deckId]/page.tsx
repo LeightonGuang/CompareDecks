@@ -24,6 +24,7 @@ interface CardsType {
 }
 
 const DeckPage = ({ params }: { params: { deckId: string } }) => {
+  const { deckId } = params;
   const [isAuthor, setIsAuthor] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchedDeckData, setFetchedDeckData] = useState<FetchDeckDataType>(
@@ -100,9 +101,7 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
 
   const fetchData = async () => {
     try {
-      const { data: deckData, error: deckError } = await getDeckById(
-        params.deckId,
-      );
+      const { data: deckData, error: deckError } = await getDeckById(deckId);
 
       if (deckError) {
         console.error(deckError);
@@ -135,8 +134,8 @@ const DeckPage = ({ params }: { params: { deckId: string } }) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (deckId) fetchData();
+  }, [deckId]);
 
   return (
     <section className="p-4">
