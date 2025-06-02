@@ -9,19 +9,19 @@ import { DynamicCardType } from "@/_types/DynamicCardType";
 import { AttributeTableType } from "@/_types/AttributeTableType";
 
 const ItemCard = ({
-  isAuthor,
-  cardIndex,
-  attributes,
   card,
   cards,
   setCards,
+  isAuthor,
+  cardIndex,
+  attributes,
 }: {
-  isAuthor: boolean;
-  cardIndex: number;
-  attributes: AttributeTableType[];
   card: DynamicCardType;
   cards: DynamicCardType[];
   setCards: (cards: DynamicCardType[]) => void;
+  isAuthor: boolean;
+  cardIndex: number;
+  attributes: AttributeTableType[];
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -80,139 +80,184 @@ const ItemCard = ({
   }, [attributes]);
 
   return (
-    <Card className="w-60">
-      <CardHeader className="flex items-center justify-between border-b pb-2">
-        <h2 className={`${card?.name && "text-muted-foreground"}`}>
-          {isEditing ? (
-            <Input
-              placeholder="Card name"
-              value={card?.name}
-              onChange={onCardNameChange}
+    // <Card className="w-60">
+    //   <CardHeader className="flex items-center justify-between border-b pb-2">
+    //     <h2 className={`${card?.name && "text-muted-foreground"}`}>
+    //       {isEditing ? (
+    //         <Input
+    //           placeholder="Card name"
+    //           value={card?.name}
+    //           onChange={onCardNameChange}
+    //         />
+    //       ) : (
+    //         card?.name || "Card " + String(cardIndex + 1)
+    //       )}
+    //     </h2>
+
+    //     <div className="flex gap-2">
+    //       {isAuthor && (
+    //         <Button
+    //           className="hover:cursor-pointer"
+    //           size="icon"
+    //           variant="ghost"
+    //           onClick={() => {
+    //             setIsEditing(!isEditing);
+    //           }}
+    //         >
+    //           <EditIconSvg className="h-4 w-4" />
+    //         </Button>
+    //       )}
+
+    //       {isAuthor && (
+    //         <Button
+    //           className="hover:cursor-pointer"
+    //           size="icon"
+    //           variant="ghost"
+    //           onClick={handleDeleteButton}
+    //         >
+    //           <BinIconSvg className="h-4 w-4 text-red-500" />
+    //         </Button>
+    //       )}
+    //     </div>
+    //   </CardHeader>
+
+    //   <CardContent>
+    //     <div className="flex flex-col gap-2">
+    //       {isEditing ? (
+    //         <>
+    //           <label className="text-sm font-medium">{`Image URL (optional)`}</label>
+    //           <Input
+    //             placeholder="Enter image URL"
+    //             value={card.imgUrl}
+    //             onChange={onCardImageChange}
+    //           />
+
+    //           {card.imgUrl && (
+    //             <Image
+    //               alt={card.name || ""}
+    //               className="object-contain"
+    //               src={card.imgUrl}
+    //               width={0}
+    //               height={0}
+    //               style={{ width: "100%", height: "auto" }}
+    //               unoptimized
+    //             />
+    //           )}
+
+    //           {attributes.map((attribute) => {
+    //             const attributeValue = card[attribute.name] || "";
+    //             return (
+    //               <div key={attribute.name} className="flex flex-col gap-2">
+    //                 <label className="text-sm font-medium">
+    //                   {attribute.name}
+    //                 </label>
+    //                 {isEditing ? (
+    //                   <Input
+    //                     placeholder={`Enter ${attribute.name}`}
+    //                     value={String(attributeValue)}
+    //                     onChange={(e) =>
+    //                       onAttributeValueChange(e, attribute.name)
+    //                     }
+    //                   />
+    //                 ) : (
+    //                   <span
+    //                     className={`bg-muted/30 min-h-[2.5rem] p-2 ${!attributeValue && "text-muted-foreground italic"}`}
+    //                   >
+    //                     {attributeValue ? attributeValue : "Not specified"}
+    //                   </span>
+    //                 )}
+    //               </div>
+    //             );
+    //           })}
+    //         </>
+    //       ) : (
+    //         <div>
+    //           {attributes.length === 0 ? (
+    //             <p className="text-muted-foreground text-center italic">
+    //               No attributes to compare, Add Attributes using the attribute
+    //               card.
+    //             </p>
+    //           ) : (
+    //             <div className="space-y-4">
+    //               {card.imgUrl && (
+    //                 <Image
+    //                   alt={card.name || ""}
+    //                   className="object-contain"
+    //                   src={card.imgUrl}
+    //                   width={0}
+    //                   height={0}
+    //                   style={{ width: "100%", height: "auto" }}
+    //                   unoptimized
+    //                 />
+    //               )}
+
+    //               {attributes.map((attribute) => {
+    //                 const attributeValue = card[attribute.name] || "";
+    //                 return (
+    //                   <div key={attribute.name} className="flex flex-col gap-2">
+    //                     <label className="text-sm font-medium">
+    //                       {attribute.name}
+    //                     </label>
+    //                     <span
+    //                       className={`bg-muted/30 min-h-[2.5rem] p-2 ${!attributeValue && "text-muted-foreground italic"}`}
+    //                     >
+    //                       {attributeValue ? attributeValue : "Not specified"}
+    //                     </span>
+    //                   </div>
+    //                 );
+    //               })}
+    //             </div>
+    //           )}
+    //         </div>
+    //       )}
+    //     </div>
+    //   </CardContent>
+    // </Card>
+
+    <div className="aspect-[7/10] w-64 rounded-xl border bg-conic-30 from-blue-600 via-blue-400 to-blue-500 p-2 shadow-md">
+      <div className="h-full w-full rounded-md bg-white p-1">
+        <div className="text-md font-semibold">{card.name}</div>
+
+        {card.imgUrl && (
+          <div className="flex justify-center bg-black p-1">
+            <Image
+              className="h-32 w-full bg-white object-contain"
+              alt={card.name || ""}
+              width={0}
+              height={0}
+              src={card.imgUrl || ""}
+              unoptimized
             />
+          </div>
+        )}
+
+        {card.description && (
+          <div>
+            <p>{card.description}</p>
+          </div>
+        )}
+
+        <div>
+          {card.description ? (
+            <div className="flex justify-center gap-2 text-sm">
+              {attributes.map((attribute, i) => {
+                const attributeValue = card[attribute.name];
+                return <div key={i}>{attributeValue}</div>;
+              })}
+            </div>
           ) : (
-            card?.name || "Card " + String(cardIndex + 1)
-          )}
-        </h2>
-
-        <div className="flex gap-2">
-          {isAuthor && (
-            <Button
-              className="hover:cursor-pointer"
-              size="icon"
-              variant="ghost"
-              onClick={() => {
-                setIsEditing(!isEditing);
-              }}
-            >
-              <EditIconSvg className="h-4 w-4" />
-            </Button>
-          )}
-
-          {isAuthor && (
-            <Button
-              className="hover:cursor-pointer"
-              size="icon"
-              variant="ghost"
-              onClick={handleDeleteButton}
-            >
-              <BinIconSvg className="h-4 w-4 text-red-500" />
-            </Button>
-          )}
-        </div>
-      </CardHeader>
-
-      <CardContent>
-        <div className="flex flex-col gap-2">
-          {isEditing ? (
-            <>
-              <label className="text-sm font-medium">{`Image URL (optional)`}</label>
-              <Input
-                placeholder="Enter image URL"
-                value={card.imgUrl}
-                onChange={onCardImageChange}
-              />
-
-              {card.imgUrl && (
-                <Image
-                  alt={card.name || ""}
-                  className="object-contain"
-                  src={card.imgUrl}
-                  width={0}
-                  height={0}
-                  style={{ width: "100%", height: "auto" }}
-                  unoptimized
-                />
-              )}
-
-              {attributes.map((attribute) => {
-                const attributeValue = card[attribute.name] || "";
+            <div className="">
+              {attributes.map((attribute, i) => {
+                const attributeValue = card[attribute.name];
                 return (
-                  <div key={attribute.name} className="flex flex-col gap-2">
-                    <label className="text-sm font-medium">
-                      {attribute.name}
-                    </label>
-                    {isEditing ? (
-                      <Input
-                        placeholder={`Enter ${attribute.name}`}
-                        value={String(attributeValue)}
-                        onChange={(e) =>
-                          onAttributeValueChange(e, attribute.name)
-                        }
-                      />
-                    ) : (
-                      <span
-                        className={`bg-muted/30 min-h-[2.5rem] p-2 ${!attributeValue && "text-muted-foreground italic"}`}
-                      >
-                        {attributeValue ? attributeValue : "Not specified"}
-                      </span>
-                    )}
-                  </div>
+                  <div key={i}>{`${attribute.name}: ${attributeValue}`}</div>
                 );
               })}
-            </>
-          ) : (
-            <div>
-              {attributes.length === 0 ? (
-                <p className="text-muted-foreground text-center italic">
-                  No attributes to compare, Add Attributes using the attribute
-                  card.
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {card.imgUrl && (
-                    <Image
-                      alt={card.name || ""}
-                      className="object-contain"
-                      src={card.imgUrl}
-                      width={0}
-                      height={0}
-                      style={{ width: "100%", height: "auto" }}
-                      unoptimized
-                    />
-                  )}
-
-                  {attributes.map((attribute) => {
-                    const attributeValue = card[attribute.name] || "";
-                    return (
-                      <div key={attribute.name} className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">
-                          {attribute.name}
-                        </label>
-                        <span
-                          className={`bg-muted/30 min-h-[2.5rem] p-2 ${!attributeValue && "text-muted-foreground italic"}`}
-                        >
-                          {attributeValue ? attributeValue : "Not specified"}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
